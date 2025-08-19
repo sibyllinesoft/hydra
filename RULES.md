@@ -54,31 +54,11 @@ STEP 3: AUTO-DELEGATION
 ### 🚫 FORBIDDEN WITHOUT AGENTS
 **STOP IMMEDIATELY if attempting these operations directly:**
 
-- **file-creator** MANDATORY for:
-  - File creation (Write tool)
-  - Directory creation (mkdir, file structure)
-  - Template application
-  - Batch file operations
-
-- **git-workflow** MANDATORY for:
-  - All git commands (commit, push, branch, merge)
-  - Repository operations
-  - Version control workflows
-
-- **context-fetcher** MANDATORY for:
-  - Documentation retrieval (Read tool for docs)
-  - Internal knowledge base access
-  - Technical reference lookup
-
-- **knowledge-fetcher** MANDATORY for:
-  - External research (Readwise, Context7)
-  - Web search operations
-  - Knowledge synthesis from multiple sources
-
-- **date-checker** MANDATORY for:
-  - Date/time calculations
-  - Scheduling queries
-  - Timestamp analysis
+- **file-creator** MANDATORY for: File creation (Write tool), Directory creation, Template application, Batch file operations
+- **git-workflow** MANDATORY for: All git commands (commit, push, branch, merge), Repository operations, Version control workflows
+- **context-fetcher** MANDATORY for: Documentation retrieval (Read tool for docs), Internal knowledge base access, Technical reference lookup
+- **knowledge-fetcher** MANDATORY for: External research (Readwise, Context7), Web search operations, Knowledge synthesis from multiple sources
+- **date-checker** MANDATORY for: Date/time calculations, Scheduling queries, Timestamp analysis
 
 ### ⛔ ENFORCEMENT PROTOCOL
 ```

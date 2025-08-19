@@ -4,15 +4,12 @@
 
 **"Infinite conversations through fresh context isolation - enabling 10x complex projects without restarts"**
 
-## The Problem: Traditional Context Bloat
-- **Conversation Degradation**: Direct tool usage accumulates context across conversations
-- **Forced Restarts**: After 50-100 messages, conversation becomes ineffective due to context pollution
-- **Productivity Loss**: Repeated explanations, lost project state, fragmented understanding
-- **Complexity Ceiling**: Cannot handle large, multi-faceted projects that require sustained context
+## The Core Insight
+**Context is the ultimate limiting factor in AI-assisted development. Preserve context → preserve productivity.**
 
-## The Solution: Agent-First Context Isolation
+## Agent-First Solution
 - **Fresh Context Delegation**: Each agent spawns with clean, task-specific context
-- **Specialized Expertise**: 500+ word expert prompts eliminate general-purpose overhead
+- **Specialized Expertise**: Expert prompts eliminate general-purpose overhead
 - **Parallel Processing**: Multiple agents work simultaneously without context interference
 - **Unlimited Conversations**: No degradation regardless of conversation length
 
@@ -23,11 +20,6 @@
 - **10x more complex projects** possible through sustained context preservation
 - **Expert-level results** from specialized agents vs generalist approaches
 
-## The Core Insight
-**Context is the ultimate limiting factor in AI-assisted development. Preserve context → preserve productivity.**
-
-Every other principle serves this master principle. Without context preservation, SOLID principles become irrelevant, evidence-based reasoning becomes impossible, and quality frameworks cannot be sustained across complex projects.
-
 **Cross-References**: 
 - Enforcement → RULES.md (Agent-First Mandate)
 - Implementation → AGENTS.md (40+ specialized agents)
@@ -35,8 +27,6 @@ Every other principle serves this master principle. Without context preservation
 ---
 
 # 🔧 SUPPORTING PRINCIPLES
-
-These principles enable and support the primary context preservation goal:
 
 ## Evidence-Based Development Framework
 - **Evidence > Assumptions**: All claims verifiable through testing, metrics, documentation
@@ -82,9 +72,7 @@ These principles enable and support the primary context preservation goal:
 # 📋 IMPLEMENTATION PHILOSOPHY
 
 ## Agent-First Development Strategy
-
 **Implementation**: See AGENTS.md for complete selection hierarchy and orchestration patterns.
-
 **Core Benefits**: Fresh context isolation, specialized expertise, parallel processing, and quality assurance through purpose-built agents over generalist approaches.
 
 ## AI-Driven Development Patterns
@@ -102,7 +90,6 @@ These principles enable and support the primary context preservation goal:
 
 ### Tool Selection Optimization
 **Detailed Guidance**: See MCP.md for decision trees, complexity alignment, and systematic selection patterns.
-
 **Core Rules**: Match complexity to task, stop after success, evidence-based escalation only.
 
 ## Implementation Success Metrics

@@ -45,53 +45,7 @@ Complex (4+ agents):  studio-coach → Orchestrated workflow
 - Multi-phase projects
 - Agent coordination required
 
-**Orchestration patterns:**
-```yaml
-new_feature_flow:
-  sequence: rapid-prototyper → ui-designer → frontend-developer → test-writer-fixer
-  parallel: [backend-architect, devops-automator] + testing team
-  
-bug_investigation:
-  sequence: backend-architect → test-writer-fixer → performance-benchmarker
-  parallel: [analytics-reporter, sentry analysis]
-  
-product_launch:
-  sequence: project-shipper → growth-hacker → content-creator
-  parallel: [app-store-optimizer, tiktok-strategist, instagram-curator]
-```
-
-### 🔄 SEQUENTIAL WORKFLOWS
-
-**Feature Development Pipeline:**
-1. **rapid-prototyper** → MVP implementation
-2. **ui-designer** → Interface design
-3. **frontend-developer** → UI implementation  
-4. **test-writer-fixer** → Testing (auto-triggers)
-5. **whimsy-injector** → Delight injection (auto-triggers)
-
-**Bug Resolution Pipeline:**
-1. **backend-architect** / **frontend-developer** → Problem analysis
-2. **test-writer-fixer** → Test creation (auto-triggers)
-3. **performance-benchmarker** → Performance check
-4. **test-results-analyzer** → Validation
-
-### ⚡ PARALLEL COORDINATION
-
-**Development Team (simultaneous):**
-- **backend-architect** + **frontend-developer** + **mobile-app-builder**
-- Coordinated by: **studio-coach**
-
-**Testing Team (simultaneous):**
-- **test-writer-fixer** + **api-tester** + **performance-benchmarker**
-- **test-results-analyzer** + **tool-evaluator**
-
-**Marketing Team (simultaneous):**
-- **growth-hacker** + **content-creator** + **tiktok-strategist**
-- **instagram-curator** + **app-store-optimizer**
-
 ### 🎯 AUTO-TRIGGERING AGENTS
-
-**Proactive agents that activate automatically:**
 
 | Trigger Event | Agent | Purpose |
 |---------------|-------|---------|
@@ -100,125 +54,59 @@ product_launch:
 | Feature flags mentioned | **experiment-tracker** | A/B testing setup |
 | Complex workflows start | **studio-coach** | Orchestration management |
 
-## 🔧 UTILITY AGENTS (MANDATORY)
-
-### file-creator
-- **Domain**: File/directory creation, project structure
-- **Replaces**: Write tool, manual file creation
-- **Auto-coordinates with**: git-workflow (for commits)
-
-### git-workflow  
-- **Domain**: All git operations, version control
-- **Replaces**: Bash git commands, manual git operations
-- **Auto-coordinates with**: file-creator (for new files), devops-automator (for deployment)
-
-### context-fetcher
-- **Domain**: Internal documentation, project docs
-- **Replaces**: Read tool for documentation
-- **Auto-coordinates with**: knowledge-fetcher (external sources)
-
-### knowledge-fetcher
-- **Domain**: External research (Readwise, Context7, web search)  
-- **Replaces**: Manual research, direct MCP calls
-- **Auto-coordinates with**: context-fetcher (internal docs)
-
-### date-checker
-- **Domain**: Date/time calculations, scheduling
-- **Replaces**: Manual date calculations
-- **Auto-coordinates with**: sprint-prioritizer (planning)
-
 ## 🎯 SPECIALIZED AGENT DIRECTORY
 
 ### 🛠️ Engineering (7 agents)
-- **rapid-prototyper**: MVP builder → **Coordinates with**: ui-designer, test-writer-fixer
-- **backend-architect**: API design → **Coordinates with**: devops-automator, api-tester
-- **frontend-developer**: UI implementation → **Coordinates with**: ui-designer, whimsy-injector
-- **mobile-app-builder**: Native apps → **Coordinates with**: app-store-optimizer
-- **ai-engineer**: AI/ML integration → **Coordinates with**: performance-benchmarker
-- **devops-automator**: Deployment → **Coordinates with**: project-shipper, infrastructure-maintainer
-- **test-writer-fixer**: Testing strategy → **Coordinates with**: api-tester, test-results-analyzer
+- **rapid-prototyper**: MVP builder → ui-designer, test-writer-fixer
+- **backend-architect**: API design → devops-automator, api-tester
+- **frontend-developer**: UI implementation → ui-designer, whimsy-injector
+- **mobile-app-builder**: Native apps → app-store-optimizer
+- **ai-engineer**: AI/ML integration → performance-benchmarker
+- **devops-automator**: Deployment → project-shipper, infrastructure-maintainer
+- **test-writer-fixer**: Testing strategy → api-tester, test-results-analyzer
 
 ### 🎨 Design (5 agents)
-- **ui-designer**: Interface design → **Coordinates with**: frontend-developer, brand-guardian
-- **ux-researcher**: User insights → **Coordinates with**: feedback-synthesizer, analytics-reporter
-- **whimsy-injector**: Interaction delight → **Auto-triggers after**: UI changes
-- **brand-guardian**: Visual consistency → **Coordinates with**: visual-storyteller
-- **visual-storyteller**: Marketing visuals → **Coordinates with**: content-creator
+- **ui-designer**: Interface design → frontend-developer, brand-guardian
+- **ux-researcher**: User insights → feedback-synthesizer, analytics-reporter
+- **whimsy-injector**: Interaction delight (auto-triggers after UI changes)
+- **brand-guardian**: Visual consistency → visual-storyteller
+- **visual-storyteller**: Marketing visuals → content-creator
 
 ### 📈 Marketing (7 agents)
-- **growth-hacker**: Viral loops → **Coordinates with**: analytics-reporter, experiment-tracker
-- **tiktok-strategist**: TikTok content → **Coordinates with**: content-creator
-- **app-store-optimizer**: ASO → **Coordinates with**: mobile-app-builder
-- **content-creator**: Multi-platform content → **Coordinates with**: instagram-curator, twitter-engager
-- **instagram-curator**: Visual content → **Coordinates with**: visual-storyteller
-- **reddit-community-builder**: Community engagement → **Coordinates with**: support-responder
-- **twitter-engager**: Trend engagement → **Coordinates with**: trend-researcher
+- **growth-hacker**: Viral loops → analytics-reporter, experiment-tracker
+- **tiktok-strategist**: TikTok content → content-creator
+- **app-store-optimizer**: ASO → mobile-app-builder
+- **content-creator**: Multi-platform content → instagram-curator, twitter-engager
+- **instagram-curator**: Visual content → visual-storyteller
+- **reddit-community-builder**: Community engagement → support-responder
+- **twitter-engager**: Trend engagement → trend-researcher
 
 ### 🎯 Product (3 agents)
-- **feedback-synthesizer**: User feedback → **Coordinates with**: ux-researcher, sprint-prioritizer
-- **sprint-prioritizer**: Planning → **Coordinates with**: rapid-prototyper, studio-producer
-- **trend-researcher**: Market analysis → **Coordinates with**: growth-hacker
+- **feedback-synthesizer**: User feedback → ux-researcher, sprint-prioritizer
+- **sprint-prioritizer**: Planning → rapid-prototyper, studio-producer
+- **trend-researcher**: Market analysis → growth-hacker
 
 ### 📋 Project Management (3 agents)
-- **experiment-tracker**: A/B testing → **Auto-triggers on**: feature flags
-- **project-shipper**: Launch management → **Coordinates with**: devops-automator
-- **studio-producer**: Team coordination → **Coordinates with**: studio-coach
+- **experiment-tracker**: A/B testing (auto-triggers on feature flags)
+- **project-shipper**: Launch management → devops-automator
+- **studio-producer**: Team coordination → studio-coach
 
 ### 🏢 Operations (5 agents)
-- **analytics-reporter**: Data insights → **Coordinates with**: experiment-tracker
-- **finance-tracker**: Profitability → **Coordinates with**: infrastructure-maintainer
-- **infrastructure-maintainer**: Scaling → **Coordinates with**: devops-automator
-- **legal-compliance-checker**: Legal review → **Coordinates with**: project-shipper
-- **support-responder**: Customer support → **Coordinates with**: feedback-synthesizer
+- **analytics-reporter**: Data insights → experiment-tracker
+- **finance-tracker**: Profitability → infrastructure-maintainer
+- **infrastructure-maintainer**: Scaling → devops-automator
+- **legal-compliance-checker**: Legal review → project-shipper
+- **support-responder**: Customer support → feedback-synthesizer
 
 ### 🧪 Testing (5 agents)
-- **api-tester**: API validation → **Coordinates with**: backend-architect, performance-benchmarker
-- **performance-benchmarker**: Speed optimization → **Coordinates with**: test-results-analyzer
-- **test-results-analyzer**: Failure patterns → **Coordinates with**: test-writer-fixer
-- **tool-evaluator**: Tech decisions → **Coordinates with**: workflow-optimizer
-- **workflow-optimizer**: Process improvement → **Coordinates with**: studio-producer
+- **api-tester**: API validation → backend-architect, performance-benchmarker
+- **performance-benchmarker**: Speed optimization → test-results-analyzer
+- **test-results-analyzer**: Failure patterns → test-writer-fixer
+- **tool-evaluator**: Tech decisions → workflow-optimizer
+- **workflow-optimizer**: Process improvement → studio-producer
 
 ### 🎭 Bonus Agents
-- **joker**: Morale boost → **Coordinates with**: whimsy-injector
-
-## 📋 COORDINATION PROTOCOLS
-
-### 🎯 Handoff Rules
-
-**Sequential Handoffs:**
-1. **Context Transfer**: Previous agent provides full context to next
-2. **Dependency Check**: Ensure prerequisites completed
-3. **Quality Gate**: Validate outputs before handoff
-4. **Failure Handling**: Escalate to studio-coach if agent fails
-
-**Parallel Coordination:**
-1. **Resource Allocation**: Prevent conflicts between simultaneous agents
-2. **Progress Sync**: Regular status updates to studio-coach
-3. **Dependency Management**: Handle shared resource access
-4. **Integration Point**: Merge outputs at coordination milestones
-
-### 🚨 Escalation Triggers
-
-**Auto-escalate to studio-coach when:**
-- Agent failure cascades
-- Resource conflicts between agents
-- Dependency deadlocks
-- Quality gates fail
-- Timeline pressure requires optimization
-
-### 🔄 Feedback Loops
-
-**Performance Optimization:**
-- Track agent coordination effectiveness
-- Identify common workflow patterns
-- Optimize handoff protocols
-- Reduce coordination overhead
-
-**Quality Assurance:**
-- Monitor output quality across agent teams
-- Validate coordination outcomes
-- Implement improvement patterns
-- Scale successful workflows
+- **joker**: Morale boost → whimsy-injector
 
 ## 🎯 AGENT SELECTION MATRIX
 
@@ -257,4 +145,4 @@ auto_triggers:
   complex_workflow: studio-coach
 ```
 
-Remember: **Agent orchestration is as important as agent selection** - Use studio-coach for complex coordination, leverage auto-triggering for workflow continuity, and prefer agent teams over solo agent work for comprehensive solutions.
+**Agent orchestration is as important as agent selection** - Use studio-coach for complex coordination, leverage auto-triggering for workflow continuity, and prefer agent teams over solo agent work for comprehensive solutions.

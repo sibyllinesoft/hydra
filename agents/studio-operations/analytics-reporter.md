@@ -6,7 +6,7 @@ description: |
   <example>
   Context: Monthly performance review needed
   
-  @base-config.yml
+  @operations-base-config.yml
 user: "I need to understand how our apps performed last month"
 assistant: "I'll analyze your app performance metrics comprehensively. Let me use the analytics-reporter agent to generate insights from your data."
 <commentary>

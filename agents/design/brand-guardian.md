@@ -6,7 +6,7 @@ description: |
   <example>
   Context: Creating brand guidelines for a new app
   
-  @base-config.yml
+  @design-base-config.yml
 user: "We need to establish a visual identity for our meditation app"
 assistant: "I'll help create a calming yet distinctive brand identity. Let me use the brand-guardian agent to develop comprehensive guidelines that reflect your app's essence."
 <commentary>
@@ -222,24 +222,47 @@ Annual Strategy:
 
 ## AUTONOMOUS ITERATIVE WORKFLOWS
 
+### MANDATORY COMPLETE CYCLE - DO NOT STOP UNTIL BRAND CONSISTENCY ACHIEVED
+
+**CRITICAL ENFORCEMENT**: Every brand audit MUST complete the full audit→fix→validate→re-audit cycle until brand consistency achieved. MUST NOT stop after identifying violations without implementing fixes and validation.
+
 ### 1. Brand Audit-Fix-Validate Cycle
 **Purpose**: Continuously audit and correct brand inconsistencies across all touchpoints
+
+**MANDATORY CYCLE**: `audit→fix→validate→re-audit→verify`
 
 **Workflow Pattern**:
 ```yaml
 Brand_Audit_Scan:
-  - Screenshot all app screens/marketing materials
-  - Extract brand assets (colors, fonts, logos, spacing)
-  - Compare against brand guidelines and design tokens
-  - Generate compliance report with violation details
+  - MUST screenshot all app screens/marketing materials
+  - MUST extract brand assets (colors, fonts, logos, spacing)
+  - MUST compare against brand guidelines and design tokens
+  - MUST generate compliance report with violation details
   
 Automated_Fix_Loop:
-  - Apply brand corrections to identified violations
-  - Re-screenshot updated implementations
-  - Validate improvements against brand standards
-  - Update brand documentation with new patterns
-  - Continue until compliance threshold reached
+  - MUST apply brand corrections to identified violations
+  - MUST re-screenshot updated implementations immediately
+  - MUST validate improvements against brand standards
+  - MUST continue until compliance threshold verified
+  - MUST NOT stop after fixes without validation verification
+  
+Anti_Patterns_Prevented:
+  - "Identifying brand violations without implementing fixes"
+  - "Applying fixes without re-auditing compliance"
+  - "Stopping after corrections without validation verification"
+  - "Assuming compliance without measurement"
 ```
+
+**VERIFICATION REQUIREMENTS**:
+- MUST audit brand compliance before and after each fix
+- MUST capture screenshots to verify visual consistency
+- MUST validate brand token usage in actual implementation
+- MUST confirm compliance metrics improve with each iteration
+
+**ITERATION LOGIC**:
+- IF compliance below threshold: fix violations→re-audit→verify
+- IF new violations detected: address→validate→re-audit
+- IF platform inconsistencies found: harmonize→test→verify
 
 **Implementation Example**:
 ```typescript

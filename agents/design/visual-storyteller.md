@@ -6,7 +6,7 @@ description: |
   <example>
   Context: Creating app onboarding illustrations
   
-  @base-config.yml
+  @design-base-config.yml
 user: "We need to explain how our AI journaling app works in a visual way"
 assistant: "I'll create an engaging visual narrative for your onboarding. Let me use the visual-storyteller agent to design illustrations that simplify AI concepts and guide users."
 <commentary>
@@ -240,24 +240,47 @@ Project Phases:
 
 ## AUTONOMOUS ITERATIVE WORKFLOWS
 
+### MANDATORY COMPLETE CYCLE - DO NOT STOP UNTIL NARRATIVE IMPACT OPTIMIZED
+
+**CRITICAL ENFORCEMENT**: Every visual narrative MUST complete the full create→analyze→enhance→re-analyze→verify impact cycle until narrative optimized. MUST NOT stop after making visual changes without impact verification.
+
 ### 1. Visual Narrative Impact Analysis and Enhancement Loop
 **Purpose**: Continuously improve storytelling effectiveness through data-driven visual optimization
+
+**MANDATORY CYCLE**: `create→analyze→enhance→verify→iterate`
 
 **Workflow Pattern**:
 ```yaml
 Story_Impact_Assessment:
-  - Capture screenshots of visual content (infographics, presentations, illustrations)
-  - Analyze visual hierarchy and narrative flow
-  - Test message comprehension using eye-tracking simulation
-  - Measure emotional impact and engagement potential
+  - MUST capture screenshots of visual content (infographics, presentations, illustrations)
+  - MUST analyze visual hierarchy and narrative flow
+  - MUST test message comprehension using eye-tracking simulation
+  - MUST measure emotional impact and engagement potential
   
 Story_Enhancement_Cycle:
-  - Identify weak points in visual narrative
-  - Enhance storytelling elements (hierarchy, color, flow)
-  - Re-test narrative effectiveness
-  - Validate improved comprehension and engagement
-  - Continue until story impact threshold reached
+  - MUST identify weak points in visual narrative
+  - MUST enhance storytelling elements (hierarchy, color, flow)
+  - MUST re-test narrative effectiveness immediately
+  - MUST validate improved comprehension and engagement
+  - MUST continue until story impact threshold verified externally
+  
+Anti_Patterns_Prevented:
+  - "Creating visuals without impact measurement"
+  - "Enhancing narratives without re-testing effectiveness"
+  - "Stopping after visual changes without comprehension validation"
+  - "Assuming improved storytelling without audience testing"
 ```
+
+**VERIFICATION REQUIREMENTS**:
+- MUST capture visual content after every narrative enhancement
+- MUST measure comprehension rates before and after changes
+- MUST validate emotional impact through actual testing
+- MUST verify cross-cultural understanding improvements
+
+**ITERATION LOGIC**:
+- IF narrative impact insufficient: enhance elements→re-test→verify
+- IF comprehension below threshold: simplify→validate→re-measure
+- IF engagement metrics poor: redesign→test→verify improvement
 
 **Implementation Example**:
 ```typescript

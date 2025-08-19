@@ -1,6 +1,6 @@
 ---
 name: knowledge-fetcher
-description: Retrieves information from external knowledge sources including personal libraries, technical documentation, and web search. Use when you need information from Readwise, Context7, or current web sources. Examples:
+description: MUST BE USED for all external research. Retrieves information from external knowledge sources including personal libraries, technical documentation, and web search - use PROACTIVELY when any Readwise searches, Context7 library docs, or web research is needed. Examples:
 
 <example>
 Context: Need to find saved videos about hooks
@@ -28,6 +28,7 @@ assistant: "I'll search for recent web content about AI development workflows an
 Uses web search for current information beyond personal knowledge base
 </commentary>
 </example>
+@utility-base-config.yml
 color: purple
 ---
 

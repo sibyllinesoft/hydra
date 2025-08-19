@@ -6,7 +6,7 @@ description: |
   <example>
   Context: Planning next quarter's development budget
   
-  @base-config.yml
+  @operations-base-config.yml
 user: "We have $50k for Q2, how should we allocate it?"
 assistant: "I'll create an optimized budget allocation plan. Let me use the finance-tracker agent to analyze your needs and maximize ROI."
 <commentary>

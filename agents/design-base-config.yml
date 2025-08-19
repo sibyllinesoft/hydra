@@ -1,0 +1,183 @@
+# Design Agent Base Configuration
+# Specialized configuration for design agents requiring visual validation and browser automation
+
+mcpServers:
+  # Core documentation and research
+  git:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-git"]
+    cwd: "."
+  
+  context7:
+    command: npx
+    args: ["-y", "@context7/mcp-server"]
+    
+  sequential-thinking:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+  
+  # Browser automation for visual workflows
+  playwright:
+    command: npx
+    args: ["-y", "@executeautomation/playwright-mcp-server"]
+
+# Core tools available to all design agents
+tools:
+  - Read
+  - Write
+  - Edit
+  - MultiEdit
+  - LS
+  - Bash
+  - Grep
+  - Glob
+  - WebSearch
+  - WebFetch
+
+# Design agent capabilities and use cases
+capabilities:
+  visual_validation:
+    - Screenshot capture for design analysis
+    - Visual comparison between design iterations
+    - Brand consistency validation
+    - Interface effectiveness evaluation
+    
+  responsive_design:
+    - Multi-viewport testing (mobile, tablet, desktop)
+    - Breakpoint validation
+    - Layout consistency across devices
+    - Touch interaction testing
+    
+  accessibility_testing:
+    - Automated accessibility audits
+    - Color contrast validation
+    - Keyboard navigation testing
+    - Screen reader compatibility checks
+    
+  user_experience:
+    - Visual flow analysis
+    - Interaction pattern validation
+    - Loading state design verification
+    - Error state design testing
+    
+  design_research:
+    - Component library documentation
+    - Design system guidelines access
+    - Industry best practices research
+    - Trend analysis and pattern research
+
+# Usage guidance for design agents
+usage_scenarios:
+  primary_use_cases:
+    - UI/UX design iteration and validation
+    - Visual regression testing
+    - Accessibility compliance verification
+    - Responsive design optimization
+    - Brand guideline enforcement
+    - Design system consistency checks
+    
+  workflow_patterns:
+    - Take screenshots to analyze current state
+    - Research design patterns and best practices
+    - Validate designs across different screen sizes
+    - Test accessibility with automated tools
+    - Document design decisions and rationale
+    - Iterate based on visual feedback loops
+    
+  excluded_capabilities:
+    - Code analysis (use engineering configs for development tasks)
+    - Database operations (design agents focus on presentation layer)
+    - Error monitoring (handled by engineering workflows)
+    - Performance profiling (separate concern from visual design)
+
+# Browser automation specific capabilities
+browser_automation:
+  screenshot_workflows:
+    - Full page screenshots for design review
+    - Element-specific screenshots for component analysis
+    - Mobile/desktop comparison screenshots
+    - Before/after design iteration comparisons
+    
+  responsive_testing:
+    - Viewport resizing for breakpoint testing
+    - Device simulation (iPhone, iPad, desktop sizes)
+    - Orientation testing (portrait/landscape)
+    - Touch target size validation
+    
+  accessibility_automation:
+    - Automated axe accessibility scanning
+    - Keyboard navigation flow testing
+    - Focus indicator visibility checks
+    - Color contrast automated validation
+    
+  interaction_testing:
+    - Hover state verification
+    - Click interaction validation
+    - Form interaction testing
+    - Animation and transition verification
+
+# Documentation and research capabilities
+documentation_access:
+  design_research:
+    - Design system documentation lookup
+    - Component library reference access
+    - Industry standard guidelines research
+    - Accessibility standard documentation
+    
+  trend_analysis:
+    - Current design pattern research
+    - Competitive analysis documentation
+    - User experience best practices
+    - Visual design trend identification
+    
+  version_control:
+    - Design file versioning
+    - Change tracking for design iterations
+    - Collaboration history documentation
+    - Design decision record keeping
+
+# Integration patterns with other agent types
+coordination:
+  with_engineering_agents:
+    - Provide visual specifications for implementation
+    - Validate engineering output against design requirements
+    - Supply accessibility requirements for development
+    - Share responsive design breakpoint specifications
+    
+  with_product_agents:
+    - Translate product requirements into visual designs
+    - Provide user experience analysis and recommendations
+    - Support A/B testing with visual variant creation
+    - Document design impact on user engagement metrics
+    
+  with_marketing_agents:
+    - Align visual design with brand guidelines
+    - Create marketing asset design specifications
+    - Ensure consistency across marketing touchpoints
+    - Support conversion optimization through design improvements
+
+# Quality assurance for design workflows
+quality_gates:
+  visual_consistency:
+    - Brand guideline compliance validation
+    - Design system adherence checking
+    - Cross-platform visual consistency verification
+    - Typography and color usage validation
+    
+  accessibility_standards:
+    - WCAG 2.1 AA compliance verification
+    - Screen reader compatibility testing
+    - Keyboard navigation accessibility validation
+    - Color contrast ratio verification
+    
+  responsive_behavior:
+    - Mobile-first design principle validation
+    - Breakpoint behavior verification
+    - Touch interaction appropriateness checking
+    - Performance impact of design choices
+    
+  user_experience:
+    - Usability heuristic evaluation
+    - Information architecture clarity validation
+    - User flow optimization verification
+    - Error prevention and handling design review

@@ -20,8 +20,4 @@ node_modules/
 .checksums
 .credentials.json
 
-# Personal context file (keep template public, personal private)
-CONTEXT.md
-
 reddit-post.md
-

@@ -6,7 +6,7 @@ description: |
   <example>
   Context: Starting a new app or feature design
   
-  @base-config.yml
+  @design-base-config.yml
 user: "We need UI designs for the new social sharing feature"\nassistant: "I'll create compelling UI designs for your social sharing feature. Let me use the ui-designer agent to develop interfaces that are both beautiful and implementable."\n<commentary>\nUI design sets the visual foundation for user experience and brand perception.\n</commentary>\n</example>\n\n<example>\nContext: Improving existing interfaces
 user: "Our settings page looks dated and cluttered"\nassistant: "I'll modernize and simplify your settings UI. Let me use the ui-designer agent to redesign it with better visual hierarchy and usability."\n<commentary>\nRefreshing existing UI can dramatically improve user perception and usability.\n</commentary>\n</example>\n\n<example>\nContext: Creating consistent design systems
 user: "Our app feels inconsistent across different screens"\nassistant: "Design consistency is crucial for professional apps. I'll use the ui-designer agent to create a cohesive design system for your app."\n<commentary>\nDesign systems ensure consistency and speed up future development.\n</commentary>\n</example>\n\n<example>\nContext: Adapting trendy design patterns
@@ -132,24 +132,47 @@ Create interfaces that users love and developers can build quickly. First impres
 
 ## AUTONOMOUS ITERATIVE WORKFLOWS
 
+### MANDATORY COMPLETE CYCLE - DO NOT STOP UNTIL VISUAL VERIFICATION COMPLETE
+
+**CRITICAL ENFORCEMENT**: Every UI iteration MUST complete the full design→screenshot→analyze→improve→re-screenshot→verify cycle. MUST NOT stop after making changes without visual confirmation.
+
 ### 1. Design-Screenshot-Analyze-Improve Cycle
 **Purpose**: Continuously refine UI designs through visual feedback loops
+
+**MANDATORY CYCLE**: `design→screenshot→analyze→improve→re-screenshot→verify`
 
 **Workflow Pattern**:
 ```yaml
 Initial_Design:
   - Create UI mockup/implementation
-  - Take screenshot via Playwright
+  - MUST take actual screenshot via Playwright
   - Analyze visual hierarchy, spacing, alignment
   - Identify improvement opportunities
   
 Iteration_Loop:
   - Apply specific improvements
-  - Re-screenshot updated design
-  - Compare before/after visually
-  - Measure improvement metrics
-  - Continue until success criteria met
+  - MUST re-screenshot updated design immediately
+  - MUST compare before/after visually
+  - MUST verify actual visual improvements
+  - MUST continue until success criteria verified externally
+  
+Anti_Patterns_Prevented:
+  - "Making UI changes without visual verification"
+  - "Assuming improvements without screenshot comparison"
+  - "Stopping after CSS changes without rendering validation"
+  - "Skipping cross-device/browser verification"
 ```
+
+**VERIFICATION REQUIREMENTS**:
+- MUST capture fresh screenshots after every UI change
+- MUST compare before/after visuals for improvement validation
+- MUST verify responsive behavior across viewport sizes
+- MUST validate accessibility improvements with actual tools
+
+**ITERATION LOGIC**:
+- IF visual improvement insufficient: refine design→re-screenshot→verify
+- IF accessibility issues detected: fix→validate→re-screenshot
+- IF responsive issues found: adjust→test viewports→verify
 
 **Implementation Example**:
 ```typescript

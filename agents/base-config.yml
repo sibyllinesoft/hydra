@@ -1,70 +1,76 @@
-# Base Configuration for All Claude Code Agents
-# This file defines shared tools and configuration files that all agents inherit
-# Modify this file once instead of updating 45+ individual agents
+# DEFAULT Base Configuration for General Purpose Agents
+# Provides core tools with essential MCPs - NO sensitive operations
+# Use specialized configs for agents requiring restricted MCPs
 
-# Universal MCP Tools Available to All Agents
-universal_tools:
-  # Core Tools
-  - Write
+# Core Tools Available to Most Agents
+default_tools:
+  # Essential File Operations
   - Read
+  - Write
+  - Edit
   - MultiEdit
+  - LS
+  
+  # Command & Search Operations
   - Bash
   - Grep
   - Glob
+  
+  # Web Operations (for research)
   - WebSearch
   - WebFetch
   
-  # MCP Server Tools
-  - mcp__git__
-  - mcp__context7__
-  - mcp__sequential-thinking__
-  - mcp__puppeteer__
-  - mcp__supabase__
-  - mcp__gmail__
-  - mcp__vercel__
-  - mcp__sentry__
-  - mcp__readwise__
-  - mcp__playwright__
-  - mcp__serena__
-  - mcp__ide__
+  # Safe MCP Operations (no sensitive access)
+  - mcp__git__           # Version control (essential)
+  - mcp__sequential-thinking__  # Analysis (essential)
+  - mcp__context7__      # Documentation (essential)
 
 # Configuration Files All Agents Should Reference
 universal_config_files:
-  - path: "/home/arn/.claude/CONTEXT.md"
+  - path: "/home/nathan/.claude/CONTEXT.md"
     description: "Environment setup, project structure, development workflow"
     words: 618
-  - path: "/home/arn/.claude/PRINCIPLES.md" 
+  - path: "/home/nathan/.claude/PRINCIPLES.md" 
     description: "Development philosophy, SOLID principles, senior mindset"
     words: 757
-  - path: "/home/arn/.claude/RULES.md"
+  - path: "/home/nathan/.claude/RULES.md"
     description: "Operational safety, validation sequences, quality gates"
     words: 505
-  - path: "/home/arn/.claude/MCP.md"
+  - path: "/home/nathan/.claude/MCP.md"
     description: "Tool selection, server coordination, performance optimization"
     words: 2918
-  - path: "/home/arn/.claude/AGENTS.md"
+  - path: "/home/nathan/.claude/AGENTS.md"
     description: "Agent selection guide, specializations, orchestration patterns"
     words: 1575
 
+# SECURITY NOTE: This config provides MINIMAL MCP access
+# For agents requiring specialized access, use appropriate specialized configs:
+# - @engineering-base-config.yml (code analysis)
+# - @testing-base-config.yml (browser automation)
+# - @operations-base-config.yml (data/monitoring)
+# - @utility-base-config.yml (knowledge management)
+
 # Total Context Cost: 6,373 words (~13,153 tokens)
 # Value: Expert-level context for every agent without conversation setup
-# Updated: 2025-08-08 with current accurate word counts
+# Updated: 2025-08-19 with MCP access restrictions
 
 # Usage Instructions:
-# 1. Agents reference this file with "@base-config.yml" in their description
-# 2. Agents inherit ALL tools automatically - no need to list individual tools
+# 1. General agents reference "@base-config.yml" for safe operations
+# 2. Specialized agents use specific configs for restricted MCP access
 # 3. Agent YAML frontmatter only needs: name, description, color
-# 4. Tools field can be omitted entirely (inherits universal_tools)
+# 4. Tools field can be omitted (inherits from config)
 # 5. Configuration files are auto-loaded via description reference
+
+# Access Control Philosophy:
+# - Default config: Maximum safety, minimal MCP surface
+# - Specialized configs: Targeted access for specific domains
+# - No universal access to sensitive operations (supabase, sentry, playwright)
 
 # Example Agent Structure:
 # ---
-# name: my-agent
+# name: content-agent
 # description: |
-#   What this agent does.
+#   Creates content with research capabilities.
 #   @base-config.yml
 # color: blue  
 # ---
-# (no tools field needed - inherits all universal_tools)
-
-# This enables true DRY principle: modify base-config.yml once, update everywhere

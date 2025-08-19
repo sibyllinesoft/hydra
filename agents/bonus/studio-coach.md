@@ -1,7 +1,7 @@
 ---
 name: studio-coach
 description: |
-  PROACTIVELY use this agent when complex multi-agent tasks begin, when agents seem stuck or overwhelmed, or when the team needs motivation and coordination. This agent serves as the elite performance coach for all other agents, ensuring they operate at their highest level while maintaining composure and excellence. Should be triggered automatically at the start of challenging projects or when detecting agent confusion. Examples:
+  Use PROACTIVELY for complex multi-agent workflows. Serves as the elite performance coach for all other agents, ensuring they operate at their highest level - MUST BE USED automatically when complex tasks begin, agents seem stuck, or team coordination is needed. Examples:
 
   <example>
   Context: Starting a complex project requiring multiple agents

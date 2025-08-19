@@ -2,28 +2,35 @@
 
 <!-- 
 This is a template version of CONTEXT.md for public sharing.
-Replace all [PLACEHOLDER] variables with your personal information.
-Customize project lists, paths, and configurations to match your setup.
+Create a PERSONAL-ENV.md file with your personal information following this structure:
+
+## SYSTEM CONTEXT
+Working with [YOUR_NAME] ([username]) on [OS] [ARCHITECTURE], [HARDWARE].
+
+## ENVIRONMENT SPECIFICS
+- Platform: [platform architecture]
+
+## CRITICAL PATHS
+- Home: [/path/to/home]
+- Projects: [/path/to/projects] ([PROJECT_COUNT] projects)
+- Claude Config: [/path/to/.claude]
+
+## DEVELOPMENT ENVIRONMENT
+- [Package Manager]
+- Git: "[Your Name]" <your.email@domain.com>
+- Editor: [editor]
+- Shell: [shell]
+
+## AGENT-SPECIFIC PATHS
+**📚 Full Agent Documentation**: `[CLAUDE_CONFIG_PATH]/agents/README.md`
+
+### Engineering Standards
+**📚 Detailed Standards**: `[CLAUDE_CONFIG_PATH]/ENGINEERING-STANDARDS.md`
 -->
 
 # CONTEXT - Personal Development Environment
 
-## SYSTEM CONTEXT
-Working with Nathan Rice (nathan) on Ubuntu Linux, x86, NVidia GPU.
-
-## ENVIRONMENT SPECIFICS
-- Platform: linux x86_64
-
-## CRITICAL PATHS
-- Home: /home/nathan
-- Projects: /home/nathan/projects ([PROJECT_COUNT] WSL projects)
-- Claude Config: /home/nathan/.claude
-
-## DEVELOPMENT ENVIRONMENT
-- Bun
-- Git: "Nathan Rice" <nathan.alexander.rice@gmail.com>
-- Editor: zed
-- Shell: bash
+@include PERSONAL-ENV.md
 
 ## AGENT-FIRST WORKFLOW
 
@@ -61,7 +68,7 @@ ELSE:
 - **Expert Quality**: Purpose-built expertise vs generalist approach
 
 ### Available Agent Categories & Usage
-**📚 Full Agent Documentation**: `/home/nathan/.claude/agents/README.md`
+**📚 Full Agent Documentation**: `[CLAUDE_CONFIG_PATH]/agents/README.md`
 
 **Core Usage Patterns:**
 - **Engineering Tasks** → rapid-prototyper, backend-architect, frontend-developer, ai-engineer
@@ -98,6 +105,6 @@ Agents leverage MCP.md guidance for:
 - Project insights stored in .serena/memories/ for context retention
 
 ### Engineering Standards
-**📚 Detailed Standards**: `/home/nathan/.claude/ENGINEERING-STANDARDS.md`
+**📚 Detailed Standards**: `[CLAUDE_CONFIG_PATH]/ENGINEERING-STANDARDS.md`
 
 **Core Requirements**: Monorepo structure, test-first development, documentation standards, and operational automation for scalable system development.

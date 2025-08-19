@@ -7,6 +7,7 @@ shell-snapshots/
 logs/
 backups/
 settings.local.json
+PERSONAL-ENV.md
 .claude/
 .claude-cache/
 .claude-cache-v2/

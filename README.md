@@ -48,6 +48,8 @@ Hydra transforms Claude Code into a mythical beast with 50+ specialized agent he
 
 **🔄 Autonomous Excellence** - Agents iterate until optimal results or clear limitations
 
+**🎯 XML-Driven DAG Orchestration** - Fully parallel workflow execution with declarative dependency management
+
 ## 🚀 Installation (One Elegant Command!)
 
 ```bash
@@ -175,7 +177,7 @@ You: [Still at message 3, ready for next feature]
 | Specialized agents | ❌ | ❌ | ✅ **50+ experts** |
 | Full-stack development | ❌ | ⚠️ Partial | ✅ **Complete ecosystem** |
 | Production workflows | ❌ | ❌ | ✅ **Security, testing, deployment** |
-| Autonomous iteration | ❌ | ❌ | ✅ **Self-improving agents** |
+| Autonomous iteration | ❌ | ❌ | ✅ **Multi-hour autonomous sessions** |
 
 ### Perfect For
 **✅ Individual Developers** - Context anxiety solved, all-day sessions, expert knowledge  
@@ -239,6 +241,8 @@ Your Conversation → Stays Clean → Unlimited Capacity
 - **Evaluate** - Quantitatively measure results
 - **Decide** - Continue iterating or declare complete
 - **Repeat** - Next cycle with updated learnings
+
+**Multi-Hour Autonomous Sessions** - With iterative prompting and hook automation, agents can run continuously for 2-3+ hours on complex projects, maintaining momentum through automated progress tracking and strategic checkpoint management.
 
 **Customize Your Setup** - Edit `CONTEXT.md` with your environment:
 ```bash
@@ -456,8 +460,8 @@ Special thanks to everyone building the unlimited conversation future:
 - `instagram-curator` - Visual content strategy, aesthetic consistency
 
 ### 🎯 Coordination Specialists (4+ agents)
-- `studio-coach` - Master orchestrator for complex multi-agent workflows
-- `parallel-worker` - Technical execution engine for pre-defined parallel plans
+- `studio-coach` - Master orchestrator for complex multi-agent workflows with XML DAG planning
+- `parallel-worker` - Technical execution engine implementing fully parallel dependency-aware workflows  
 - `project-shipper` - End-to-end delivery management, timeline coordination
 - `experiment-tracker` - A/B testing, feature flags, validation workflows
 
@@ -695,6 +699,8 @@ Build a real-time chat application with TypeScript backend, React frontend, and 
 
 **Context Impact**: Complex full-stack application delivered using 0% conversation context. All 300+ messages preserved for your next feature.
 
+**Autonomous Duration**: With iterative prompting and hook automation, this workflow can run autonomously for 4-6 hours, with agents coordinating through XML-defined dependency graphs and checkpoint-based continuation.
+
 ### Production Crisis Resolution (Parallel Investigation)
 ```
 Critical: Payment processing is failing, users can't complete purchases, need immediate diagnosis
@@ -720,6 +726,8 @@ Critical: Payment processing is failing, users can't complete purchases, need im
 - Comprehensive post-mortem documentation and prevention measures
 
 **Context Impact**: Critical production issue resolved through coordinated multi-agent response using minimal conversation context.
+
+**Autonomous Duration**: Emergency response protocols can execute continuously for 2-4 hours with automated escalation, real-time monitoring, and hands-free resolution cycles until system restoration is verified.
 
 ### Legacy System Modernization (Systematic Transformation)
 ```

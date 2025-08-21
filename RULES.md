@@ -384,11 +384,10 @@ The following rules are non-negotiable and supplement existing guidelines with s
 - **CHECK TEST STRUCTURE FIRST**: If a test fails, the agent's first hypothesis should be that the test itself is flawed (e.g., incorrect setup, bad assertion) before assuming the application code is buggy.
 
 <rule name="Complex Task Execution Protocol">
-  <condition>User request requires more than 2 specialized agents or involves parallelizable work streams.</condition>
+  <condition>User request is complex, involves multiple steps, or can be parallelized.</condition>
   <enforcement>
-    <step number="1">The main orchestrator MUST invoke the `studio-coach` agent.</step>
-    <step number="2">The `studio-coach` MUST produce a structured execution plan.</step>
-    <step number="3">The `studio-coach` MUST invoke the `parallel-worker` (or other appropriate executor agents) with the plan.</step>
-    <step number="4">Direct invocation of `parallel-worker` by the user is discouraged; always go through a planner like `studio-coach` first.</step>
+    <step number="1">The main orchestrator MUST invoke the `parallel-worker` agent with the high-level goal.</step>
+    <step number="2">For extremely complex or ambiguous goals, the `studio-coach` can be used first to generate a plan file, which is then passed to the `parallel-worker`.</step>
+    <step number="3">The `parallel-worker` is responsible for all subsequent planning, subagent dispatch, and monitoring.</step>
   </enforcement>
 </rule>

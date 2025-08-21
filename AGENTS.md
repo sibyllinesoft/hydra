@@ -180,8 +180,8 @@ Agents First, Tools Second - Expert Context Over General Purpose
 </department>
 
 <department name="Project Management">
-  <agent id="studio-coach" role="Master orchestrator for complex multi-agent workflows. Decomposes high-level goals into executable plans for other agents. This is the primary entry point for complex tasks."/>
-  <agent id="parallel-worker" role="A technical execution engine that runs a pre-defined parallel work plan. It is typically invoked by studio-coach, not directly by the user."/>
+  <agent id="studio-coach" role="Strategic Planner - Decomposes very complex, ambiguous goals into a structured plan file. Acts as an optional first step before execution."/>
+  <agent id="parallel-worker" role="Core Execution Engine - Takes a high-level goal or a plan file, creates and manages the worktree, and orchestrates subagents to perform the work in parallel. The primary driver for complex tasks."/>
 </department>
 
 <department name="Marketing">
@@ -218,7 +218,7 @@ Agents First, Tools Second - Expert Context Over General Purpose
     <trigger event="code-change" agent="test-writer-fixer"/>
     <trigger event="ui-change" agent="whimsy-injector"/>  
     <trigger event="feature-flags" agent="experiment-tracker"/>
-    <trigger event="complex-workflow" agent="studio-coach"/>
+    <trigger event="complex-workflow" agent="parallel-worker"/>
   </autoTriggers>
 </teams>
 ```

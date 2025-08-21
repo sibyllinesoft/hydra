@@ -18,11 +18,6 @@ Hydra transforms Claude Code into a mythical beast with 50+ specialized agent he
 
 ## ⚡ 10-Second Proof
 
-```bash
-# Install Hydra in one command
-git clone https://github.com/your-username/hydra.git ~/.claude
-```
-
 **Before Hydra**: Build a TypeScript API → 50 messages later → "Sorry, I've lost context, can you remind me what we're building?"
 
 **With Hydra**: `typescript-node-developer` agent builds your entire API with modern patterns, tests, and documentation using **0%** of your conversation context. You still have all 300+ messages for your next feature.
@@ -53,25 +48,29 @@ git clone https://github.com/your-username/hydra.git ~/.claude
 
 **🔄 Autonomous Excellence** - Agents iterate until optimal results or clear limitations
 
-## 📦 Quick Start (3 Commands)
+## 🚀 Installation (One Elegant Command!)
 
-### 1. Install
 ```bash
-git clone https://github.com/sibyllinesoft/hydra.git ~/.claude
+# The only command you need
+npx github:sibyllinesoft/hydra
 ```
 
-### 2. Setup MCP Servers
-Add to your `~/.claude.json`:
-```json
-{
-  "mcpServers": {
-    "git": { "type": "stdio", "command": "uvx", "args": ["mcp-server-git"] },
-    "serena": { "type": "stdio", "command": "uvx", "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide-assistant"] }
-  }
-}
-```
+**Experience the future of AI tool installation:**
+- 🎨 **Beautiful terminal interface** with progress bars and real-time status
+- 🧠 **Smart MCP detection** - only adds missing servers, preserves existing config
+- 🔒 **Automatic zipped backups** with visual confirmation
+- 📊 **Live progress tracking** with scrollable installation logs
+- ⚡ **Always up-to-date** - pulls latest version directly from GitHub
+- 🛡️ **Error recovery** with clear user feedback and rollback options
 
-### 3. Test Drive
+**What the installer does:**
+- 🔒 **Creates zipped backup** of your existing `~/.claude/` directory and config  
+- 🐉 **Installs all Hydra files** with smart merge (won't overwrite your customizations)
+- ⚙️ **Adds MCP servers** only if missing (preserves your existing servers)
+- 🛠️ **Installs extras** (claude-statusline, docs tools, project indexing)
+- ✅ **Verifies everything** works correctly with health checks
+
+### 🎯 Test Drive
 ```
 Use typescript-node-developer to create a REST API with authentication and tests
 ```
@@ -84,6 +83,11 @@ Use typescript-node-developer to create a REST API with authentication and tests
 5. Your conversation stays at message #1
 
 **Context used: 0%**. **Your conversation: Still unlimited**.
+
+### ⚙️ Extras Included
+- **[claude-statusline](https://github.com/ersinkoc/claude-statusline)** - Enhanced status display for better workflow visibility
+- **[claude-code-docs](https://github.com/sibyllinesoft/claude-code-docs)** - Automated documentation generation from code
+- **[claude-code-project-index](https://github.com/sibyllinesoft/claude-code-project-index)** - Intelligent code navigation and project understanding
 
 ## 🎮 Live Demo
 
@@ -179,56 +183,40 @@ You: [Still at message 3, ready for next feature]
 **✅ Complex Projects** - Architectural guidance, production-ready code, crisis response  
 **✅ Legacy Modernization** - AI-assisted refactoring with safety protocols  
 
-## ⚡ Ready? Install Now
+## 📈 Advanced Features
 
-**Installation takes 30 seconds. Results last forever.**
+**Professional Installation Features:**
+- 🎨 **Interactive terminal UI** with visual confirmation at each step
+- 🛠️ **Comprehensive error handling** with recovery suggestions  
+- 📊 **Real-time log streaming** with color-coded status messages
+- 🔍 **Smart MCP server detection** and conflict resolution
+- 🔒 **Automated zipped backups** with restore instructions
+- ⚡ **Always current** - pulls latest version from GitHub automatically
 
-### Step 1: Install Hydra
+### 🔧 Post-Installation
 ```bash
-git clone https://github.com/sibyllinesoft/hydra.git ~/.claude
-```
+# Run health check
+~/.claude/hydra-health.sh
 
-### Step 2: Add MCP Servers
-Copy this into your `~/.claude.json`:
-```json
-{
-  "mcpServers": {
-    "git": { "type": "stdio", "command": "uvx", "args": ["mcp-server-git"] },
-    "serena": { "type": "stdio", "command": "uvx", "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide-assistant"] },
-    "sequential-thinking": { "type": "stdio", "command": "npx", "args": ["@modelcontextprotocol/server-sequential-thinking"] }
-  }
-}
-```
+# Update Hydra anytime
+~/.claude/update-hydra.sh
 
-### Step 3: Customize Your Environment
-```bash
-cp ~/.claude/CONTEXT_TEMPLATE.md ~/.claude/CONTEXT.md
-# Edit with your details: OS, tools, project paths, preferences
+# Customize your environment
+nano ~/.claude/CONTEXT.md
 ```
-
-### Step 4: Test Drive
-Try this in your next Claude conversation:
-```
-Use typescript-node-developer to create a REST API with JWT authentication and comprehensive tests
-```
-
-**What you'll see:**
-1. Agent spawns with clean context
-2. Builds modern TypeScript API with 2024 patterns  
-3. Adds security, validation, and full test suite
-4. Returns complete, production-ready implementation
-5. Your conversation context: **Still clean**
-
-**Next command:**
-```
-Use database-wizard to add PostgreSQL integration with optimized queries
-```
-
-**Your conversation:** Still unlimited. **Your productivity:** Transformed.
 
 ---
 
 ## 📚 Deep Dive Documentation
+
+### 📋 Comprehensive Guides
+
+Hydra includes detailed README documentation for each major system:
+
+- **[🤖 Agent System](agents/README.md)** - Complete guide to 50+ specialized agents, XML directives, and agent creation
+- **[⚡ Command System](commands/README.md)** - Slash command automation, coverage audit, and workflow integration  
+- **[🔧 Automation Scripts](scripts/README.md)** - Project management automation and custom script development
+- **[📏 Quality Rules](rules/README.md)** - Automated quality assurance, standards enforcement, and pattern documentation
 
 ### 🏗️ Architecture Overview
 
@@ -414,7 +402,7 @@ Special thanks to everyone building the unlimited conversation future:
 **Stop hitting context limits. Start building unlimited AI development sessions.**
 
 ### 🔥 Primary Call-to-Action
-**[Install Hydra Now](#step-1-install-hydra)** ← 30 seconds to unlimited conversations
+**[Install Hydra Now](#-ready-install-now)** ← 30 seconds to unlimited conversations
 
 ### 🎯 Secondary Actions  
 **[Explore Agents](#-meet-your-agent-army)** • **[See Examples](#-production-examples)** • **[Join Community](#-join-the-community)**
@@ -914,6 +902,26 @@ This project was inspired by the frustrating reality of hitting context limits e
 
 </details>
 
+## 🏛️ Project Attribution & Heritage
+
+Hydra integrates and builds upon foundational work from **claude-code-studio** and **CCPM (Claude Code Project Management)** repositories. These projects pioneered agent-based AI development workflows and context preservation techniques that form the architectural foundation of Hydra's capabilities.
+
+### CCPM Integration
+The **Claude Code Project Management (CCPM)** methodology provides the backbone for:
+- **Spec-driven development** with parallel agent execution capabilities
+- **Context preservation protocols** that maintain conversation continuity  
+- **Agent coordination patterns** for complex multi-domain workflows
+- **Quality assurance automation** with embedded rules and standards
+
+### Key Inherited Capabilities
+- **Agent Architecture** - Multi-agent coordination patterns and specialized domain expertise
+- **Context Firewall Technology** - Methodologies for preserving conversation context through agent isolation
+- **Iterative Enhancement Cycles** - E-H-A-E-D-R methodology for autonomous improvement and optimization
+- **Production-Ready Workflows** - Engineering standards, testing protocols, and deployment automation
+- **XML Directive System** - Machine-readable agent instructions for consistent behavior
+
+This integration represents the evolution and refinement of proven agent-based development concepts into a comprehensive, production-ready system that scales from individual development to enterprise workflows.
+
 ---
 
 <div align="center">
@@ -938,6 +946,10 @@ This project was inspired by the frustrating reality of hitting context limits e
 
 *Where context limits are slain, and mythical productivity becomes reality.*
 
-**[Get Started Now](#-quick-start) • [Read the Docs](#-project-structure) • [Contribute](#-contributing)**
+**[Get Started Now](#-ready-install-now) • [Read the Docs](#-project-structure) • [Contribute](#-contributing)**
+
+---
+
+**Powered by [Sibylline](https://sibylline.dev) - Advanced AI Development Solutions**
 
 </div>

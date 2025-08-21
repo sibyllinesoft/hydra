@@ -11,15 +11,25 @@ plugins/
 settings.local.json
 PERSONAL-ENV.md
 .serena/
-.claude/
 .claude-cache/
 .claude-cache-v2/
+
+# Claude Code temporary files and backups
+.claude-temp/
+.claude-temp-backup/
+repomix-output.xml
 
 # Common ignore patterns
 .DS_Store
 *.log
+*.tmp
+*.temp
 node_modules/
 .env
 .env.local
 .checksums
 .credentials.json
+
+HYDRA-INSTALL-DATE
+HYDRA-VERSION
+extras/

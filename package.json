@@ -1,5 +1,5 @@
 {
-  "name": "hydra-claude-installer",
+  "name": "@sibyllinesoft/hydra",
   "version": "1.0.0",
   "description": "Professional installer for Hydra Claude Code Studio with modern terminal interface",
   "main": "install.js",
@@ -8,20 +8,27 @@
     "hydra-installer": "./install.js"
   },
   "scripts": {
-    "install-hydra": "node install.js",
-    "postinstall": "echo 'Run: npm run install-hydra to start the Hydra installation'"
+    "start": "node install.js",
+    "test": "echo \"No tests specified\" && exit 0"
   },
-  "keywords": ["claude", "hydra", "installer", "terminal", "ui", "mcp"],
+  "keywords": [
+    "claude",
+    "hydra",
+    "installer",
+    "terminal",
+    "ui",
+    "mcp"
+  ],
   "author": "Hydra Claude Code Studio",
   "license": "MIT",
   "dependencies": {
+    "archiver": "^6.0.1",
     "blessed": "^0.1.81",
     "chalk": "^5.3.0",
-    "ora": "^7.0.1",
-    "inquirer": "^9.2.12",
     "fs-extra": "^11.1.1",
-    "semver": "^7.5.4",
-    "archiver": "^6.0.1"
+    "inquirer": "^9.2.12",
+    "ora": "^7.0.1",
+    "semver": "^7.5.4"
   },
   "engines": {
     "node": ">=16.0.0"

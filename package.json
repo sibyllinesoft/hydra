@@ -4,9 +4,7 @@
   "description": "Professional installer for Hydra Claude Code Studio with modern terminal interface",
   "main": "install.js",
   "type": "module",
-  "bin": {
-    "hydra-installer": "./install.js"
-  },
+  "bin": { "hydra-installer": "./bin/hydra-installer.mjs" },
   "scripts": {
     "start": "node install.js",
     "test": "echo \"No tests specified\" && exit 0"

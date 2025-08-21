@@ -1,83 +1,85 @@
-# CONTEXT TEMPLATE - Personal Development Environment
-
-<!-- 
-This is a template version of CONTEXT.md for public sharing.
-Create a PERSONAL-ENV.md file with your personal information following this structure:
-
-## SYSTEM CONTEXT
-Working with [YOUR_NAME] ([username]) on [OS] [ARCHITECTURE], [HARDWARE].
-
-## ENVIRONMENT SPECIFICS
-- Platform: [platform architecture]
-
-## CRITICAL PATHS
-- Home: [/path/to/home]
-- Projects: [/path/to/projects] ([PROJECT_COUNT] projects)
-- Claude Config: [/path/to/.claude]
-
-## DEVELOPMENT ENVIRONMENT
-- [Package Manager]
-- Git: "[Your Name]" <your.email@domain.com>
-- Editor: [editor]
-- Shell: [shell]
-
-## AGENT-SPECIFIC PATHS
-**📚 Full Agent Documentation**: `[CLAUDE_CONFIG_PATH]/agents/README.md`
-
-### Engineering Standards
-**📚 Detailed Standards**: `[CLAUDE_CONFIG_PATH]/ENGINEERING-STANDARDS.md`
--->
-
 # CONTEXT - Personal Development Environment
 
-@include PERSONAL-ENV.md
+@PERSONAL-ENV.md
 
-## AGENT-FIRST WORKFLOW
+## 🤖 AGENT-FIRST WORKFLOW
 
-### Default Operating Principle: USE AGENTS WHENEVER POSSIBLE
-**Agent usage is the DEFAULT, not the exception.** With 40+ specialized agents available, prefer agent delegation over direct handling for better context management and expert-level results.
+<task_context>
+You must use agents for ALL operations. Agent delegation is mandatory, not optional.
+</task_context>
 
-### UTILITY-FIRST MANDATE
-**MANDATORY**: Utility agents must be used for ALL basic operations - no exceptions.
+### Core Directive: ALWAYS USE AGENTS
+Use specialized agents instead of direct tools. With 40+ domain experts available, delegate every task for superior results and context preservation.
 
-**Non-Negotiable Utility Agent Usage:**
-- **file-creator**: ALL file/directory creation tasks (instead of Write tool)
-- **git-workflow**: ALL git operations (instead of Bash git commands)  
-- **date-checker**: ALL date/time queries (instead of manual calculations)
-- **context-fetcher**: ALL documentation retrieval (instead of Read tool for docs)
+### Mandatory Utility Agent Rules
 
-### Agent Usage Decision Tree
-```
-IF utility_task (file creation, git ops, dates, doc retrieval):
-  USE_UTILITY_AGENT (MANDATORY - no direct tool usage)
-ELIF task_matches_specific_expertise:
-  USE_SPECIALIZED_AGENT (engineering, design, marketing, etc.)
-ELIF task_is_multi_domain:
-  USE_MULTIPLE_AGENTS (coordinate via studio-coach if complex)
-ELIF task_needs_fresh_context:
-  USE_AGENT (prevents conversation context bloat)
-ELSE:
-  USE_GENERAL_PURPOSE_AGENT (rapid-prototyper, studio-coach)
-```
+<utility_agents>
+  <agent name="file-creator" trigger="file creation, directory creation, templates">
+    <rule>MUST use instead of Write tool</rule>
+  </agent>
+  <agent name="git-workflow" trigger="commit, branch, merge, push, git operations">
+    <rule>MUST use instead of Bash git commands</rule>
+  </agent>
+  <agent name="date-checker" trigger="time, date, schedule calculations">
+    <rule>MUST use instead of manual calculations</rule>
+  </agent>
+  <agent name="context-fetcher" trigger="documentation, README access">
+    <rule>MUST use instead of Read tool for docs</rule>
+  </agent>
+</utility_agents>
 
-### Context Management Benefits
-- **Fresh Context**: Each agent starts with clean slate, no conversation overhead
-- **Specialized Prompts**: 500+ word expert-level system prompts per domain
-- **Parallel Processing**: Multiple agents can work simultaneously on different aspects
-- **Performance Isolation**: Agent failures don't affect main conversation
-- **Expert Quality**: Purpose-built expertise vs generalist approach
+### Agent Selection Logic
 
-### Available Agent Categories & Usage
-**📚 Full Agent Documentation**: `[CLAUDE_CONFIG_PATH]/agents/README.md`
+<decision_tree>
+  <if condition="utility_task">
+    <action>USE_UTILITY_AGENT (MANDATORY)</action>
+    <examples>file creation → file-creator, git ops → git-workflow</examples>
+  </if>
+  <elif condition="domain_expertise_needed">
+    <action>USE_SPECIALIZED_AGENT</action>
+    <examples>coding → backend-architect, UI → frontend-developer</examples>
+  </elif>
+  <elif condition="multi_domain_task">
+    <action>USE_MULTIPLE_AGENTS via studio-coach</action>
+  </elif>
+  <else>
+    <action>USE_GENERAL_PURPOSE_AGENT</action>
+    <examples>rapid-prototyper, studio-coach</examples>
+  </else>
+</decision_tree>
 
-**Core Usage Patterns:**
-- **Engineering Tasks** → rapid-prototyper, backend-architect, frontend-developer, ai-engineer
-- **Design Work** → ui-designer, whimsy-injector, brand-guardian, ux-researcher  
-- **Marketing Needs** → tiktok-strategist, growth-hacker, app-store-optimizer
-- **Product Decisions** → sprint-prioritizer, trend-researcher, feedback-synthesizer
-- **Operations** → support-responder, finance-tracker, analytics-reporter
-- **Testing/QA** → test-writer-fixer, api-tester, performance-benchmarker, test-runner
-- **Utilities** → context-fetcher, file-creator, git-workflow, date-checker
+### Why Agent-First Works
+
+<benefits>
+  <benefit name="Fresh Context">Each agent starts clean - no conversation bloat</benefit>
+  <benefit name="Expert Prompts">500+ word specialized system prompts per domain</benefit>
+  <benefit name="Parallel Work">Multiple agents execute simultaneously</benefit>
+  <benefit name="Fault Isolation">Agent failures don't crash main conversation</benefit>
+  <benefit name="Quality Results">Purpose-built expertise beats generalist approach</benefit>
+</benefits>
+
+### Agent Domain Mapping
+
+<domain_agents>
+  <domain name="Engineering">
+    <agents>rapid-prototyper, backend-architect, frontend-developer, ai-engineer</agents>
+  </domain>
+  <domain name="Design">
+    <agents>ui-designer, whimsy-injector, brand-guardian, ux-researcher</agents>
+  </domain>
+  <domain name="Marketing">
+    <agents>tiktok-strategist, growth-hacker, app-store-optimizer</agents>
+  </domain>
+  <domain name="Product">
+    <agents>sprint-prioritizer, trend-researcher, feedback-synthesizer</agents>
+  </domain>
+  <domain name="Operations">
+    <agents>support-responder, finance-tracker, analytics-reporter</agents>
+  </domain>
+  <domain name="Testing">
+    <agents>test-writer-fixer, api-tester, performance-benchmarker</agents>
+  </domain>
+</domain_agents>
 
 ### Proactive Agent Triggers
 - **whimsy-injector**: Auto-activates after UI/UX changes

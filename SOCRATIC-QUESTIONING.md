@@ -1,320 +1,253 @@
 # SOCRATIC-QUESTIONING.md - Requirement Clarification Framework
 
-**Purpose**: Systematic approach for Claude to clarify user requirements through structured Socratic questioning before implementation
-
-## 🎯 DECISION TREE: When to Apply Socratic Questioning
-
-### AUTOMATIC TRIGGERS (Always Question)
-```yaml
-mandatory_questioning:
-  ambiguous_requirements:
-    - "Build me an app" (no specifics)
-    - "Fix this" (unclear scope)
-    - "Make it better" (undefined criteria)
-    - "Add a feature" (no details)
-  
-  high_complexity_indicators:
-    - Multiple domains involved (frontend + backend + database)
-    - Performance/security requirements mentioned
-    - Integration with external systems
-    - User mentions "production" or "enterprise"
-  
-  risk_indicators:
-    - Data handling mentioned
-    - Authentication/authorization needed
-    - Third-party API integrations
-    - Deployment/infrastructure concerns
-```
-
-### CONDITIONAL TRIGGERS (Assess Need)
-```yaml
-assess_for_questioning:
-  medium_complexity:
-    - Single domain but multiple components
-    - Framework/library choices needed
-    - Testing strategy unclear
-    - Documentation requirements unspecified
-  
-  context_gaps:
-    - Missing technical constraints
-    - Undefined success criteria
-    - Unclear user personas/use cases
-    - No mention of existing codebase patterns
-```
-
-### SKIP QUESTIONING (Proceed Directly)
-```yaml
-skip_questioning:
-  clear_simple_tasks:
-    - "Fix typo in line 42"
-    - "Add console.log to debug function X"
-    - "Update dependency version"
-    - "Create basic README template"
-  
-  well_defined_requests:
-    - Complete specifications provided
-    - All technical details clear
-    - Success criteria explicitly stated
-    - No risk/complexity indicators
-```
-
-## 🗂️ QUESTION CATEGORIES & TEMPLATES
-
-### 1. PROBLEM DEFINITION & SCOPE
-
-**Clarify the Core Problem:**
-- "What specific problem are you trying to solve?"
-- "Who is experiencing this problem and in what context?"
-- "What happens currently when users try to [achieve goal]?"
-- "What would success look like from the user's perspective?"
-
-**Define Boundaries:**
-- "What's included in this scope vs. what's for later phases?"
-- "Are there any existing systems this needs to integrate with?"
-- "What parts of the current system should remain unchanged?"
-- "Are there any constraints from business requirements or policies?"
-
-**Understand Motivation:**
-- "What's driving the need for this solution now?"
-- "How does this relate to your broader goals?"
-- "What happens if this isn't implemented?"
-
-### 2. SUCCESS CRITERIA & ACCEPTANCE TESTS
-
-**Measurable Outcomes:**
-- "How will you know when this is working correctly?"
-- "What specific behaviors should users see?"
-- "Are there any performance benchmarks it needs to meet?"
-- "What would make you consider this implementation a failure?"
-
-**Validation Methods:**
-- "How would you like to test this before it goes live?"
-- "Who needs to approve or validate the implementation?"
-- "Are there specific scenarios or edge cases I should test?"
-- "What data/metrics would help you evaluate success?"
-
-**User Experience:**
-- "What should the user journey look like step-by-step?"
-- "How should errors or edge cases be handled from a user perspective?"
-- "Are there accessibility or usability requirements?"
-
-### 3. TECHNICAL CONSTRAINTS & PREFERENCES
-
-**Technology Stack:**
-- "Are there specific technologies, frameworks, or libraries you prefer?"
-- "What's your current tech stack that this needs to work with?"
-- "Are there any technologies you want to avoid?"
-- "Do you have preferences for package managers, build tools, or deployment methods?"
-
-**Infrastructure & Environment:**
-- "Where will this be deployed (cloud provider, on-premise, etc.)?"
-- "What's your development environment setup?"
-- "Are there existing CI/CD pipelines this needs to fit into?"
-- "What are your hosting/infrastructure constraints?"
-
-**Compatibility:**
-- "What browsers/devices/platforms need to be supported?"
-- "Are there backward compatibility requirements?"
-- "Do you have existing APIs or data formats this needs to work with?"
-
-### 4. QUALITY REQUIREMENTS
-
-**Performance:**
-- "What response time or throughput requirements do you have?"
-- "How many concurrent users should this handle?"
-- "Are there any resource constraints (memory, CPU, bandwidth)?"
-- "Do you have existing performance benchmarks to meet or exceed?"
-
-**Security:**
-- "What sensitive data does this handle?"
-- "Are there authentication/authorization requirements?"
-- "Do you need to comply with specific security standards (GDPR, HIPAA, etc.)?"
-- "What's your risk tolerance for security vulnerabilities?"
-
-**Reliability & Maintainability:**
-- "What uptime/availability requirements do you have?"
-- "How critical is this system to your operations?"
-- "Who will be maintaining this code going forward?"
-- "Do you have preferences for code style, documentation, or architecture patterns?"
-
-### 5. TESTING & VALIDATION EXPECTATIONS
-
-**Testing Strategy:**
-- "What level of test coverage are you looking for?"
-- "Do you prefer unit tests, integration tests, or end-to-end tests?"
-- "Are there specific testing frameworks you use?"
-- "How do you currently handle testing in your workflow?"
-
-**Quality Assurance:**
-- "Do you have code review processes I should follow?"
-- "Are there linting or formatting standards to maintain?"
-- "How do you typically validate new features before release?"
-- "Do you need help setting up testing infrastructure?"
-
-**Deployment Validation:**
-- "How do you typically deploy and validate changes?"
-- "Do you have staging environments for testing?"
-- "Are there rollback procedures I should consider?"
-- "Do you need monitoring or logging for the new implementation?"
-
-### 6. DOCUMENTATION & COMMUNICATION NEEDS
-
-**Documentation Requirements:**
-- "What level of documentation do you need (API docs, user guides, technical specs)?"
-- "Who will be reading this documentation?"
-- "Do you have existing documentation standards or templates?"
-- "Should I include setup/installation instructions?"
-
-**Knowledge Transfer:**
-- "Will you need to explain this implementation to others on your team?"
-- "Are there specific technical concepts I should explain in detail?"
-- "Do you want code comments focusing on any particular aspects?"
-- "Should I provide examples or usage patterns?"
-
-**Communication Preferences:**
-- "How would you like me to present the solution (step-by-step, all at once, etc.)?"
-- "Do you want to review the approach before I start implementation?"
-- "Should I explain my technical decisions as I go?"
-- "Are there any progress checkpoints you'd like during implementation?"
-
-## 🔄 PROGRESSIVE QUESTIONING TECHNIQUES
-
-### SURFACE LEVEL → DEEPER REQUIREMENTS
-
-**Layer 1: Basic Understanding**
-1. What needs to be built/fixed?
-2. Who will use it?
-3. What's the expected outcome?
-
-**Layer 2: Context & Constraints**
-1. What's the current situation?
-2. What are the technical limitations?
-3. What are the success criteria?
-
-**Layer 3: Implementation Details**
-1. How should edge cases be handled?
-2. What are the performance requirements?
-3. How will this be maintained long-term?
-
-**Layer 4: Risk & Quality**
-1. What could go wrong?
-2. How will you validate it's working?
-3. What are the security/compliance requirements?
-
-### QUESTIONING FLOW PATTERNS
-
-**The Funnel Approach:**
-```
-Broad → Specific → Implementation Details
-- Start with high-level goals
-- Narrow to specific requirements  
-- Drill down to technical specs
-```
-
-**The Validation Loop:**
-```
-Assumption → Question → Clarification → Confirmation
-- State what you understand
-- Ask if that's correct
-- Get clarification on gaps
-- Confirm before proceeding
-```
-
-**The Risk Assessment:**
-```
-Happy Path → Edge Cases → Failure Modes → Recovery
-- What should work normally?
-- What could go wrong?
-- How should failures be handled?
-- What are the backup plans?
-```
-
-## 📋 PRACTICAL APPLICATION TEMPLATES
-
-### QUICK CLARIFICATION (Simple Tasks)
-```
-"Before I implement this, let me confirm:
-1. [Restate the requirement in my words]
-2. [Ask about 1-2 key uncertainties]
-3. [Confirm success criteria]
-Shall I proceed with this understanding?"
-```
-
-### STANDARD CLARIFICATION (Medium Complexity)
-```
-"To make sure I build exactly what you need:
-
-**Problem & Scope:**
-- [Key questions about the problem]
-
-**Technical Approach:**
-- [Questions about constraints/preferences]
-
-**Success Criteria:**
-- [Questions about validation/acceptance]
-
-Which of these would you like to clarify first?"
-```
-
-### COMPREHENSIVE CLARIFICATION (High Complexity)
-```
-"This looks like a substantial implementation. Let me ask some strategic questions to ensure we build the right solution:
-
-**Business Context:**
-- [Problem definition questions]
-
-**Technical Architecture:**  
-- [Infrastructure/technology questions]
-
-**Quality & Risk:**
-- [Performance/security/reliability questions]
-
-**Implementation Plan:**
-- [Approach/timeline/validation questions]
-
-Should we work through these systematically or focus on specific areas first?"
-```
-
-## 🎯 EFFECTIVENESS GUIDELINES
-
-### QUESTION QUALITY PRINCIPLES
-- **Specific over general**: "What authentication method?" vs "Any security requirements?"
-- **Open-ended for discovery**: "How do users currently..." vs "Do users need..."
-- **Assumption-testing**: "I'm assuming X, is that correct?"
-- **Prioritization-focused**: "What's most important: speed, security, or simplicity?"
-
-### TIMING & FLOW
-- **Front-load critical questions**: Ask about major constraints first
-- **Progressive disclosure**: Don't overwhelm with all questions at once
-- **Context-driven**: Ask follow-ups based on previous answers
-- **Confirmation loops**: Summarize understanding before proceeding
-
-### STOP CONDITIONS
-- **Sufficient clarity achieved**: All major risks and requirements identified
-- **Diminishing returns**: Additional questions won't significantly improve outcome
-- **User signals readiness**: "I think you have enough to start" or similar
-- **Simple task confirmed**: Low complexity, low risk, clear requirements
-
-## 🚀 IMPLEMENTATION CHECKLIST
-
-**Before Starting Any Implementation:**
-- [ ] Applied decision tree to determine questioning need
-- [ ] Identified category of questions most relevant
-- [ ] Asked 2-5 clarifying questions (unless skipping per decision tree)
-- [ ] Received answers that address major uncertainties
-- [ ] Confirmed understanding with user
-- [ ] Documented any remaining assumptions
-
-**During Implementation:**
-- [ ] Refer back to clarified requirements when making decisions
-- [ ] Highlight when implementation choices relate to clarified requirements
-- [ ] Flag any new uncertainties that arise during implementation
-
-**After Implementation:**
-- [ ] Validate against original clarified requirements
-- [ ] Note any requirements that evolved during implementation
-- [ ] Suggest follow-up questions for future similar tasks
+**Purpose**  
+Systematic approach for Claude to clarify user requirements through structured Socratic questioning before implementation. Guidance ensures ambiguity, complexity, or risk triggers clarification rather than blind execution.
 
 ---
 
-**Remember**: The goal is not to ask every possible question, but to ask the *right* questions that prevent the most common implementation mismatches and reduce the need for significant rework.
+## 🎯 Decision Tree: When to Apply Socratic Questioning
+*The framework specifies automatic triggers, conditional assessments, and skip conditions. Claude uses this to decide whether to ask clarifying questions or proceed directly.*
+
+```xml
+<decisionTree>
+  <mandatoryQuestioning>
+    <ambiguousRequirement>Build me an app</ambiguousRequirement>
+    <ambiguousRequirement>Fix this</ambiguousRequirement>
+    <ambiguousRequirement>Make it better</ambiguousRequirement>
+    <ambiguousRequirement>Add a feature</ambiguousRequirement>
+
+    <highComplexity>
+      <indicator>Multiple domains involved</indicator>
+      <indicator>Performance/security requirements mentioned</indicator>
+      <indicator>Integration with external systems</indicator>
+      <indicator>User mentions production or enterprise</indicator>
+    </highComplexity>
+
+    <riskIndicators>
+      <indicator>Data handling</indicator>
+      <indicator>Authentication/authorization</indicator>
+      <indicator>Third-party API integrations</indicator>
+      <indicator>Deployment/infrastructure concerns</indicator>
+    </riskIndicators>
+  </mandatoryQuestioning>
+
+  <conditionalQuestioning>
+    <mediumComplexity>
+      <indicator>Single domain with multiple components</indicator>
+      <indicator>Framework/library choices needed</indicator>
+      <indicator>Unclear testing strategy</indicator>
+      <indicator>Documentation unspecified</indicator>
+    </mediumComplexity>
+    <contextGaps>
+      <indicator>Missing technical constraints</indicator>
+      <indicator>Undefined success criteria</indicator>
+      <indicator>Unclear personas/use cases</indicator>
+      <indicator>No mention of codebase patterns</indicator>
+    </contextGaps>
+  </conditionalQuestioning>
+
+  <skipQuestioning>
+    <clearSimpleTask>Fix typo in line 42</clearSimpleTask>
+    <clearSimpleTask>Add console.log to debug function X</clearSimpleTask>
+    <clearSimpleTask>Update dependency version</clearSimpleTask>
+    <clearSimpleTask>Create basic README template</clearSimpleTask>
+    <wellDefinedRequest>Complete specifications provided</wellDefinedRequest>
+    <wellDefinedRequest>All technical details clear</wellDefinedRequest>
+    <wellDefinedRequest>Explicit success criteria</wellDefinedRequest>
+  </skipQuestioning>
+</decisionTree>
+```
+
+---
+
+## 🗂️ Question Categories & Templates
+*Claude categorizes clarifying questions into six domains. Each contains guiding prompts that reduce ambiguity and align expectations.*
+
+```xml
+<questionCategories>
+  <category id="problem-scope">
+    <clarify>What specific problem are you trying to solve?</clarify>
+    <clarify>Who experiences this problem and in what context?</clarify>
+    <clarify>What happens currently when users try to achieve the goal?</clarify>
+    <clarify>What would success look like from the user's perspective?</clarify>
+    <boundary>What's included vs deferred to later phases?</boundary>
+    <boundary>Systems it must integrate with?</boundary>
+    <motivation>What's driving the need now?</motivation>
+  </category>
+
+  <category id="success-criteria">
+    <clarify>How will you know when this is working?</clarify>
+    <clarify>What user behaviors should be observed?</clarify>
+    <criterion>Performance benchmarks?</criterion>
+    <criterion>Failure conditions?</criterion>
+    <validation>How to test before go-live?</validation>
+    <ux>What should error handling look like?</ux>
+    <ux>Accessibility/usability requirements?</ux>
+  </category>
+
+  <category id="technical-constraints">
+    <stack>Preferred frameworks or libraries?</stack>
+    <stack>Existing tech stack?</stack>
+    <stack>Technologies to avoid?</stack>
+    <infra>Deployment environment?</infra>
+    <infra>CI/CD pipelines?</infra>
+    <compatibility>Browsers/devices/platforms required?</compatibility>
+  </category>
+
+  <category id="quality-requirements">
+    <performance>Response time / throughput requirements?</performance>
+    <performance>Concurrent users expected?</performance>
+    <security>Authentication/authorization needed?</security>
+    <security>Standards to comply with (GDPR, HIPAA)?</security>
+    <reliability>Uptime requirements?</reliability>
+    <maintainability>Who maintains this code?</maintainability>
+  </category>
+
+  <category id="testing-validation">
+    <testing>Preferred coverage levels?</testing>
+    <testing>Unit vs integration vs end-to-end?</testing>
+    <qa>Code review standards?</qa>
+    <qa>Linting/formatting rules?</qa>
+    <deployment>Staging environment?</deployment>
+    <deployment>Rollback procedures?</deployment>
+  </category>
+
+  <category id="documentation-communication">
+    <documentation>What level of documentation?</documentation>
+    <documentation>Who is the target audience?</documentation>
+    <knowledgeTransfer>Need to explain to team?</knowledgeTransfer>
+    <communication>Preferred communication format?</communication>
+    <communication>Progress checkpoints required?</communication>
+  </category>
+</questionCategories>
+```
+
+---
+
+## 🔄 Progressive Questioning Techniques
+*Claude asks progressively deeper questions, moving from broad context to risk evaluation, following structured patterns.*
+
+```xml
+<progressiveTechniques>
+  <layer id="basic">
+    <q>What needs to be built/fixed?</q>
+    <q>Who will use it?</q>
+    <q>What's the expected outcome?</q>
+  </layer>
+  <layer id="context">
+    <q>What's the current situation?</q>
+    <q>Technical limitations?</q>
+    <q>Success criteria?</q>
+  </layer>
+  <layer id="implementation">
+    <q>How should edge cases be handled?</q>
+    <q>Performance requirements?</q>
+    <q>Maintenance expectations?</q>
+  </layer>
+  <layer id="risk-quality">
+    <q>What could go wrong?</q>
+    <q>How to validate it's working?</q>
+    <q>Security/compliance requirements?</q>
+  </layer>
+
+  <flowPattern id="funnel">
+    <step>Broad → Specific → Implementation</step>
+  </flowPattern>
+  <flowPattern id="validation-loop">
+    <step>Assumption → Question → Clarification → Confirmation</step>
+  </flowPattern>
+  <flowPattern id="risk-assessment">
+    <step>Happy Path → Edge Cases → Failure Modes → Recovery</step>
+  </flowPattern>
+</progressiveTechniques>
+```
+
+---
+
+## 📋 Practical Application Templates
+*Templates standardize the style of questioning by complexity level. Quick clarifications are light, comprehensive ones involve business context, technical architecture, and risk.*
+
+```xml
+<templates>
+  <template id="quick-clarification">
+    <step>Restate requirement</step>
+    <step>Ask 1-2 uncertainties</step>
+    <step>Confirm success criteria</step>
+  </template>
+
+  <template id="standard-clarification">
+    <section>Problem & Scope</section>
+    <section>Technical Approach</section>
+    <section>Success Criteria</section>
+  </template>
+
+  <template id="comprehensive-clarification">
+    <section>Business Context</section>
+    <section>Technical Architecture</section>
+    <section>Quality & Risk</section>
+    <section>Implementation Plan</section>
+  </template>
+</templates>
+```
+
+---
+
+## 🎯 Effectiveness Guidelines
+*Claude maximizes effectiveness by following question quality principles, timing and flow rules, and defined stop conditions.*
+
+```xml
+<guidelines>
+  <qualityPrinciples>
+    <principle>Specific over general</principle>
+    <principle>Open-ended discovery</principle>
+    <principle>Assumption-testing</principle>
+    <principle>Prioritization-focused</principle>
+  </qualityPrinciples>
+
+  <timingFlow>
+    <rule>Front-load critical questions</rule>
+    <rule>Progressive disclosure</rule>
+    <rule>Context-driven follow-ups</rule>
+    <rule>Confirmation loops</rule>
+  </timingFlow>
+
+  <stopConditions>
+    <condition>Sufficient clarity achieved</condition>
+    <condition>Diminishing returns</condition>
+    <condition>User signals readiness</condition>
+    <condition>Simple low-risk task</condition>
+  </stopConditions>
+</guidelines>
+```
+
+---
+
+## 🚀 Implementation Checklist
+*Checklist ensures Socratic questioning is applied consistently across tasks and phases.*
+
+```xml
+<checklist>
+  <phase id="before">
+    <item>Apply decision tree</item>
+    <item>Identify question category</item>
+    <item>Ask 2–5 clarifications</item>
+    <item>Confirm understanding</item>
+    <item>Document assumptions</item>
+  </phase>
+  <phase id="during">
+    <item>Refer back to clarified requirements</item>
+    <item>Highlight links to decisions</item>
+    <item>Flag new uncertainties</item>
+  </phase>
+  <phase id="after">
+    <item>Validate against clarified requirements</item>
+    <item>Note evolved requirements</item>
+    <item>Suggest future follow-ups</item>
+  </phase>
+</checklist>
+```
+
+---
+
+**Remember**  
+The goal is not to ask every possible question, but to ask the *right* questions that prevent mismatches, reduce rework, and anchor Claude’s responses in clarified requirements.

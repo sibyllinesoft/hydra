@@ -1,148 +1,228 @@
 # AGENTS - Rapid Selection Guide & Intelligent Orchestrator
 
-**Primary Directive**: "Agents First, Tools Second - Expert Context Over General Purpose"
+## 🧠 The Context Firewall Philosophy
 
-## ⚡ RAPID AGENT SELECTION
+The primary purpose of our multi-agent system is **context preservation**. Agents act as "context firewalls" by performing verbose, heavy-lifting tasks in isolation and returning only concise, actionable summaries to the main conversation. This prevents context window bloat and allows for virtually unlimited conversation length.
 
-### 🚨 MANDATORY UTILITY AGENTS (5)
-**NEVER use direct tools for these domains**
+- **Without Agents**: Main thread reads 10 files → Context explodes → Conversation dies.
+- **With Agents**: An agent reads 10 files → Main thread gets one summary → Context is preserved.
 
-| Agent | Domain | Trigger Keywords |
-|-------|--------|------------------|
-| **file-creator** | File/directory creation | "create", "generate", "new file", "setup structure" |
-| **git-workflow** | All git operations | "commit", "branch", "merge", "git", "push", "pull" |
-| **context-fetcher** | Internal documentation | "docs", "README", "internal guide", "project docs" |
-| **knowledge-fetcher** | External research | "search", "Readwise", "Context7", "web search", "find articles" |
-| **date-checker** | Date/time calculations | "when", "schedule", "time since", "date", "timestamp" |
+This principle is the key to handling complex, long-running projects effectively.
 
-### 🎯 INSTANT AGENT MATCHING
+**Primary Directive**  
+Agents First, Tools Second - Expert Context Over General Purpose
 
-| User Intent | Primary Agent | Secondary Options |
-|-------------|---------------|-------------------|
-| **"Build new feature"** | rapid-prototyper | → ui-designer → frontend-developer |
-| **"Fix this bug"** | backend-architect / frontend-developer | + test-writer-fixer (auto-triggers) |
-| **"Test this code"** | test-writer-fixer | + api-tester, performance-benchmarker |
-| **"Deploy this"** | devops-automator | + project-shipper |
-| **"Design this UI"** | ui-designer | → frontend-developer → whimsy-injector |
-| **"Analyze feedback"** | feedback-synthesizer | + ux-researcher |
-| **"Complex multi-step"** | **studio-coach** | (orchestrates others) |
+---
 
-### 🔀 COMPLEXITY ROUTING
+## ⚡ Rapid Agent Selection
+*Mandatory utility agents must replace direct tools. Specialized agents are matched to user intents. Studio-coach handles orchestration when workflows grow complex. This ensures expertise is applied before general-purpose tools.*
 
-```yaml
-Simple (1 agent):     Direct task → Specialized agent
-Medium (2-3 agents):  Sequential workflow → Auto-handoffs  
-Complex (4+ agents):  studio-coach → Orchestrated workflow
+```xml
+<agents category="mandatory">
+  <agent id="file-creator" domain="file/directory creation">
+    <triggers>create|generate|new file|setup structure</triggers>
+    <autoCoordinatesWith>git-workflow</autoCoordinatesWith>
+  </agent>
+  <agent id="git-workflow" domain="git operations">
+    <triggers>commit|branch|merge|push|pull</triggers>
+    <autoCoordinatesWith>file-creator,devops-automator</autoCoordinatesWith>
+  </agent>
+  <agent id="context-fetcher" domain="internal documentation">
+    <triggers>docs|README|internal guide|project docs</triggers>
+    <autoCoordinatesWith>knowledge-fetcher</autoCoordinatesWith>
+  </agent>
+  <agent id="knowledge-fetcher" domain="external research">
+    <triggers>search|Readwise|Context7|web search|find articles</triggers>
+    <autoCoordinatesWith>context-fetcher</autoCoordinatesWith>
+  </agent>
+  <agent id="date-checker" domain="date/time calculations">
+    <triggers>when|schedule|time since|date|timestamp</triggers>
+    <autoCoordinatesWith>sprint-prioritizer</autoCoordinatesWith>
+  </agent>
+</agents>
 ```
 
-## 🎼 ORCHESTRATION WORKFLOWS
-
-### 🏆 MASTER ORCHESTRATOR: studio-coach
-
-**Auto-activates when:**
-- 4+ agents needed
-- Cross-domain complexity
-- Multi-phase projects
-- Agent coordination required
-
-### 🎯 AUTO-TRIGGERING AGENTS
-
-| Trigger Event | Agent | Purpose |
-|---------------|-------|---------|
-| Code changes | **test-writer-fixer** | Immediate test coverage |
-| UI/UX changes | **whimsy-injector** | Add delightful interactions |
-| Feature flags mentioned | **experiment-tracker** | A/B testing setup |
-| Complex workflows start | **studio-coach** | Orchestration management |
-
-## 🎯 SPECIALIZED AGENT DIRECTORY
-
-### 🛠️ Engineering (7 agents)
-- **rapid-prototyper**: MVP builder → ui-designer, test-writer-fixer
-- **backend-architect**: API design → devops-automator, api-tester
-- **frontend-developer**: UI implementation → ui-designer, whimsy-injector
-- **mobile-app-builder**: Native apps → app-store-optimizer
-- **ai-engineer**: AI/ML integration → performance-benchmarker
-- **devops-automator**: Deployment → project-shipper, infrastructure-maintainer
-- **test-writer-fixer**: Testing strategy → api-tester, test-results-analyzer
-
-### 🎨 Design (5 agents)
-- **ui-designer**: Interface design → frontend-developer, brand-guardian
-- **ux-researcher**: User insights → feedback-synthesizer, analytics-reporter
-- **whimsy-injector**: Interaction delight (auto-triggers after UI changes)
-- **brand-guardian**: Visual consistency → visual-storyteller
-- **visual-storyteller**: Marketing visuals → content-creator
-
-### 📈 Marketing (7 agents)
-- **growth-hacker**: Viral loops → analytics-reporter, experiment-tracker
-- **tiktok-strategist**: TikTok content → content-creator
-- **app-store-optimizer**: ASO → mobile-app-builder
-- **content-creator**: Multi-platform content → instagram-curator, twitter-engager
-- **instagram-curator**: Visual content → visual-storyteller
-- **reddit-community-builder**: Community engagement → support-responder
-- **twitter-engager**: Trend engagement → trend-researcher
-
-### 🎯 Product (3 agents)
-- **feedback-synthesizer**: User feedback → ux-researcher, sprint-prioritizer
-- **sprint-prioritizer**: Planning → rapid-prototyper, studio-producer
-- **trend-researcher**: Market analysis → growth-hacker
-
-### 📋 Project Management (3 agents)
-- **experiment-tracker**: A/B testing (auto-triggers on feature flags)
-- **project-shipper**: Launch management → devops-automator
-- **studio-producer**: Team coordination → studio-coach
-
-### 🏢 Operations (5 agents)
-- **analytics-reporter**: Data insights → experiment-tracker
-- **finance-tracker**: Profitability → infrastructure-maintainer
-- **infrastructure-maintainer**: Scaling → devops-automator
-- **legal-compliance-checker**: Legal review → project-shipper
-- **support-responder**: Customer support → feedback-synthesizer
-
-### 🧪 Testing (5 agents)
-- **api-tester**: API validation → backend-architect, performance-benchmarker
-- **performance-benchmarker**: Speed optimization → test-results-analyzer
-- **test-results-analyzer**: Failure patterns → test-writer-fixer
-- **tool-evaluator**: Tech decisions → workflow-optimizer
-- **workflow-optimizer**: Process improvement → studio-producer
-
-### 🎭 Bonus Agents
-- **joker**: Morale boost → whimsy-injector
-
-## 🎯 AGENT SELECTION MATRIX
-
-### Decision Tree
-```yaml
-task_analysis:
-  utility_domain: USE_MANDATORY_AGENT (no alternatives)
-  single_domain: USE_SPECIALIZED_AGENT
-  cross_domain: SEQUENTIAL_WORKFLOW (2-3 agents)
-  complex_project: STUDIO_COACH_ORCHESTRATION (4+ agents)
-  
-coordination_level:
-  simple: Direct agent selection
-  medium: Auto-handoffs between 2-3 agents
-  complex: studio-coach orchestrated workflows
-  
-urgency:
-  immediate: Single specialized agent
-  planned: Sequential workflow
-  strategic: Full orchestration with parallel teams
+```xml
+<selectionRules>
+  <rule intent="Build new feature" primary="rapid-prototyper">
+    <secondary>ui-designer</secondary>
+    <secondary>frontend-developer</secondary>
+  </rule>
+  <rule intent="Fix this bug" primary="backend-architect|frontend-developer">
+    <autoTrigger>test-writer-fixer</autoTrigger>
+  </rule>
+  <rule intent="Test this code" primary="test-writer-fixer">
+    <secondary>api-tester</secondary>
+    <secondary>performance-benchmarker</secondary>
+  </rule>
+  <rule intent="Deploy this" primary="devops-automator">
+    <secondary>project-shipper</secondary>
+  </rule>
+  <rule intent="Design this UI" primary="ui-designer">
+    <secondary>frontend-developer</secondary>
+    <secondary>whimsy-injector</secondary>
+  </rule>
+</selectionRules>
 ```
 
-### Agent Relationship Map
-```yaml
-core_relationships:
-  development_trio: [rapid-prototyper, frontend-developer, test-writer-fixer]
-  design_duo: [ui-designer, whimsy-injector] 
-  backend_stack: [backend-architect, devops-automator, api-tester]
-  marketing_squad: [growth-hacker, content-creator, tiktok-strategist]
-  testing_team: [test-writer-fixer, api-tester, performance-benchmarker, test-results-analyzer]
-  
-auto_triggers:
-  code_change: test-writer-fixer
-  ui_change: whimsy-injector  
-  feature_flags: experiment-tracker
-  complex_workflow: studio-coach
+---
+
+## 🎼 Orchestration Workflows
+*Complexity determines orchestration style. Simple tasks map to one agent, medium tasks chain 2–3 agents. For complex tasks, the **studio-coach** is the primary entry point. It is the master orchestrator for complex multi-agent workflows that decomposes high-level goals into executable plans for other agents. It invokes executors like the **parallel-worker**, a technical execution engine that runs a pre-defined parallel work plan. The parallel-worker is typically invoked by studio-coach, not directly by the user.*
+
+```xml
+<complexityRouting>
+  <simple>directAgent</simple>
+  <medium>sequentialWorkflow</medium>
+  <complex>studioCoachOrchestration</complex>
+</complexityRouting>
 ```
 
-**Agent orchestration is as important as agent selection** - Use studio-coach for complex coordination, leverage auto-triggering for workflow continuity, and prefer agent teams over solo agent work for comprehensive solutions.
+```xml
+<workflow id="feature-development">
+  <step order="1" agent="rapid-prototyper"/>
+  <step order="2" agent="ui-designer"/>
+  <step order="3" agent="frontend-developer"/>
+  <step order="4" agent="test-writer-fixer" autoTrigger="true"/>
+  <step order="5" agent="whimsy-injector" autoTrigger="true"/>
+</workflow>
+
+<workflow id="backend-development">
+  <step order="1" agent="backend-architect"/>
+  <step order="2" agent="language-specific-developer"/>
+  <step order="3" agent="test-writer-fixer" autoTrigger="true"/>
+  <step order="4" agent="devops-automator"/>
+</workflow>
+
+<workflow id="legacy-modernization">
+  <step order="1" agent="refactoring-specialist"/>
+  <step order="2" agent="language-specific-developer"/>
+  <step order="3" agent="test-writer-fixer" autoTrigger="true"/>
+  <step order="4" agent="performance-benchmarker"/>
+</workflow>
+```
+
+---
+
+## 📋 Coordination Protocols
+*Sequential and parallel handoffs define how context and resources flow between agents. Studio-coach manages escalations for failures, conflicts, or timeline pressure. Feedback loops ensure performance and quality improve over time.*
+
+```xml
+<coordination>
+  <handoff type="sequential">
+    <rule>ContextTransfer</rule>
+    <rule>DependencyCheck</rule>
+    <rule>QualityGate</rule>
+    <rule><FailureEscalation target="studio-coach"/></rule>
+  </handoff>
+  <handoff type="parallel">
+    <rule>ResourceAllocation</rule>
+    <rule><ProgressSync target="studio-coach"/></rule>
+    <rule>DependencyManagement</rule>
+    <rule>IntegrationPoint</rule>
+  </handoff>
+  <escalations>
+    <trigger condition="agentFailureCascade" target="studio-coach"/>
+    <trigger condition="resourceConflict" target="studio-coach"/>
+    <trigger condition="dependencyDeadlock" target="studio-coach"/>
+    <trigger condition="qualityGateFail" target="studio-coach"/>
+    <trigger condition="timelinePressure" target="studio-coach"/>
+  </escalations>
+  <feedbackLoops>
+    <performanceOptimization>Track coordination, identify patterns, reduce overhead</performanceOptimization>
+    <qualityAssurance>Validate outcomes, monitor quality, improve workflows</qualityAssurance>
+  </feedbackLoops>
+</coordination>
+```
+
+---
+
+## 🎯 Auto-triggering Agents
+*Certain events automatically trigger specific agents. These triggers ensure continuous coverage and orchestrated continuity without human intervention.*
+
+```xml
+<autoTriggers>
+  <trigger event="code-change" agent="test-writer-fixer" purpose="immediate test coverage"/>
+  <trigger event="ui-change" agent="whimsy-injector" purpose="add delightful interactions"/>
+  <trigger event="feature-flags" agent="experiment-tracker" purpose="A/B testing setup"/>
+  <trigger event="complex-workflow" agent="studio-coach" purpose="orchestration management"/>
+</autoTriggers>
+```
+
+---
+
+## 🏆 Specialized Agent Directory
+*Agents are organized by departments (engineering, design, marketing, product, operations, testing). Each embodies best practices, deep expertise, and auto-coordination with others for consistency and quality.*
+
+```xml
+<department name="Engineering">
+  <agent id="rapid-prototyper" role="MVP builder" coords="ui-designer,test-writer-fixer"/>
+  <agent id="backend-architect" role="API/system design" coords="devops-automator,api-tester"/>
+  <agent id="frontend-developer" role="UI implementation" coords="ui-designer,whimsy-injector"/>
+  <agent id="mobile-app-builder" role="native apps" coords="app-store-optimizer"/>
+  <agent id="ai-engineer" role="AI/ML integration" coords="performance-benchmarker,python-backend-developer"/>
+</department>
+
+<department name="Testing">
+  <agent id="api-tester"/>
+  <agent id="performance-benchmarker"/>
+  <agent id="test-results-analyzer"/>
+  <agent id="tool-evaluator"/>
+  <agent id="workflow-optimizer"/>
+</department>
+
+<department name="Design">
+  <agent id="ui-designer"/>
+  <agent id="ux-researcher"/>
+  <agent id="whimsy-injector"/>
+  <agent id="brand-guardian"/>
+  <agent id="visual-storyteller"/>
+</department>
+
+<department name="Project Management">
+  <agent id="studio-coach" role="Master orchestrator for complex multi-agent workflows. Decomposes high-level goals into executable plans for other agents. This is the primary entry point for complex tasks."/>
+  <agent id="parallel-worker" role="A technical execution engine that runs a pre-defined parallel work plan. It is typically invoked by studio-coach, not directly by the user."/>
+</department>
+
+<department name="Marketing">
+  <agent id="growth-hacker"/>
+  <agent id="content-creator"/>
+  <agent id="tiktok-strategist"/>
+  <agent id="instagram-curator"/>
+  <agent id="reddit-community-builder"/>
+</department>
+```
+
+---
+
+## 🔄 Teams and Relationships
+*Relationships between agents are captured as teams and stacks. Auto-triggers enforce continuity at boundaries. These groupings ensure coordination across disciplines.*
+
+```xml
+<teams>
+  <team id="development-trio">
+    <agent>rapid-prototyper</agent>
+    <agent>frontend-developer</agent>
+    <agent>test-writer-fixer</agent>
+  </team>
+  <team id="backend-stack">
+    <agent>backend-architect</agent>
+    <agent>devops-automator</agent>
+    <agent>api-tester</agent>
+  </team>
+  <team id="design-duo">
+    <agent>ui-designer</agent>
+    <agent>whimsy-injector</agent>
+  </team>
+  <autoTriggers>
+    <trigger event="code-change" agent="test-writer-fixer"/>
+    <trigger event="ui-change" agent="whimsy-injector"/>  
+    <trigger event="feature-flags" agent="experiment-tracker"/>
+    <trigger event="complex-workflow" agent="studio-coach"/>
+  </autoTriggers>
+</teams>
+```
+
+---
+
+**Agent orchestration is as important as agent selection.** Studio-coach orchestrates complex coordination, auto-triggers ensure workflow continuity, and agent teams provide comprehensive, quality-driven solutions.

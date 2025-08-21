@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code Compatible](https://img.shields.io/badge/Claude%20Code-Compatible-blue.svg)](https://claude.ai/code)
-[![Agents](https://img.shields.io/badge/Agents-40+-green.svg)](#agent-system)
+[![Agents](https://img.shields.io/badge/Agents-46+-green.svg)](#agent-system)
 [![MCP Servers](https://img.shields.io/badge/MCP%20Servers-12-orange.svg)](#mcp-integration)
 
 ## 🚀 The #1 Frustration with Claude Code - SOLVED
@@ -246,6 +246,37 @@ The studio operates on an **Agent-First** principle: specialized AI agents handl
 - **Expert-Level Focus**: 500+ word specialized prompts for each domain
 - **Parallel Processing**: Multiple agents work simultaneously without context conflicts
 
+### 🎯 Master Template Architecture (2024-2025)
+
+**Revolutionary Engineering Agent Design:**
+Language-specific developers inherit from `master-software-developer.md` template, combining universal best practices with cutting-edge ecosystem expertise:
+
+```yaml
+Universal Foundation:
+  - E-H-A-E-D-R iterative cycles (research-validated)
+  - SOLID principles & TDD enforcement
+  - Security-first development patterns
+  - Zero-defect quality standards
+
+Language Specialization:
+  - 2024-2025 framework recommendations  
+  - Performance optimization patterns
+  - Ecosystem-specific best practices
+  - Modern tooling integration
+
+Quality Enforcement:
+  - Mandatory test coverage (>90%)
+  - Security vulnerability prevention
+  - Performance benchmarking
+  - Documentation completeness
+```
+
+**Benefits:**
+- **Consistency**: All agents follow proven development patterns
+- **Expertise**: Deep language knowledge + universal best practices
+- **Evolution**: Easy template updates propagate to all specialists
+- **Quality**: Enforced standards across all engineering work
+
 ### Utility Agents (Mandatory Usage)
 - **file-creator**: ALL file/directory creation tasks
 - **git-workflow**: ALL git operations with safety protocols
@@ -255,15 +286,34 @@ The studio operates on an **Agent-First** principle: specialized AI agents handl
 
 ### Specialized Agent Categories
 
-#### 🔧 Engineering Department (7 agents)
+#### 🔧 Engineering Department (14 agents)
+
+**🏗️ General Engineering:**
 ```
-rapid-prototyper     → Build MVPs and prototypes
-backend-architect    → Design scalable APIs and systems
-frontend-developer   → Create blazing-fast UIs
-mobile-app-builder   → Native iOS/Android development
-ai-engineer          → Integrate AI/ML features
-devops-automator     → Deploy and scale systems
-test-writer-fixer    → Write tests that catch real bugs
+rapid-prototyper        → Build MVPs and prototypes
+backend-architect       → Design scalable APIs and systems  
+frontend-developer      → Create blazing-fast UIs
+mobile-app-builder      → Native iOS/Android development
+ai-engineer            → Integrate AI/ML features
+devops-automator       → Deploy and scale systems
+test-writer-fixer      → Write tests that catch real bugs
+refactoring-specialist → AI-assisted code transformation
+```
+
+**🌐 Language-Specific Backend Masters (2024-2025):**
+```
+typescript-node-developer → TypeScript/Node.js (Hono, Fastify, Vitest)
+python-backend-developer  → Python async (FastAPI, SQLAlchemy 2.0+)
+nodejs-backend-developer  → Pure JavaScript (ES2024, streams, clustering)
+rust-backend-developer   → Rust performance (Axum, SQLx, zero-cost)
+go-backend-developer      → Go concurrency (Gin, Fiber, goroutines)
+```
+
+**🚨 Problem-Solving Specialists:**
+```
+super-hard-problem-developer → Opus-powered for persistent challenges
+database-wizard             → Query optimization, schema design
+security-ninja              → Penetration testing, vulnerability assessment
 ```
 
 #### 🎨 Design Department (5 agents)

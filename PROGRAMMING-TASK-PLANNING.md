@@ -1,205 +1,244 @@
 # PROGRAMMING TASK PLANNING TEMPLATE
 
-**Version**: 1.0  
-**Purpose**: Structured template for planning any programming task with mandatory quality assurance integration  
-**Usage**: Copy and fill out this template before starting any programming task
+**Purpose**: A structured template for planning programming tasks, enhanced with XML to provide a machine-readable format for improved tooling and AI-driven analysis.  
+**Usage**: Copy and fill out this template. The Markdown provides human-readable context, while the XML provides a structured data format.
 
 ---
 
 ## 📋 TASK OVERVIEW
 
-### Basic Information
-- **Task Title**: [Clear, descriptive title]
-- **Task Type**: [Feature | Bug Fix | Refactor | Performance | Security | Technical Debt]
-- **Priority**: [Critical | High | Medium | Low]
-- **Estimated Complexity**: [1-5 scale, 1=trivial, 5=complex]
-- **Estimated Time**: [Hours/Days]
-- **Assigned Developer**: [Name]
-- **Date Created**: [YYYY-MM-DD]
+This section captures the high-level metadata for the programming task. The XML block below structures this information as key-value pairs for easy parsing and integration into project management systems.
+
+```xml
+<taskOverview>
+  <title>[Clear, descriptive title]</title>
+  <type>[Feature | Bug Fix | Refactor | Performance | Security | Technical Debt]</type>
+  <priority>[Critical | High | Medium | Low]</priority>
+  <complexity scale="1-5">[1-5]</complexity>
+  <estimatedTime unit="Hours/Days">[Hours/Days]</estimatedTime>
+  <assignedDeveloper>[Name]</assignedDeveloper>
+  <dateCreated format="YYYY-MM-DD">[YYYY-MM-DD]</dateCreated>
+</taskOverview>
+```
 
 ---
 
 ## 🎯 PHASE 1: REQUIREMENT ANALYSIS
 
 ### 1.1 Problem Statement Validation
-**Complete this section before any technical planning:**
 
-- **Problem Description**: 
-  - [ ] What specific problem are we solving?
-  - [ ] Why is this problem worth solving?
-  - [ ] What happens if we don't solve it?
+This section ensures a thorough understanding of the problem before any technical work begins. The XML checklist structures the core validation questions.
 
-- **Stakeholder Impact**:
-  - [ ] Who are the end users affected?
-  - [ ] What business value does this provide?
-  - [ ] Are there compliance/legal requirements?
-
-- **Context & Background**:
-  - [ ] What led to this requirement?
-  - [ ] Are there related issues or dependencies?
-  - [ ] What constraints exist (time, budget, technical)?
+```xml
+<problemStatementValidation>
+  <problemDescription>
+    <question id="what">What specific problem are we solving?</question>
+    <question id="why">Why is this problem worth solving?</question>
+    <question id="consequence">What happens if we don't solve it?</question>
+  </problemDescription>
+  <stakeholderImpact>
+    <question id="users">Who are the end users affected?</question>
+    <question id="businessValue">What business value does this provide?</question>
+    <question id="compliance">Are there compliance/legal requirements?</question>
+  </stakeholderImpact>
+  <context>
+    <question id="origin">What led to this requirement?</question>
+    <question id="dependencies">Are there related issues or dependencies?</question>
+    <question id="constraints">What constraints exist (time, budget, technical)?</question>
+  </context>
+</problemStatementValidation>
+```
 
 ### 1.2 Scope Definition and Boundaries
-**Define what IS and IS NOT included:**
 
-**In Scope:**
-- [ ] [Specific feature/fix item 1]
-- [ ] [Specific feature/fix item 2]
-- [ ] [Specific feature/fix item 3]
+Clearly defining what is and is not included in the task is crucial for managing expectations. The XML below delineates these boundaries.
 
-**Out of Scope:**
-- [ ] [Explicitly excluded item 1]
-- [ ] [Explicitly excluded item 2]
-- [ ] [Explicitly excluded item 3]
-
-**Boundary Conditions:**
-- [ ] What edge cases must be handled?
-- [ ] What edge cases are explicitly NOT handled?
-- [ ] What integrations are required vs optional?
+```xml
+<scopeDefinition>
+  <inScope>
+    <item>[Specific feature/fix item 1]</item>
+    <item>[Specific feature/fix item 2]</item>
+  </inScope>
+  <outOfScope>
+    <item>[Explicitly excluded item 1]</item>
+    <item>[Explicitly excluded item 2]</item>
+  </outOfScope>
+  <boundaries>
+    <condition type="edgeCaseHandled">[What edge cases must be handled?]</condition>
+    <condition type="edgeCaseIgnored">[What edge cases are explicitly NOT handled?]</condition>
+    <condition type="integration">[What integrations are required vs optional?]</condition>
+  </boundaries>
+</scopeDefinition>
+```
 
 ### 1.3 Success Criteria and Acceptance Tests
-**Define MEASURABLE success criteria:**
 
-**Functional Requirements:**
-- [ ] [Requirement 1 with measurable criteria]
-- [ ] [Requirement 2 with measurable criteria]
-- [ ] [Requirement 3 with measurable criteria]
+This section defines measurable success criteria using a structured format. The functional and non-functional requirements are listed, and acceptance tests are modeled in a Gherkin-like XML structure.
 
-**Non-Functional Requirements:**
-- [ ] Performance: [Specific metrics, e.g., "Response time < 200ms"]
-- [ ] Scalability: [Specific limits, e.g., "Handle 1000 concurrent users"]
-- [ ] Security: [Specific requirements, e.g., "All inputs validated"]
-- [ ] Accessibility: [Specific standards, e.g., "WCAG 2.1 AA compliance"]
-
-**Acceptance Test Scenarios:**
-```gherkin
-Scenario 1: [Happy path]
-Given [initial state]
-When [action performed]
-Then [expected outcome]
-
-Scenario 2: [Error case]
-Given [error condition]
-When [action performed]
-Then [expected error handling]
-
-Scenario 3: [Edge case]
-Given [edge condition]
-When [action performed]  
-Then [expected behavior]
+```xml
+<successCriteria>
+  <functionalRequirements>
+    <requirement>[Requirement 1 with measurable criteria]</requirement>
+    <requirement>[Requirement 2 with measurable criteria]</requirement>
+  </functionalRequirements>
+  <nonFunctionalRequirements>
+    <requirement type="Performance" metric="Response time &lt; 200ms" />
+    <requirement type="Scalability" metric="Handle 1000 concurrent users" />
+    <requirement type="Security" metric="All inputs validated" />
+    <requirement type="Accessibility" metric="WCAG 2.1 AA compliance" />
+  </nonFunctionalRequirements>
+  <acceptanceTests>
+    <scenario name="Happy path">
+      <given>Initial state</given>
+      <when>Action performed</when>
+      <then>Expected outcome</then>
+    </scenario>
+    <scenario name="Error case">
+      <given>Error condition</given>
+      <when>Action performed</when>
+      <then>Expected error handling</then>
+    </scenario>
+    <scenario name="Edge case">
+      <given>Edge condition</given>
+      <when>Action performed</when>
+      <then>Expected behavior</then>
+    </scenario>
+  </acceptanceTests>
+</successCriteria>
 ```
 
 ### 1.4 Risk Assessment and Mitigation Strategies
-**Identify and plan for potential risks:**
 
-| Risk | Probability | Impact | Mitigation Strategy | Contingency Plan |
-|------|------------|--------|-------------------|------------------|
-| [Risk 1] | [High/Med/Low] | [High/Med/Low] | [Prevention strategy] | [If risk occurs] |
-| [Risk 2] | [High/Med/Low] | [High/Med/Low] | [Prevention strategy] | [If risk occurs] |
-| [Risk 3] | [High/Med/Low] | [High/Med/Low] | [Prevention strategy] | [If risk occurs] |
+Identifying and planning for potential risks early is essential. The XML structures each risk with its probability, impact, and corresponding mitigation and contingency plans.
+
+```xml
+<riskAssessment>
+  <risk>
+    <description>[Risk 1]</description>
+    <probability>[High | Med | Low]</probability>
+    <impact>[High | Med | Low]</impact>
+    <mitigation>[Prevention strategy]</mitigation>
+    <contingency>[Plan if risk occurs]</contingency>
+  </risk>
+  <risk>
+    <description>[Risk 2]</description>
+    <probability>[High | Med | Low]</probability>
+    <impact>[High | Med | Low]</impact>
+    <mitigation>[Prevention strategy]</mitigation>
+    <contingency>[Plan if risk occurs]</contingency>
+  </risk>
+</riskAssessment>
+```
 
 ---
 
 ## 🏗️ PHASE 2: TECHNICAL PLANNING
 
 ### 2.1 Architecture Design and Patterns
-**Design before coding:**
 
-- **Existing Architecture Review**:
-  - [ ] How does this fit into current system architecture?
-  - [ ] What existing patterns should be followed?
-  - [ ] Are there architectural changes required?
+Before writing code, it's important to design how it will fit into the existing system. This XML section outlines architectural considerations, including patterns and SOLID principles.
 
-- **Design Patterns to Apply**:
-  - [ ] [Pattern 1: e.g., Repository pattern for data access]
-  - [ ] [Pattern 2: e.g., Factory pattern for object creation]
-  - [ ] [Pattern 3: e.g., Observer pattern for event handling]
-
-- **SOLID Principles Check**:
-  - [ ] Single Responsibility: Each class/function has one responsibility
-  - [ ] Open/Closed: Open for extension, closed for modification
-  - [ ] Liskov Substitution: Subtypes substitutable for base types
-  - [ ] Interface Segregation: No forced dependency on unused interfaces
-  - [ ] Dependency Inversion: Depend on abstractions, not concretions
+```xml
+<architectureDesign>
+  <review>
+    <question>How does this fit into current system architecture?</question>
+    <question>What existing patterns should be followed?</question>
+    <question>Are there architectural changes required?</question>
+  </review>
+  <patterns>
+    <pattern name="Repository">For data access</pattern>
+    <pattern name="Factory">For object creation</pattern>
+    <pattern name="Observer">For event handling</pattern>
+  </patterns>
+  <solidPrinciplesChecklist>
+    <principle name="Single Responsibility">Each class/function has one responsibility</principle>
+    <principle name="Open/Closed">Open for extension, closed for modification</principle>
+    <principle name="Liskov Substitution">Subtypes substitutable for base types</principle>
+    <principle name="Interface Segregation">No forced dependency on unused interfaces</principle>
+    <principle name="Dependency Inversion">Depend on abstractions, not concretions</principle>
+  </solidPrinciplesChecklist>
+</architectureDesign>
+```
 
 ### 2.2 Technology Stack Validation
-**Verify compatibility with existing project:**
 
-- **Existing Dependencies Check**:
-  ```bash
-  # Commands to check current stack
-  cat package.json  # For Node.js projects
-  cat requirements.txt  # For Python projects
-  cat Cargo.toml  # For Rust projects
-  ```
+This section confirms technology choices, including any new dependencies. The XML structures the list of new dependencies and the verification checklist.
 
-- **New Dependencies Required**:
-  - [ ] [Dependency 1: Why needed, version constraints]
-  - [ ] [Dependency 2: Why needed, version constraints]
-  - [ ] [Dependency 3: Why needed, version constraints]
-
-- **Compatibility Verification**:
-  - [ ] Version compatibility with existing dependencies
-  - [ ] License compatibility check
-  - [ ] Security vulnerability assessment
-  - [ ] Bundle size impact (for frontend projects)
+```xml
+<technologyStack>
+  <newDependencies>
+    <dependency name="[Dependency 1]">
+      <reason>[Why needed]</reason>
+      <versionConstraints>[Version constraints]</versionConstraints>
+    </dependency>
+    <dependency name="[Dependency 2]">
+      <reason>[Why needed]</reason>
+      <versionConstraints>[Version constraints]</versionConstraints>
+    </dependency>
+  </newDependencies>
+  <compatibilityVerification>
+    <check item="Version compatibility with existing dependencies" />
+    <check item="License compatibility" />
+    <check item="Security vulnerability assessment" />
+    <check item="Bundle size impact (for frontend)" />
+  </compatibilityVerification>
+</technologyStack>
+```
 
 ### 2.3 Code Organization and File Structure
-**Plan the code structure:**
 
-**New Files to Create:**
+Planning the file structure in advance promotes consistency. The XML below defines the new file tree and lists files that will be modified.
+
+```xml
+<codeOrganization>
+  <newFileStructure>
+    <directory name="src">
+      <directory name="[component/feature]">
+        <file name="index.ts" description="Public exports" />
+        <file name="[Component].tsx" description="Main implementation" />
+        <file name="[Component].test.tsx" description="Unit tests" />
+        <file name="[Component].stories.tsx" description="Storybook stories (if UI)" />
+        <file name="types.ts" description="TypeScript interfaces" />
+        <file name="utils.ts" description="Helper functions" />
+        <file name="README.md" description="Component documentation" />
+      </directory>
+    </directory>
+  </newFileStructure>
+  <modifiedFiles>
+    <file path="[File 1]" reason="[What changes and why]" />
+    <file path="[File 2]" reason="[What changes and why]" />
+  </modifiedFiles>
+  <apiStrategy>
+    <question>How will new code be imported by other modules?</question>
+    <question>What public APIs will be exposed?</question>
+    <question>Are there breaking changes to existing APIs?</question>
+  </apiStrategy>
+</codeOrganization>
 ```
-src/
-├── [component/feature]/
-│   ├── index.ts                 # Public exports
-│   ├── [Component].tsx          # Main implementation
-│   ├── [Component].test.tsx     # Unit tests
-│   ├── [Component].stories.tsx  # Storybook stories (if UI)
-│   ├── types.ts                 # TypeScript interfaces
-│   ├── utils.ts                 # Helper functions
-│   └── README.md               # Component documentation
-```
-
-**Files to Modify:**
-- [ ] [File 1: What changes and why]
-- [ ] [File 2: What changes and why]
-- [ ] [File 3: What changes and why]
-
-**Import/Export Strategy:**
-- [ ] How will new code be imported by other modules?
-- [ ] What public APIs will be exposed?
-- [ ] Are there breaking changes to existing APIs?
 
 ### 2.4 API Design and Contracts
-**Define interfaces before implementation:**
 
-**Public APIs (if applicable):**
-```typescript
-// Define TypeScript interfaces for all public APIs
-interface [APIName] {
-  [method]: (params: [ParamType]) => Promise<[ReturnType]>;
-  // Include JSDoc comments
-}
-```
+Defining clear contracts for APIs, data models, and errors is fundamental. This XML provides a structure for these definitions using a format inspired by type definitions.
 
-**Data Models:**
-```typescript
-// Define all data structures
-interface [ModelName] {
-  id: string;
-  [property]: [Type];
-  // Validate all properties have proper types
-}
-```
-
-**Error Handling Contracts:**
-```typescript
-// Define error types and handling
-type [ErrorType] = {
-  code: string;
-  message: string;
-  details?: unknown;
-};
+```xml
+<apiContracts>
+  <publicApi name="[APIName]">
+    <method name="[methodName]">
+      <parameter name="[paramName]" type="[ParamType]" />
+      <returns type="Promise&lt;[ReturnType]&gt;" />
+      <description>JSDoc comments here</description>
+    </method>
+  </publicApi>
+  <dataModel name="[ModelName]">
+    <property name="id" type="string" required="true" />
+    <property name="[propertyName]" type="[Type]" required="true" />
+  </dataModel>
+  <errorContract name="[ErrorType]">
+    <property name="code" type="string" />
+    <property name="message" type="string" />
+    <property name="details" type="unknown" required="false" />
+  </errorContract>
+</apiContracts>
 ```
 
 ---
@@ -207,172 +246,94 @@ type [ErrorType] = {
 ## 🔍 PHASE 3: QUALITY ASSURANCE PLANNING
 
 ### 3.1 Test Coverage Strategy
-**Plan testing BEFORE implementation:**
 
-#### Unit Test Planning
-**Functions/Methods to Test:**
-- [ ] [Function 1: Happy path, error cases, edge cases]
-- [ ] [Function 2: Happy path, error cases, edge cases]
-- [ ] [Function 3: Happy path, error cases, edge cases]
+A comprehensive testing strategy is planned before implementation. The XML outlines the plan for unit, integration, and end-to-end tests, including coverage targets.
 
-**Unit Test Coverage Targets:**
-- [ ] **Minimum**: 80% line coverage
-- [ ] **Target**: 90% line coverage
-- [ ] **Critical paths**: 100% coverage
-
-**Unit Test Structure:**
-```javascript
-describe('[ComponentName]', () => {
-  describe('[methodName]', () => {
-    it('should handle happy path', () => {
-      // Test implementation
-    });
-    
-    it('should handle error case: [specific error]', () => {
-      // Error handling test
-    });
-    
-    it('should handle edge case: [specific edge case]', () => {
-      // Edge case test
-    });
-  });
-});
+```xml
+<testStrategy>
+  <unitTests>
+    <targetFunction name="[Function 1]" cases="Happy path, error cases, edge cases" />
+    <targetFunction name="[Function 2]" cases="Happy path, error cases, edge cases" />
+    <coverage>
+      <target type="minimum" value="80%" />
+      <target type="goal" value="90%" />
+      <target type="criticalPaths" value="100%" />
+    </coverage>
+  </unitTests>
+  <integrationTests>
+    <scenario>API endpoint + database integration</scenario>
+    <scenario>Component + external service integration</scenario>
+    <scenario>Cross-module data flow</scenario>
+  </integrationTests>
+  <e2eTests>
+    <userJourney>Primary user workflow</userJourney>
+    <userJourney>Error recovery workflow</userJourney>
+    <tools>
+      <tool>Playwright</tool>
+      <tool>Cypress</tool>
+    </tools>
+  </e2eTests>
+</testStrategy>
 ```
-
-#### Integration Test Requirements
-**Integration Points to Test:**
-- [ ] [API endpoint + database integration]
-- [ ] [Component + external service integration]
-- [ ] [Module A + Module B integration]
-
-**Integration Test Scenarios:**
-- [ ] [Scenario 1: Cross-module data flow]
-- [ ] [Scenario 2: External service interaction]
-- [ ] [Scenario 3: Database transaction handling]
-
-#### E2E Test Scenarios
-**Critical User Journeys:**
-- [ ] [Journey 1: Primary user workflow]
-- [ ] [Journey 2: Error recovery workflow]
-- [ ] [Journey 3: Edge case user workflow]
-
-**E2E Test Tools:**
-- [ ] Playwright (for web applications)
-- [ ] Cypress (alternative for web)
-- [ ] API testing tools (for backend)
 
 ### 3.2 Type Safety Planning
-**TypeScript/Type Safety Strategy:**
 
-#### Interface Definitions
-```typescript
-// Define all interfaces BEFORE implementation
-interface [ComponentProps] {
-  [prop1]: [Type1];
-  [prop2]?: [OptionalType2];  // Mark optional props clearly
-  [prop3]: [Type3] | [Type4]; // Union types where applicable
-}
+This section outlines the strategy for ensuring type safety, particularly in TypeScript projects. The XML defines structures for interfaces and validation strategies.
 
-interface [StateType] {
-  [stateProperty]: [Type];
-  // Define all state shape
-}
-
-interface [APIResponse] {
-  data: [DataType];
-  error?: [ErrorType];
-  meta: [MetaType];
-}
-```
-
-#### Type Validation Strategies
-- [ ] **Runtime validation**: Use Zod/Joi for API inputs
-- [ ] **Compile-time validation**: Strict TypeScript config
-- [ ] **Type guards**: Implement type narrowing functions
-- [ ] **Generic types**: Use generics for reusable components
-
-#### Generic Type Considerations
-```typescript
-// Plan generic types for reusability
-interface [GenericInterface]<T> {
-  data: T;
-  loading: boolean;
-  error: string | null;
-}
-
-// Consider constraint requirements
-interface [ConstrainedGeneric]<T extends [BaseType]> {
-  // Implementation
-}
+```xml
+<typeSafetyPlan>
+  <interfaceDefinition name="[ComponentProps]">
+    <property name="[prop1]" type="[Type1]" optional="false" />
+    <property name="[prop2]" type="[OptionalType2]" optional="true" />
+    <property name="[prop3]" type="[Type3] | [Type4]" optional="false" />
+  </interfaceDefinition>
+  <validationStrategies>
+    <strategy type="Runtime" tool="Zod/Joi for API inputs" />
+    <strategy type="Compile-time" tool="Strict TypeScript config" />
+    <strategy type="Type-guard" description="Implement type narrowing functions" />
+    <strategy type="Generic" description="Use generics for reusable components" />
+  </validationStrategies>
+  <genericType example="interface [GenericInterface]&lt;T&gt; { data: T; }">
+    <consideration>Plan generic types for reusability.</consideration>
+    <consideration>Define constraints where necessary (e.g., T extends [BaseType]).</consideration>
+  </genericType>
+</typeSafetyPlan>
 ```
 
 ### 3.3 Documentation Planning
-**Documentation requirements BEFORE coding:**
 
-#### Code Documentation (TSDoc/Docstrings)
-**Functions requiring documentation:**
-- [ ] All public functions
-- [ ] Complex private functions
-- [ ] All exported types/interfaces
+This section specifies all documentation requirements. The XML below structures the plan, including which functions to document, README updates, and the conditions for creating an Architecture Decision Record (ADR).
 
-**Documentation Template:**
-```typescript
-/**
- * Brief description of what the function does
- * 
- * @param param1 - Description of param1
- * @param param2 - Description of param2
- * @returns Description of return value
- * 
- * @example
- * ```typescript
- * const result = functionName(value1, value2);
- * console.log(result); // Expected output
- * ```
- * 
- * @throws {ErrorType} When this specific error occurs
- * @since version 1.0.0
- */
-```
-
-#### README Updates
-**Documentation sections to update:**
-- [ ] Installation instructions (if dependencies added)
-- [ ] Usage examples
-- [ ] API documentation
-- [ ] Configuration options
-- [ ] Troubleshooting guide
-
-#### API Documentation
-**If creating/modifying APIs:**
-- [ ] OpenAPI/Swagger specification
-- [ ] Request/response examples
-- [ ] Error code documentation
-- [ ] Rate limiting information
-- [ ] Authentication requirements
-
-#### Architecture Decision Records (ADRs)
-**Create ADR if:**
-- [ ] Significant architectural decision made
-- [ ] Technology choice with alternatives considered
-- [ ] Design pattern selection with trade-offs
-- [ ] Breaking change introduced
-
-**ADR Template:**
-```markdown
-# ADR-[number]: [Decision Title]
-
-## Status
-[Proposed | Accepted | Deprecated | Superseded]
-
-## Context
-[Describe the forces at play, including technological, political, social, and project local]
-
-## Decision
-[State the architecture decision and full justification]
-
-## Consequences
-[Describe the resulting context, after applying the decision]
+```xml
+<documentationPlan>
+  <codeDocumentation standard="TSDoc/Docstrings">
+    <requirement>All public functions</requirement>
+    <requirement>Complex private functions</requirement>
+    <requirement>All exported types/interfaces</requirement>
+    <template>
+      <description>Brief description of what the function does</description>
+      <param name="param1" description="Description of param1" />
+      <returns>Description of return value</returns>
+      <example lang="typescript">const result = functionName(value1, value2);</example>
+      <throws type="ErrorType" condition="When this specific error occurs" />
+    </template>
+  </codeDocumentation>
+  <readmeUpdates>
+    <section>Installation instructions</section>
+    <section>Usage examples</section>
+    <section>API documentation</section>
+  </readmeUpdates>
+  <apiDocs standard="OpenAPI/Swagger">
+    <section>Request/response examples</section>
+    <section>Error code documentation</section>
+    <section>Authentication requirements</section>
+  </apiDocs>
+  <adrTrigger>
+    <condition>Significant architectural decision made</condition>
+    <condition>Technology choice with trade-offs</condition>
+    <condition>Breaking change introduced</condition>
+  </adrTrigger>
+</documentationPlan>
 ```
 
 ---
@@ -380,274 +341,287 @@ interface [ConstrainedGeneric]<T extends [BaseType]> {
 ## 🚀 PHASE 4: IMPLEMENTATION PLANNING
 
 ### 4.1 Task Breakdown
-**Break down into small, testable units:**
 
-#### Implementation Order
-1. **Phase 1: Core Logic** (No UI, minimal dependencies)
-   - [ ] [Task 1.1: Core function implementation]
-   - [ ] [Task 1.2: Unit tests for core logic]
-   - [ ] [Task 1.3: Type definitions]
+This section breaks the implementation into small, manageable phases and tasks. The XML represents the sequence of tasks and their dependencies as a graph structure.
 
-2. **Phase 2: Integration Layer**
-   - [ ] [Task 2.1: API integration]
-   - [ ] [Task 2.2: Integration tests]
-   - [ ] [Task 2.3: Error handling]
-
-3. **Phase 3: User Interface** (if applicable)
-   - [ ] [Task 3.1: Component implementation]
-   - [ ] [Task 3.2: Component tests]
-   - [ ] [Task 3.3: Storybook stories]
-
-4. **Phase 4: End-to-End**
-   - [ ] [Task 4.1: E2E test implementation]
-   - [ ] [Task 4.2: Performance testing]
-   - [ ] [Task 4.3: Documentation]
-
-#### Dependencies Between Tasks
-```mermaid
-graph TD
-    A[Core Logic] --> B[Integration Layer]
-    B --> C[User Interface]
-    C --> D[E2E Testing]
-    A --> E[Unit Tests]
-    B --> F[Integration Tests]
+```xml
+<implementationPlan>
+  <phases>
+    <phase number="1" name="Core Logic">
+      <task>Core function implementation</task>
+      <task>Unit tests for core logic</task>
+      <task>Type definitions</task>
+    </phase>
+    <phase number="2" name="Integration Layer">
+      <task>API integration</task>
+      <task>Integration tests</task>
+      <task>Error handling</task>
+    </phase>
+    <phase number="3" name="User Interface">
+      <task>Component implementation</task>
+      <task>Component tests</task>
+      <task>Storybook stories</task>
+    </phase>
+    <phase number="4" name="End-to-End">
+      <task>E2E test implementation</task>
+      <task>Performance testing</task>
+      <task>Documentation</task>
+    </phase>
+  </phases>
+  <dependencies>
+    <graph type="Directed">
+      <node id="core" label="Core Logic" />
+      <node id="integration" label="Integration Layer" />
+      <node id="ui" label="User Interface" />
+      <node id="e2e" label="E2E Testing" />
+      <edge from="core" to="integration" />
+      <edge from="integration" to="ui" />
+      <edge from="ui" to="e2e" />
+    </graph>
+  </dependencies>
+</implementationPlan>
 ```
 
 ### 4.2 Feature Branching Strategy
-**Git workflow planning:**
 
-- **Branch Naming**: `feature/[task-name]` or `fix/[bug-name]`
-- **Base Branch**: [main | develop | specific feature branch]
-- **Merge Strategy**: [Squash | Merge commit | Rebase]
+This section outlines the Git workflow for the task. The XML specifies naming conventions, the base branch, and the merge strategy.
 
-**Commit Message Format:**
-```
-type(scope): brief description
-
-Longer description if needed
-
-- Change 1
-- Change 2
-- Change 3
+```xml
+<branchingStrategy>
+  <branchNaming convention="type/[task-name]" examples="feature/add-login, fix/button-alignment"/>
+  <baseBranch>[main | develop]</baseBranch>
+  <mergeStrategy>[Squash | Merge commit | Rebase]</mergeStrategy>
+  <commitMessageFormat>
+    <header>type(scope): brief description</header>
+    <body>Longer description if needed</body>
+  </commitMessageFormat>
+</branchingStrategy>
 ```
 
 ### 4.3 Code Review Checkpoints
-**Define review points:**
 
-- [ ] **Checkpoint 1**: Core logic + unit tests
-- [ ] **Checkpoint 2**: Integration layer + integration tests
-- [ ] **Checkpoint 3**: UI components + component tests
-- [ ] **Checkpoint 4**: E2E tests + documentation
+Defining checkpoints for code review ensures incremental feedback. The XML lists these checkpoints and provides a checklist for reviewers.
 
-**Review Criteria Checklist:**
-- [ ] Code follows project style guidelines
-- [ ] All new code has tests
-- [ ] Documentation is updated
-- [ ] No console.log/debug statements
-- [ ] Error handling is appropriate
-- [ ] Performance considerations addressed
-- [ ] Security best practices followed
+```xml
+<codeReviewPlan>
+  <checkpoints>
+    <checkpoint>Core logic + unit tests</checkpoint>
+    <checkpoint>Integration layer + integration tests</checkpoint>
+    <checkpoint>UI components + component tests</checkpoint>
+    <checkpoint>E2E tests + documentation</checkpoint>
+  </checkpoints>
+  <reviewerChecklist>
+    <item>Code follows project style guidelines</item>
+    <item>All new code has tests</item>
+    <item>Documentation is updated</item>
+    <item>No console.log/debug statements</item>
+    <item>Error handling is appropriate</item>
+    <item>Performance considerations addressed</item>
+    <item>Security best practices followed</item>
+  </reviewerChecklist>
+</codeReviewPlan>
+```
 
 ---
 
 ## ✅ PHASE 5: VALIDATION & DEPLOYMENT PLANNING
 
 ### 5.1 Testing Execution Plan
-**Test execution order:**
 
-1. **Unit Tests** (first, fastest feedback)
-   ```bash
-   npm run test:unit
-   # or
-   pytest tests/unit/
-   ```
+This section defines the order for executing different types of tests. The XML provides a structured sequence for automated and manual testing.
 
-2. **Integration Tests** (after unit tests pass)
-   ```bash
-   npm run test:integration
-   # or
-   pytest tests/integration/
-   ```
-
-3. **E2E Tests** (after integration tests pass)
-   ```bash
-   npm run test:e2e
-   # or
-   playwright test
-   ```
-
-4. **Manual Testing Scenarios**
-   - [ ] [Manual test scenario 1]
-   - [ ] [Manual test scenario 2]
-   - [ ] [Manual test scenario 3]
+```xml
+<testExecutionPlan>
+  <step number="1" type="Unit">
+    <command>npm run test:unit</command>
+    <description>Fastest feedback loop, run first.</description>
+  </step>
+  <step number="2" type="Integration">
+    <command>npm run test:integration</command>
+    <description>Run after unit tests pass.</description>
+  </step>
+  <step number="3" type="E2E">
+    <command>npm run test:e2e</command>
+    <description>Run after integration tests pass, covers full user journeys.</description>
+  </step>
+  <step number="4" type="Manual">
+    <scenario>[Manual test scenario 1]</scenario>
+    <scenario>[Manual test scenario 2]</scenario>
+  </step>
+</testExecutionPlan>
+```
 
 ### 5.2 Performance Benchmarking
-**If performance is a concern:**
 
-- **Metrics to Measure**:
-  - [ ] Response time: [target < Xms]
-  - [ ] Memory usage: [target < XMB]
-  - [ ] CPU usage: [target < X%]
-  - [ ] Bundle size: [target < XkB] (frontend)
+If performance is a key requirement, this section outlines the plan for benchmarking. The XML structures the metrics, tools, and test commands.
 
-- **Performance Testing Tools**:
-  - [ ] Lighthouse (for web performance)
-  - [ ] Artillery/k6 (for load testing)
-  - [ ] Memory profilers
-  - [ ] CPU profilers
-
-- **Benchmarking Plan**:
-  ```bash
-  # Commands to run performance tests
-  npm run perf:test
-  npm run bundle:analyze
-  ```
+```xml
+<performanceBenchmarking>
+  <metrics>
+    <metric name="Response time" target="&lt; Xms" />
+    <metric name="Memory usage" target="&lt; XMB" />
+    <metric name="CPU usage" target="&lt; X%" />
+    <metric name="Bundle size" target="&lt; XkB" />
+  </metrics>
+  <tools>
+    <tool name="Lighthouse" purpose="Web performance" />
+    <tool name="k6" purpose="Load testing" />
+    <tool name="Profiler" purpose="Memory/CPU analysis" />
+  </tools>
+  <commands>
+    <command>npm run perf:test</command>
+    <command>npm run bundle:analyze</command>
+  </commands>
+</performanceBenchmarking>
+```
 
 ### 5.3 Security Validation
-**Security checklist:**
 
-- [ ] **Input Validation**: All user inputs validated
-- [ ] **Authentication**: Proper auth checks in place
-- [ ] **Authorization**: Correct permission checks
-- [ ] **Data Sanitization**: XSS prevention measures
-- [ ] **SQL Injection**: Parameterized queries used
-- [ ] **Secrets Management**: No hardcoded secrets
-- [ ] **HTTPS**: All communications encrypted
-- [ ] **Dependencies**: Security audit passed
+This section provides a checklist for security validation. The XML structures the security requirements and audit commands.
 
-**Security Testing:**
-```bash
-npm audit
-# or
-safety check  # Python
+```xml
+<securityValidation>
+  <checklist>
+    <item area="Input Validation">All user inputs validated</item>
+    <item area="Authentication">Proper auth checks in place</item>
+    <item area="Authorization">Correct permission checks</item>
+    <item area="Data Sanitization">XSS prevention measures</item>
+    <item area="SQL Injection">Parameterized queries used</item>
+    <item area="Secrets Management">No hardcoded secrets</item>
+  </checklist>
+  <auditCommands>
+    <command ecosystem="npm">npm audit</command>
+    <command ecosystem="python">safety check</command>
+  </auditCommands>
+</securityValidation>
 ```
 
 ### 5.4 Deployment and Rollback Strategy
-**Deployment planning:**
 
-#### Pre-deployment Checklist
-- [ ] All tests passing
-- [ ] Code reviewed and approved
-- [ ] Documentation updated
-- [ ] Security scan passed
-- [ ] Performance benchmarks met
-- [ ] Database migrations tested (if applicable)
+This section outlines the plan for deploying the new code and rolling it back if necessary. The XML defines the checklists, steps, triggers, and rollback procedures.
 
-#### Deployment Steps
-1. **Staging Deployment**
-   - [ ] Deploy to staging environment
-   - [ ] Run smoke tests
-   - [ ] Validate with stakeholders
-
-2. **Production Deployment**
-   - [ ] Deploy during maintenance window
-   - [ ] Monitor error rates
-   - [ ] Validate core functionality
-
-#### Rollback Plan
-- **Rollback Triggers**:
-  - [ ] Error rate > X%
-  - [ ] Response time > Xms
-  - [ ] Core functionality broken
-
-- **Rollback Steps**:
-  1. [ ] Revert application code
-  2. [ ] Revert database migrations (if applicable)
-  3. [ ] Clear caches
-  4. [ ] Validate rollback success
+```xml
+<deploymentStrategy>
+  <preDeploymentChecklist>
+    <item>All tests passing</item>
+    <item>Code reviewed and approved</item>
+    <item>Documentation updated</item>
+    <item>Security scan passed</item>
+    <item>Database migrations tested</item>
+  </preDeploymentChecklist>
+  <deploymentSteps>
+    <stage name="Staging">
+      <step>Deploy to staging environment</step>
+      <step>Run smoke tests</step>
+      <step>Validate with stakeholders</step>
+    </stage>
+    <stage name="Production">
+      <step>Deploy during maintenance window</step>
+      <step>Monitor error rates and performance</step>
+      <step>Validate core functionality</step>
+    </stage>
+  </deploymentSteps>
+  <rollbackPlan>
+    <triggers>
+      <trigger condition="Error rate > X%" />
+      <trigger condition="Response time > Xms" />
+      <trigger condition="Core functionality broken" />
+    </triggers>
+    <steps>
+      <step>Revert application code</step>
+      <step>Revert database migrations (if applicable)</step>
+      <step>Clear caches</step>
+      <step>Validate rollback success</step>
+    </steps>
+  </rollbackPlan>
+</deploymentStrategy>
+```
 
 ---
 
 ## 📊 COMPLETION CRITERIA
 
-### Final Validation Checklist
-**Before marking task complete:**
-
-- [ ] **Functionality**: All acceptance criteria met
-- [ ] **Testing**: All tests passing with required coverage
-- [ ] **Types**: No TypeScript errors, all APIs typed
-- [ ] **Documentation**: All documentation updated
-- [ ] **Performance**: Performance benchmarks met
-- [ ] **Security**: Security validation passed
-- [ ] **Code Review**: All review feedback addressed
-- [ ] **Deployment**: Successfully deployed and validated
-
 ### Quality Gates
-**Task cannot be marked complete unless:**
 
-- [ ] **Test Coverage**: ≥80% (or project-specific minimum)
-- [ ] **Type Coverage**: 100% (no `any` types in new code)
-- [ ] **Documentation Coverage**: All public APIs documented
-- [ ] **Performance**: Meets or exceeds performance requirements
-- [ ] **Security**: Passes all security checks
-- [ ] **Review**: Approved by at least one reviewer
+The task is not considered complete until all quality gates are passed. The XML defines these gates with specific, measurable thresholds.
 
----
-
-## 📝 NOTES & CONSIDERATIONS
-
-### Additional Notes
-[Space for any additional project-specific considerations, special requirements, or notes that don't fit in other sections]
-
-### Lessons Learned
-[To be filled out after completion - what went well, what could be improved for next time]
+```xml
+<qualityGates>
+  <gate name="Test Coverage" minimum="80%" description="Project-specific minimum line coverage" />
+  <gate name="Type Coverage" minimum="100%" description="No 'any' types in new code" />
+  <gate name="Documentation Coverage" minimum="100%" description="All public APIs documented" />
+  <gate name="Performance" description="Meets or exceeds performance requirements" />
+  <gate name="Security" description="Passes all security checks" />
+  <gate name="Review" description="Approved by at least one peer reviewer" />
+</qualityGates>
+```
 
 ---
 
 ## 🔧 TEMPLATES & DECISION TREES
 
-### Task Type Decision Tree
-```
-Is this a...
-├── New Feature?
-│   ├── UI Component? → Use Component Planning Template
-│   ├── API Endpoint? → Use API Planning Template
-│   └── Business Logic? → Use Logic Planning Template
-├── Bug Fix?
-│   ├── Frontend Bug? → Focus on UI testing + E2E
-│   ├── Backend Bug? → Focus on unit + integration tests
-│   └── Integration Bug? → Focus on integration + E2E tests
-├── Refactor?
-│   ├── Performance? → Include benchmarking
-│   ├── Code Quality? → Focus on maintainability metrics
-│   └── Architecture? → Require ADR
-└── Technical Debt?
-    ├── Add Tests? → Focus on coverage improvement
-    ├── Update Dependencies? → Focus on compatibility testing
-    └── Improve Documentation? → Focus on doc completeness
-```
-
 ### Test Planning Decision Tree
-```
-What type of code change?
-├── Pure Function/Logic?
-│   └── Unit Tests (happy path + edge cases + error handling)
-├── API Endpoint?
-│   ├── Unit Tests (business logic)
-│   ├── Integration Tests (database + external services)
-│   └── API Tests (request/response validation)
-├── UI Component?
-│   ├── Component Tests (rendering + interactions)
-│   ├── Visual Tests (Storybook/screenshot testing)
-│   └── Accessibility Tests (a11y validation)
-└── Full Feature?
-    ├── Unit Tests (all individual functions)
-    ├── Integration Tests (component interactions)
-    └── E2E Tests (user journey validation)
+
+This decision tree helps developers choose the right testing strategy based on the type of code change. The XML represents this logic in a nested structure for automated guidance.
+
+```xml
+<decisionTree name="Test Planning">
+  <node question="What type of code change?">
+    <choice answer="Pure Function/Logic">
+      <recommendation type="Unit Tests" detail="happy path + edge cases + error handling" />
+    </choice>
+    <choice answer="API Endpoint">
+      <recommendation type="Unit Tests" detail="business logic" />
+      <recommendation type="Integration Tests" detail="database + external services" />
+      <recommendation type="API Tests" detail="request/response validation" />
+    </choice>
+    <choice answer="UI Component">
+      <recommendation type="Component Tests" detail="rendering + interactions" />
+      <recommendation type="Visual Tests" detail="Storybook/screenshot testing" />
+      <recommendation type="Accessibility Tests" detail="a11y validation" />
+    </choice>
+    <choice answer="Full Feature">
+      <recommendation type="Unit Tests" detail="all individual functions" />
+      <recommendation type="Integration Tests" detail="component interactions" />
+      <recommendation type="E2E Tests" detail="user journey validation" />
+    </choice>
+  </node>
+</decisionTree>
 ```
 
 ### Documentation Requirements Matrix
 
-| Code Type | TSDoc/Docstring | README Update | API Docs | ADR | Examples |
-|-----------|----------------|---------------|----------|-----|----------|
-| Public Function | ✅ Required | ❌ No | ❌ No | ❌ No | ✅ Required |
-| Public API | ✅ Required | ✅ Required | ✅ Required | ❌ No | ✅ Required |
-| Component | ✅ Required | ❌ No | ❌ No | ❌ No | ✅ Required (Storybook) |
-| Architecture Change | ✅ Required | ✅ Required | ❌ No | ✅ Required | ✅ Required |
-| Breaking Change | ✅ Required | ✅ Required | ✅ Required | ✅ Required | ✅ Required |
+This matrix defines the required documentation for different types of code changes. The XML provides a machine-readable version of these rules.
 
----
-
-**Template Version**: 1.0  
-**Last Updated**: [Date]  
-**Next Review**: [Date + 3 months]
+```xml
+<documentationMatrix>
+  <rule codeType="Public Function">
+    <requirement type="TSDoc/Docstring" status="Required" />
+    <requirement type="README Update" status="No" />
+    <requirement type="API Docs" status="No" />
+    <requirement type="ADR" status="No" />
+    <requirement type="Examples" status="Required" />
+  </rule>
+  <rule codeType="Public API">
+    <requirement type="TSDoc/Docstring" status="Required" />
+    <requirement type="README Update" status="Required" />
+    <requirement type="API Docs" status="Required" />
+    <requirement type="ADR" status="No" />
+    <requirement type="Examples" status="Required" />
+  </rule>
+  <rule codeType="Architecture Change">
+    <requirement type="TSDoc/Docstring" status="Required" />
+    <requirement type="README Update" status="Required" />
+    <requirement type="API Docs" status="No" />
+    <requirement type="ADR" status="Required" />
+    <requirement type="Examples" status="Required" />
+  </rule>
+  <rule codeType="Breaking Change">
+    <requirement type="TSDoc/Docstring" status="Required" />
+    <requirement type="README Update" status="Required" />
+    <requirement type="API Docs" status="Required" />
+    <requirement type="ADR" status="Required" />
+    <requirement type="Examples" status="Required" />
+  </rule>
+</documentationMatrix>
+```

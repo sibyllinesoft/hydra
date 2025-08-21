@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+console.log('[HYDRA-INSTALLER] Starting Hydra installation...');
+console.log('[HYDRA-INSTALLER] Node version:', process.version);
+console.log('[HYDRA-INSTALLER] Process argv:', process.argv);
+console.log('[HYDRA-INSTALLER] Current working directory:', process.cwd());
+
 import blessed from 'blessed';
 import chalk from 'chalk';
 import fs from 'fs-extra';
@@ -10,6 +15,8 @@ import { promisify } from 'util';
 import archiver from 'archiver';
 
 const execAsync = promisify(exec);
+
+console.log('[HYDRA-INSTALLER] All imports loaded successfully');
 
 class HydraInstaller {
   constructor() {
@@ -666,12 +673,15 @@ class HydraInstaller {
   }
 
   async run() {
+    console.log('[HYDRA-INSTALLER] HydraInstaller.run() method called');
     const startTime = Date.now();
     
     try {
+      console.log('[HYDRA-INSTALLER] Starting installation process...');
       this.log('Starting Hydra Claude Code Studio installation...', 'info');
       this.log('', 'info');
       
+      console.log('[HYDRA-INSTALLER] Calling checkPrerequisites...');
       await this.checkPrerequisites();
       await this.sleep(500);
       
@@ -725,12 +735,20 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 // Main execution
+console.log('[HYDRA-INSTALLER] Checking if running as main module...');
+console.log('[HYDRA-INSTALLER] import.meta.url:', import.meta.url);
+console.log('[HYDRA-INSTALLER] process.argv[1]:', process.argv[1]);
+console.log('[HYDRA-INSTALLER] file comparison:', import.meta.url === `file://${process.argv[1]}`);
+
 if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log('[HYDRA-INSTALLER] Running as main module, starting installer...');
   const installer = new HydraInstaller();
   installer.run().catch(error => {
-    console.error('Fatal error:', error);
+    console.error('[HYDRA-INSTALLER] Fatal error:', error);
     process.exit(1);
   });
+} else {
+  console.log('[HYDRA-INSTALLER] Not running as main module, module loaded for import');
 }
 
 export default HydraInstaller;

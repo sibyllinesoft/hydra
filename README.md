@@ -2,8 +2,6 @@
 
 ![Hydra Logo](logo.png)
 
-# 🐉 Hydra
-
 **Stop hitting Claude's context limits every 50 messages. Start building unlimited development sessions.**
 
 Hydra transforms Claude Code into a mythical beast with 50+ specialized agent heads that work independently while preserving your conversation forever. Each agent spawns with fresh context, delivers expert results, and returns only actionable outputs to your main thread.

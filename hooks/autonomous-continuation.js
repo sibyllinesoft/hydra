@@ -1,10 +1,13 @@
 /**
- * AUTONOMOUS CONTINUATION HOOK v2.0
+ * AUTONOMOUS CONTINUATION HOOK v3.0
  *
  * Prevents agents from stopping prematurely with a more robust, score-based system.
  * Implements iterative cycle enforcement and provides context-specific continuation guidance.
  * Includes a "certainty escape hatch" to prevent unwanted loops.
+ * NEW: Integrates with local LLM endpoint for intelligent continuation analysis.
  */
+
+const fetch = require('node-fetch');
 
 const TRIGGERS = {
   // Score: 10 (High Confidence Incompleteness)
@@ -86,9 +89,99 @@ const CERTAINTY_ESCAPE_HATCH = `
 `;
 
 /**
+ * Queries local LLM endpoint for intelligent continuation analysis.
+ */
+async function queryLocalLLM(response, context = {}) {
+  const endpoint = process.env.LOCAL_LLM_ENDPOINT;
+  if (!endpoint) {
+    return null;
+  }
+
+  try {
+    const prompt = `You are an AI continuation analyzer. Analyze this Claude response and determine if the agent should continue working or if the task appears complete.
+
+CONTEXT:
+- Agent Type: ${context.agentType || 'unknown'}
+- User Message: ${context.userMessage || 'not provided'}
+
+CLAUDE'S RESPONSE:
+${response}
+
+Your task: Determine if Claude should continue working. Consider:
+1. Are there incomplete tasks or todos?
+2. Did Claude do analysis but not take action?
+3. Are there obvious next steps or improvements needed?
+4. Does the response indicate the work is genuinely complete?
+
+Respond with JSON format:
+{
+  "should_continue": boolean,
+  "confidence": number (0-100),
+  "reason": "brief explanation",
+  "suggested_instruction": "specific next steps if continuation needed, or null"
+}`;
+
+    const requestBody = {
+      model: "gpt-3.5-turbo", // This will be ignored by most local endpoints
+      messages: [
+        {
+          role: "user",
+          content: prompt
+        }
+      ],
+      max_tokens: 500,
+      temperature: 0.1
+    };
+
+    const response_llm = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      timeout: 10000 // 10 second timeout
+    });
+
+    if (!response_llm.ok) {
+      console.error(`[LOCAL-LLM] HTTP error: ${response_llm.status}`);
+      return null;
+    }
+
+    const data = await response_llm.json();
+    const content = data.choices?.[0]?.message?.content || data.response || data.text;
+    
+    if (!content) {
+      console.error('[LOCAL-LLM] No content in response');
+      return null;
+    }
+
+    // Try to parse JSON response
+    try {
+      const analysis = JSON.parse(content);
+      return analysis;
+    } catch (parseError) {
+      // Fallback: look for JSON in the response text
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          return JSON.parse(jsonMatch[0]);
+        } catch (e) {
+          console.error('[LOCAL-LLM] Failed to parse JSON from response');
+        }
+      }
+      return null;
+    }
+
+  } catch (error) {
+    console.error('[LOCAL-LLM] Error querying local LLM:', error.message);
+    return null;
+  }
+}
+
+/**
  * Main hook function that analyzes agent responses and injects continuation instructions.
  */
-function analyzeResponseForContinuation(response, context = {}) {
+async function analyzeResponseForContinuation(response, context = {}) {
   const { agentType, conversationHistory, userMessage } = context;
 
   // Do not trigger if the user is explicitly interacting or guiding.
@@ -96,6 +189,27 @@ function analyzeResponseForContinuation(response, context = {}) {
     return null;
   }
 
+  // Try local LLM analysis first if available
+  try {
+    const llmAnalysis = await queryLocalLLM(response, context);
+    if (llmAnalysis && llmAnalysis.should_continue && llmAnalysis.confidence > 70) {
+      console.log(`[LOCAL-LLM] Recommending continuation: ${llmAnalysis.reason}`);
+      return {
+        type: { name: 'LOCAL_LLM_ANALYSIS' },
+        instruction: formatContinuationInstruction(
+          llmAnalysis.suggested_instruction || 
+          `🤖 **LOCAL LLM CONTINUATION ANALYSIS**\n${llmAnalysis.reason}\n\nYou should continue working to complete the task properly.`
+        )
+      };
+    } else if (llmAnalysis && !llmAnalysis.should_continue && llmAnalysis.confidence > 80) {
+      console.log(`[LOCAL-LLM] Task appears complete: ${llmAnalysis.reason}`);
+      return null; // Local LLM says task is complete, don't continue
+    }
+  } catch (error) {
+    console.error('[LOCAL-LLM] Error in LLM analysis, falling back to regex patterns');
+  }
+
+  // Fallback to original regex-based analysis
   let highestScore = 0;
   let bestTrigger = null;
 
@@ -171,15 +285,16 @@ ${CERTAINTY_ESCAPE_HATCH}
 
 
 module.exports = {
-  name: "autonomous-continuation-v2",
-  description: "A more robust, score-based continuation hook with contextual guidance and a certainty escape hatch.",
-  version: "2.0.0",
+  name: "autonomous-continuation-v3",
+  description: "Enhanced continuation hook with local LLM integration for intelligent analysis, plus robust regex fallback.",
+  version: "3.0.0",
 
-  beforeResponse: function (response, context) {
-    const continuationResult = analyzeResponseForContinuation(response, context);
+  beforeResponse: async function (response, context) {
+    const continuationResult = await analyzeResponseForContinuation(response, context);
 
     if (continuationResult) {
-      console.log(`[AUTONOMOUS-CONTINUATION-V2] Triggered: ${continuationResult.type.name}. Injecting instruction.`);
+      const triggerName = continuationResult.type.name || 'UNKNOWN';
+      console.log(`[AUTONOMOUS-CONTINUATION-V3] Triggered: ${triggerName}. Injecting instruction.`);
       // Append the instruction to the end of the agent's response.
       return response + continuationResult.instruction;
     }

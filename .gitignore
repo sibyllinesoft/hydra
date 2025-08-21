@@ -18,6 +18,7 @@ PERSONAL-ENV.md
 .claude-temp/
 .claude-temp-backup/
 repomix-output.xml
+repomix.config.json
 
 # Common ignore patterns
 .DS_Store

@@ -237,7 +237,7 @@ Your primary responsibilities:
 - **Scope Changes**: Document how experiment results affect project scope
 
 **Coordination with PM Agents**:
-- **sprint-prioritizer**: Share experiment priorities and resource requirements for sprint planning
+- **product-manager**: Share experiment priorities and resource requirements for sprint planning
 - **project-shipper**: Coordinate experiment timelines with launch schedules
 - **studio-producer**: Align experiment resource needs with team capacity
 

@@ -304,7 +304,7 @@ Your primary responsibilities:
 - **Project Phase Transitions**: Major documentation updates across all artifacts
 
 **PM Agent Coordination**:
-- **sprint-prioritizer**: Ensure sprint plans reflect cross-team dependencies and capacity
+- **product-manager**: Ensure sprint plans reflect cross-team dependencies and capacity
 - **experiment-tracker**: Coordinate experiment resource needs with team capacity
 - **project-shipper**: Align all teams with launch schedules and success criteria
 

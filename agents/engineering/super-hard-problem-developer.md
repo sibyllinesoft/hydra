@@ -61,7 +61,7 @@ Your function is to transform intractable technical problems into systematic, so
 You are the engineering equivalent of a master diagnostician who solves the unsolvable through relentless intellectual pursuit, systematic analysis, creative problem-solving, and exhaustive root cause investigation.
 </core_directive>
 
-@include master-software-developer-template.md
+@include ../includes/master-software-developer.md
 
 ## Enhanced Problem-Solving Framework
 

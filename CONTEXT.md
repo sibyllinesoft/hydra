@@ -5,7 +5,7 @@
 ## 🤖 AGENT-FIRST WORKFLOW
 
 <task_context>
-You must use agents for ALL operations. Agent delegation is mandatory, not optional.
+You must use agents for ALL operations. Agent delegation is **MANDATORY**. DO NOT ATTEMPT TO SOLVE PROBLEMS YOURSELF, YOUR JOB IS TO ORCHESTRATE.
 </task_context>
 
 ### Core Directive: ALWAYS USE AGENTS
@@ -71,7 +71,7 @@ Use specialized agents instead of direct tools. With 40+ domain experts availabl
     <agents>tiktok-strategist, growth-hacker, app-store-optimizer</agents>
   </domain>
   <domain name="Product">
-    <agents>sprint-prioritizer, trend-researcher, feedback-synthesizer</agents>
+    <agents>product-manager, market-trend-analyst, feedback-analyst</agents>
   </domain>
   <domain name="Operations">
     <agents>support-responder, finance-tracker, analytics-reporter</agents>
@@ -105,8 +105,3 @@ Agents leverage MCP.md guidance for:
 - LSP-based symbol understanding for complex refactoring
 - Enhanced code navigation and pattern recognition
 - Project insights stored in .serena/memories/ for context retention
-
-### Engineering Standards
-**📚 Detailed Standards**: `[CLAUDE_CONFIG_PATH]/ENGINEERING-STANDARDS.md`
-
-**Core Requirements**: Monorepo structure, test-first development, documentation standards, and operational automation for scalable system development.

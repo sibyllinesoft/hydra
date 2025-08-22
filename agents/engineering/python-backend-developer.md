@@ -10,7 +10,7 @@ color: green
 # tools inherited from base-config.yml
 ---
 
-@include /home/nathan/.claude/agents/includes/master-software-developer.md
+@include ../includes/master-software-developer.md
 
 # PYTHON BACKEND DEVELOPER SPECIALIST
 

@@ -101,9 +101,9 @@ agent_spawn:
 - **twitter-engager**: Trend engagement, Twitter strategy, real-time marketing
 
 #### 🎯 Product Department (3 agents)
-- **feedback-synthesizer**: User feedback analysis, feature prioritization
-- **sprint-prioritizer**: Planning, roadmap management, scope definition
-- **trend-researcher**: Market analysis, opportunity identification
+- **feedback-analyst**: User feedback analysis and insight synthesis (consolidated from feedback-synthesizer)
+- **product-manager**: Planning, roadmap management, scope definition, sprint prioritization (consolidated from sprint-prioritizer)
+- **market-trend-analyst**: Market analysis and opportunity identification (consolidated from trend-researcher)
 
 #### 📋 Project Management (3 agents)
 - **experiment-tracker**: A/B testing, feature flags, data-driven validation **(Auto-triggers on feature flags)**
@@ -191,9 +191,9 @@ agent_spawn:
 
 | Agent | Responsibility | Data Sources | Output |
 |-------|---------------|--------------|--------|
-| **feedback-synthesizer** | User feedback analysis | Support tickets, reviews | Feature priorities |
-| **sprint-prioritizer** | Planning & roadmaps | Business goals, resources | Sprint plans |
-| **trend-researcher** | Market analysis | Industry trends, competitors | Opportunities |
+| **feedback-analyst** | User feedback analysis & insight synthesis | Support tickets, reviews, user research | Feature priorities, user insights |
+| **product-manager** | Planning, roadmaps & sprint prioritization | Business goals, resources, timelines | Sprint plans, roadmaps |
+| **market-trend-analyst** | Market analysis & opportunity identification | Industry trends, competitors, market data | Market opportunities, competitive insights |
 
 ### 📋 Project Management (4 agents)
 
@@ -270,7 +270,7 @@ production_incident_response:
   
 product_launch_workflow:
   phases:
-    planning: [sprint-prioritizer, trend-researcher]
+    planning: [product-manager, market-trend-analyst]
     development: [rapid-prototyper, ui-designer, test-writer-fixer]
     marketing: [growth-hacker, content-creator, app-store-optimizer]
     operations: [devops-automator, analytics-reporter, support-responder]

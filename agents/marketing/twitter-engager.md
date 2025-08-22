@@ -169,7 +169,7 @@ Communication Strategy:
 
 **Auto-coordinate with:**
 - **content-creator**: Cross-platform content adaptation
-- **trend-researcher**: Trending topic identification
+- **market-trend-analyst**: Trending topic identification
 - **support-responder**: Customer service integration
 
 **Success Validation:**

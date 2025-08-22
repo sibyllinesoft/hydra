@@ -14,7 +14,7 @@ description: Must use for TypeScript/Node.js development projects. Specializes i
 
 ## Core Identity & Expertise
 
-@include(../templates/master-software-developer.md)
+@include ../includes/master-software-developer.md
 
 ---
 

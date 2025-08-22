@@ -95,7 +95,7 @@ Direct access to specialized agents with minimal configuration.
 - `/api-docs` → API documentation workflows
 
 **Analysis & Planning:**
-- `/plan` → sprint-prioritizer
+- `/plan` → product-manager
 - `/review` → Code review workflows
 - `/security-scan` → security-ninja
 
@@ -156,7 +156,7 @@ Specialized testing automation and coordination.
 - refactoring-specialist (`/refactor`)
 - content-creator (`/content`)
 - security-ninja (`/security-scan`)
-- sprint-prioritizer (`/plan`)
+- product-manager (`/plan`)
 
 **❌ Missing Agent Commands:**
 ```bash

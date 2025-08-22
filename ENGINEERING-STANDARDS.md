@@ -288,3 +288,188 @@ Automated tooling may be employed to assist with codebase maintenance and improv
   </task>
 </toolingTasks>
 ```
+
+---
+
+## 6. Code Quality & Refactoring Standards
+
+### 6.1. Technical Debt Management
+
+Technical debt must be tracked, measured, and systematically reduced through automated tooling and AI-assisted refactoring.
+
+```xml
+<technicalDebtFramework>
+  <measurement>
+    <metric name="Technical Debt Ratio" target="&lt;20%" description="Percentage of development time spent on debt reduction vs new features"/>
+    <metric name="Maintainability Index" target="&gt;80" description="Composite score of complexity, coupling, and documentation"/>
+    <metric name="Code Duplication" target="&lt;5%" description="Percentage of duplicated code blocks in codebase"/>
+    <metric name="Cyclomatic Complexity" target="&lt;10 per function" description="Maximum complexity allowed per function"/>
+  </measurement>
+  
+  <automation>
+    <tool name="AI Code Analysis" framework="iSMELL" accuracy="75.17% F1 score" purpose="Automated code smell detection"/>
+    <tool name="Dependency Analysis" purpose="Circular dependency detection and coupling analysis"/>
+    <tool name="Dead Code Detection" purpose="Identify and flag unused code for removal"/>
+    <tool name="Performance Profiling" purpose="Automated bottleneck identification"/>
+  </automation>
+  
+  <refactoringPriorities>
+    <priority level="Critical" threshold="Debt ratio &gt;40%">
+      <action>Immediate intervention required - pause feature development</action>
+      <pattern>Extract Method for functions &gt;20 lines</pattern>
+      <pattern>Extract Class for classes &gt;300 lines</pattern>
+    </priority>
+    <priority level="High" threshold="Debt ratio 20-40%">
+      <action>Systematic refactoring in dedicated sprints</action>
+      <pattern>Eliminate code duplication</pattern>
+      <pattern>Simplify complex conditionals</pattern>
+    </priority>
+    <priority level="Medium" threshold="Debt ratio 10-20%">
+      <action>Continuous improvement during regular development</action>
+      <pattern>Improve variable and method naming</pattern>
+      <pattern>Add missing documentation</pattern>
+    </priority>
+  </refactoringPriorities>
+</technicalDebtFramework>
+```
+
+### 6.2. Automated Quality Gates
+
+All code changes must pass automated quality gates before merging.
+
+```xml
+<qualityGates>
+  <gate name="Code Complexity" mandatory="true">
+    <threshold metric="cyclomatic_complexity" max="10" scope="per_function"/>
+    <threshold metric="nesting_depth" max="4" scope="per_function"/>
+    <threshold metric="method_length" max="20" scope="lines_of_code"/>
+    <enforcement>Block merge if thresholds exceeded</enforcement>
+  </gate>
+  
+  <gate name="Test Coverage" mandatory="true">
+    <threshold metric="line_coverage" min="90%" scope="new_code"/>
+    <threshold metric="branch_coverage" min="85%" scope="new_code"/>
+    <threshold metric="mutation_score" min="75%" scope="critical_paths"/>
+    <enforcement>Block merge if coverage drops</enforcement>
+  </gate>
+  
+  <gate name="Security Standards" mandatory="true">
+    <check>SAST scan passes with no high-severity issues</check>
+    <check>Dependency audit passes with no known vulnerabilities</check>
+    <check>No hardcoded secrets or credentials</check>
+    <check>Input validation implemented for all external inputs</check>
+    <enforcement>Block merge if security issues found</enforcement>
+  </gate>
+  
+  <gate name="Documentation Quality" mandatory="true">
+    <threshold metric="api_documentation_coverage" min="100%" scope="public_apis"/>
+    <threshold metric="readme_completeness" min="100%" scope="new_modules"/>
+    <check>All architectural decisions documented in ADRs</check>
+    <enforcement>Block merge if documentation incomplete</enforcement>
+  </gate>
+</qualityGates>
+```
+
+### 6.3. Refactoring Safety Protocols
+
+All refactoring must follow safety-first methodologies to prevent regressions.
+
+```xml
+<refactoringSafetyProtocol>
+  <preRefactoring>
+    <requirement>Establish comprehensive test coverage (&gt;90%) before refactoring</requirement>
+    <requirement>Create characterization tests for legacy code without tests</requirement>
+    <requirement>Document current behavior and performance baselines</requirement>
+    <requirement>Plan rollback strategy and implementation</requirement>
+  </preRefactoring>
+  
+  <duringRefactoring>
+    <principle>Apply single transformation pattern per commit</principle>
+    <principle>Run full test suite after each transformation</principle>
+    <principle>Preserve behavior - no functionality changes during refactoring</principle>
+    <principle>Measure impact - track quality metrics throughout process</principle>
+  </duringRefactoring>
+  
+  <postRefactoring>
+    <validation>All tests pass with no behavioral changes</validation>
+    <validation>Performance metrics maintained or improved</validation>
+    <validation>Code quality metrics show measurable improvement</validation>
+    <validation>Documentation updated to reflect structural changes</validation>
+  </postRefactoring>
+  
+  <emergencyRollback>
+    <trigger condition="Test failures introduced">Immediate rollback required</trigger>
+    <trigger condition="Performance degradation &gt;20%">Immediate rollback required</trigger>
+    <trigger condition="Production issues correlation">Immediate rollback required</trigger>
+    <procedure>Automated rollback to last known good state</procedure>
+  </emergencyRollback>
+</refactoringSafetyProtocol>
+```
+
+---
+
+## 7. AI-Assisted Development Integration
+
+### 7.1. AI Tooling Standards
+
+AI tools must be integrated with proper validation and human oversight.
+
+```xml
+<aiToolingStandards>
+  <codeGeneration>
+    <validation>All AI-generated code must pass same quality gates as human code</validation>
+    <oversight>Human review required for AI suggestions affecting architecture</oversight>
+    <testing>AI-generated code requires comprehensive test coverage</testing>
+    <documentation>AI assistance must be documented in commit messages</documentation>
+  </codeGeneration>
+  
+  <refactoringAssistance>
+    <tool name="AI Code Analysis" capability="Pattern recognition and smell detection"/>
+    <tool name="Automated Refactoring" capability="Safe transformation application"/>
+    <validation>Human validation required for AI refactoring suggestions</validation>
+    <safety>AI refactoring must include automated rollback capability</safety>
+  </refactoringAssistance>
+  
+  <qualityAssurance>
+    <principle>AI tools enhance human capability, never replace human judgment</principle>
+    <principle>All AI suggestions require human validation before implementation</principle>
+    <principle>AI-generated content must meet same standards as human content</principle>
+    <principle>False positive rates must be monitored and minimized</principle>
+  </qualityAssurance>
+</aiToolingStandards>
+```
+
+### 7.2. Performance Optimization Framework
+
+Performance optimization must be measurement-driven with clear targets.
+
+```xml
+<performanceFramework>
+  <targets>
+    <metric name="API Response Time" target="p95 &lt; 200ms" measurement="Load testing"/>
+    <metric name="Page Load Time" target="p95 &lt; 2s" measurement="Real User Monitoring"/>
+    <metric name="Memory Usage" target="&lt; 80% heap utilization" measurement="Runtime profiling"/>
+    <metric name="CPU Utilization" target="&lt; 70% average" measurement="System monitoring"/>
+  </targets>
+  
+  <optimizationCycle>
+    <step name="Profile">Establish quantitative baseline with realistic workloads</step>
+    <step name="Analyze">Identify bottlenecks using data, not assumptions</step>
+    <step name="Optimize">Target highest-impact improvements with minimal risk</step>
+    <step name="Validate">Measure actual performance gains and regression detection</step>
+  </optimizationCycle>
+  
+  <priorityMatrix>
+    <highImpactLowEffort>
+      <optimization>Database query optimization and indexing</optimization>
+      <optimization>Caching frequently accessed data</optimization>
+      <optimization>Connection pooling and resource reuse</optimization>
+    </highImpactLowEffort>
+    <highImpactHighEffort>
+      <optimization>Architectural pattern changes (async processing)</optimization>
+      <optimization>Data structure optimization for cache locality</optimization>
+      <optimization>Parallel processing and concurrency improvements</optimization>
+    </highImpactHighEffort>
+  </priorityMatrix>
+</performanceFramework>
+```

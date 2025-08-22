@@ -1,13 +1,22 @@
 {
   "name": "@sibyllinesoft/hydra",
   "version": "1.0.0",
-  "description": "Professional installer for Hydra Claude Code Studio with modern terminal interface",
+  "description": "Professional installer for Hydra Claude Code Studio with modern web and terminal interface",
   "main": "install.js",
   "type": "module",
   "bin": { "hydra-installer": "./bin/hydra-installer.mjs" },
   "scripts": {
     "start": "node install.js",
-    "test": "echo \"No tests specified\" && exit 0"
+    "enhanced": "node install-enhanced.js",
+    "test-enhanced": "node test-enhanced-installer.js",
+    "validate": "node validate-installer.js",
+    "demo": "node hydra-demo.js",
+    "demo-features": "node demo-enhanced-features.js",
+    "server": "node installer-server.js",
+    "web": "node installer-server.js",
+    "preview": "node hydra-preview.js",
+    "preview-enhanced": "node hydra-preview-enhanced.js",
+    "test": "node validate-installer.js"
   },
   "keywords": [
     "claude",
@@ -15,7 +24,13 @@
     "installer",
     "terminal",
     "ui",
-    "mcp"
+    "mcp",
+    "web",
+    "animated",
+    "ascii-art",
+    "cyberpunk",
+    "blessed",
+    "tui"
   ],
   "author": "Hydra Claude Code Studio",
   "license": "MIT",
@@ -26,7 +41,10 @@
     "fs-extra": "^11.1.1",
     "inquirer": "^9.2.12",
     "ora": "^7.0.1",
-    "semver": "^7.5.4"
+    "semver": "^7.5.4",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "socket.io": "^4.7.2"
   },
   "engines": {
     "node": ">=16.0.0"

@@ -11,7 +11,7 @@ description: Must use for Go backend development projects. Specializes in idioma
 **Version**: 1.0
 
 ## Base Template
-@include /home/nathan/.claude/agents/templates/master-software-developer.md
+@include ../includes/master-software-developer.md
 
 ## Go-Specific Expertise
 

@@ -10,7 +10,7 @@ color: orange
 # tools inherited from base-config.yml
 ---
 
-@include(/home/nathan/.claude/agents/includes/master-software-developer.md)
+@include ../includes/master-software-developer.md
 
 Execute Rust backend development with precision, emphasizing memory safety, zero-cost abstractions, and high-performance systems. Apply ownership principles, leverage the async ecosystem, and implement production-ready Rust services.
 

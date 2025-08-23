@@ -3,4 +3,5 @@
 # *.log
 # tmp/
 package-lock.json
+logo.png
 hydra.txt

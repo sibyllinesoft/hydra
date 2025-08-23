@@ -74,6 +74,10 @@ hydra doctor
 
 ## 🚀 Quick Start
 
+```bash
+# Smart installer detects your environment
+hydra-installer
+```
 **What happens:**
 - Creates backup of existing `.claude/` config  
 - Installs 50+ specialized agents with fresh context
@@ -106,42 +110,6 @@ hydra recap auth-epic
 
 **Result:** Seamless handoff to Claude Code with structured planning, then autonomous execution using 0% of your conversation context.
 
-## 💡 Two Ways to Interact
-
-Hydra provides two complementary interfaces:
-
-### `hydra` CLI (Terminal Commands)
-For orchestrating major project lifecycle events:
-- `hydra new` - Strategic planning and requirement analysis
-- `hydra plan` - Transform strategy into detailed execution plans  
-- `hydra run` - Autonomous parallel execution
-- `hydra recap` - Comprehensive project documentation
-
-### `/slash` Commands (In Claude)
-For granular project management during development sessions:
-- `/api` - Backend architecture specialist
-- `/frontend` - UI implementation expert
-- `/test` - Testing and quality assurance
-- `/pm:status` - Real-time project status
-- [Complete command reference →](commands/README.md)
-
-### Example Workflow
-```bash
-# Terminal: Start strategic planning
-$ hydra new "user authentication system"
-
-# Claude session: Get immediate expert help  
-User: /api "implement JWT authentication"
-Agent: I'll help you implement secure JWT authentication...
-
-# Terminal: Execute the complete plan
-$ hydra run auth-epic
-
-# Claude session: Monitor progress
-User: /pm:status
-Agent: Current status: Database schema ✅ API endpoints 🔄 Tests ⏳
-```
-
 ## 🎮 How It Works
 
 **Traditional Workflow:**
@@ -171,31 +139,6 @@ Hydra: project-shipper → comprehensive documentation from completed genesis.xm
 ```
 
 **The Breakthrough:** Master Workflow Prompts™ provide Claude Code with structured planning frameworks, then Context Firewall Technology™ enables unlimited autonomous execution while preserving your conversation forever.
-
-## 📜 Living Blueprint System
-
-### Revolutionary Project Philosophy
-*"Every project becomes a living document that both describes and executes the work."*
-
-The Living Blueprint represents a fundamental shift from temporary status files to **persistent, comprehensive `genesis.xml` documents** that serve as the single source of truth for planning, execution, and knowledge capture.
-
-### Core Innovation
-Traditional project management separates planning from execution. The Living Blueprint **unifies all three** into a single, evolving document that:
-
-- **Describes** the project vision and requirements
-- **Orchestrates** execution through detailed dependency graphs (DAGs) 
-- **Captures** all insights, decisions, and outcomes automatically
-- **Evolves** as the project progresses
-- **Serves** as permanent organizational memory
-
-### Benefits
-- **90% reduction** in project context loss
-- **300% longer** development sessions without restarts
-- **Autonomous coordination** eliminates manual handoffs
-- **Compound learning** from every completed project
-- **Predictable outcomes** through proven patterns
-
-[**Complete Living Blueprint Guide →**](LIVING-BLUEPRINT-GUIDE.md)
 
 ## 📋 CLI Command Reference
 
@@ -387,7 +330,7 @@ hydra/
 
 **Contributors & Credits**
 - **[Contains Studio](https://github.com/contains-studio/agents)** - 50+ agent ecosystem
-- **[CCPM (Claude Code Project Management)](https://github.com/automazeio/ccpm)** - Project management automation
+- **[Agent OS](https://github.com/buildermethods/agent-os)** - Workflow patterns
 - **Anthropic** - The AI platform powering this
 - **Community** - Everyone making AI development better
 

@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "git": {
+      "command": "uvx",
+      "args": ["mcp-server-git", "--repository", "."],
+      "env": {}
+    },
+    "serena": {
+      "command": "npx",
+      "args": ["-y", "@serenaai/mcp-server-serena@latest"],
+      "env": {}
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking@latest"],
+      "env": {}
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@context7/mcp-server@latest"],
+      "env": {}
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@executeautomation/playwright-mcp-server@latest"],
+      "env": {}
+    },
+    "vibe-kanban": {
+      "command": "uvx",
+      "args": ["mcp-vibe-kanban"],
+      "env": {}
+    },
+    "ide": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-ide@latest"],
+      "env": {}
+    }
+  }
+}

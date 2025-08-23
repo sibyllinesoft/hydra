@@ -1,0 +1,78 @@
+# Testing Base Configuration for Browser Automation Testing Agents
+# Provides browser automation tools for E2E and UI testing
+# Used by: test-writer-fixer (when UI testing), performance-benchmarker (when browser testing)
+
+# Testing Tools with Browser Automation
+testing_tools:
+  # Essential File Operations
+  - Read
+  - Write
+  - Edit
+  - MultiEdit
+  - LS
+  
+  # Command & Search Operations
+  - Bash
+  - Grep
+  - Glob
+  
+  # Web Operations (for test research)
+  - WebSearch
+  - WebFetch
+  
+  # Testing-Focused MCP Operations
+  - mcp__git__                    # Version control (essential)
+  - mcp__serena__                 # Code analysis for test coverage
+  - mcp__playwright__             # Browser automation for E2E testing
+  - mcp__sequential-thinking__    # Test strategy analysis
+  - mcp__context7__              # Testing framework documentation
+  # NO supabase, NO sentry (use specialized agents for data/monitoring)
+
+# Configuration Files All Testing Agents Should Reference
+universal_config_files:
+  - path: "/home/nathan/.claude/CONTEXT.md"
+    description: "Environment setup, project structure, development workflow"
+    words: 618
+  - path: "/home/nathan/.claude/PRINCIPLES.md" 
+    description: "Development philosophy, SOLID principles, senior mindset"
+    words: 757
+  - path: "/home/nathan/.claude/RULES.md"
+    description: "Operational safety, validation sequences, quality gates"
+    words: 505
+  - path: "/home/nathan/.claude/MCP.md"
+    description: "Tool selection, server coordination, performance optimization"
+    words: 2918
+  - path: "/home/nathan/.claude/AGENTS.md"
+    description: "Agent selection guide, specializations, orchestration patterns"
+    words: 1575
+
+# TESTING SPECIALIZATION RATIONALE:
+# - playwright MCP: Essential for browser automation, E2E testing, UI validation
+# - serena MCP: Required for test coverage analysis and code understanding
+# - git MCP: Critical for test file management and CI/CD integration
+# - sequential-thinking: Necessary for complex test strategy planning
+# - context7: Essential for testing framework documentation and patterns
+# - NO database access: Testing agents focus on behavior, not data operations
+# - NO monitoring access: Separate monitoring agents handle error tracking
+
+# SECURITY CONSIDERATION:
+# Browser automation is restricted to testing agents only
+# Prevents unauthorized web interactions from general-purpose agents
+
+# Total Context Cost: 6,373 words (~13,153 tokens)
+# Updated: 2025-08-19 with testing-specific MCP restrictions
+
+# Usage Instructions:
+# 1. Testing agents requiring browser automation reference "@testing-base-config.yml"
+# 2. Inherits all testing tools including playwright
+# 3. Provides browser automation capabilities for E2E testing
+# 4. Maintains security by restricting data/monitoring operations
+
+# Example Testing Agent Structure:
+# ---
+# name: ui-test-specialist
+# description: |
+#   Performs comprehensive UI testing with browser automation.
+#   @testing-base-config.yml
+# color: purple
+# ---

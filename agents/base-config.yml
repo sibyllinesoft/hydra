@@ -1,0 +1,105 @@
+# DEFAULT Base Configuration for General Purpose Agents
+# Provides core tools with essential MCPs - NO sensitive operations
+# Use specialized configs for agents requiring restricted MCPs
+
+# Core Tools Available to Most Agents
+default_tools:
+  # Essential File Operations
+  - Read
+  - Write
+  - Edit
+  - MultiEdit
+  - LS
+  
+  # Command & Search Operations
+  - Bash
+  - Grep
+  - Glob
+  
+  # Web Operations (for research)
+  - WebSearch
+  - WebFetch
+  
+  # Safe MCP Operations (no sensitive access)
+  - mcp__git__           # Version control (essential)
+  - mcp__sequential-thinking__  # Analysis (essential)
+  - mcp__context7__      # Documentation (essential)
+
+# GOAT (Greatest Of All Time) Standards - Excellence References
+# All agents should embody these world-class practices
+goat_standards:
+  development_excellence:
+    - "Follow SOLID principles religiously - single responsibility, open/closed, dependency inversion"
+    - "Write code like Linus Torvalds - clear, maintainable, and robust"
+    - "Test with the rigor of NASA mission-critical systems"
+    - "Document with the clarity of Stripe's API documentation"
+    - "Optimize with the precision of Google's performance engineering"
+  
+  design_excellence:
+    - "Design with Apple's attention to detail and user experience focus"
+    - "Create interfaces as intuitive as iPhone's original design"
+    - "Maintain visual consistency like Airbnb's design system"
+    - "Prioritize accessibility like Microsoft's inclusive design principles"
+  
+  engineering_practices:
+    - "Deploy with Netflix's reliability and monitoring standards"
+    - "Scale with Amazon's architectural thinking"
+    - "Secure with the thoroughness of financial industry standards"
+    - "Iterate with the speed and quality of Vercel's development cycle"
+    - "Collaborate with the effectiveness of GitLab's remote-first practices"
+  
+  professional_standards:
+    - "Communicate with the clarity of technical leaders like Paul Graham"
+    - "Problem-solve with first principles thinking like Elon Musk"
+    - "Execute with the precision of military special operations"
+    - "Innovate with the boldness of Steve Jobs while maintaining engineering rigor"
+
+# Configuration Files All Agents Should Reference
+universal_config_files:
+  - path: "/home/nathan/.claude/CONTEXT.md"
+    description: "Environment setup, project structure, development workflow"
+    words: 618
+  - path: "/home/nathan/.claude/PRINCIPLES.md" 
+    description: "Development philosophy, SOLID principles, senior mindset"
+    words: 757
+  - path: "/home/nathan/.claude/RULES.md"
+    description: "Operational safety, validation sequences, quality gates"
+    words: 505
+  - path: "/home/nathan/.claude/MCP.md"
+    description: "Tool selection, server coordination, performance optimization"
+    words: 2918
+  - path: "/home/nathan/.claude/AGENTS.md"
+    description: "Agent selection guide, specializations, orchestration patterns"
+    words: 1575
+
+# SECURITY NOTE: This config provides MINIMAL MCP access
+# For agents requiring specialized access, use appropriate specialized configs:
+# - @engineering-base-config.yml (code analysis)
+# - @testing-base-config.yml (browser automation)
+# - @operations-base-config.yml (data/monitoring)
+# - @utility-base-config.yml (knowledge management)
+
+# Total Context Cost: 6,373 words (~13,153 tokens)
+# Value: Expert-level context for every agent without conversation setup
+# Updated: 2025-08-19 with MCP access restrictions
+
+# Usage Instructions:
+# 1. General agents reference "@base-config.yml" for safe operations
+# 2. Specialized agents use specific configs for restricted MCP access
+# 3. Agent YAML frontmatter only needs: name, description, color
+# 4. Tools field can be omitted (inherits from config)
+# 5. Configuration files are auto-loaded via description reference
+
+# Access Control Philosophy:
+# - Default config: Maximum safety, minimal MCP surface
+# - Specialized configs: Targeted access for specific domains
+# - No universal access to sensitive operations (supabase, sentry, playwright)
+
+# Example Agent Structure:
+# ---
+# name: content-agent
+# description: |
+#   Creates content with research capabilities.
+#   @base-config.yml
+# color: blue  
+# ---

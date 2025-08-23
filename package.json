@@ -1,6 +1,6 @@
 {
   "name": "@sibyllinesoft/hydra",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Professional installer for Hydra Claude Code Studio with modern web and terminal interface",
   "main": "installer/install.js",
   "type": "module",
@@ -9,19 +9,13 @@
     "hydra": "./bin/hydra.mjs"
   },
   "scripts": {
-    "start": "node installer/install.js",
-    "enhanced": "node installer/install-enhanced.js",
-    "test-enhanced": "node test-enhanced-installer.js",
-    "validate": "node validate-installer.js",
-    "demo": "node installer/hydra-demo.js",
-    "demo-features": "node installer/demo-enhanced-features.js",
-    "server": "node installer-server.js",
-    "web": "node installer-server.js",
-    "preview": "node installer/hydra-preview.js",
-    "preview-enhanced": "node installer/hydra-preview-enhanced.js",
+    "install": "node installer/install.js",
     "test": "cd tests/installer && npm test",
     "test:installer": "cd tests/installer && npm run test:installer",
-    "test:all": "cd tests/installer && npm run test:verbose"
+    "test:all": "cd tests/installer && npm run test:verbose",
+    "dev:demo": "node installer/hydra-demo.js",
+    "dev:preview": "node installer/hydra-preview.js",
+    "dev:validate": "node validate-installer.js"
   },
   "keywords": [
     "claude",

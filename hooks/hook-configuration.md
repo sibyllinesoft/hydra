@@ -327,7 +327,7 @@ This hook implements the mandatory cycle completion patterns defined in ITERATIV
 ### Agent Coordination
 Works with existing agent orchestration:
 
-- Respects studio-coach coordination
+- Respects cofounder coordination
 - Maintains agent specialization boundaries
 - Supports handoff protocols
 - Preserves context across iterations

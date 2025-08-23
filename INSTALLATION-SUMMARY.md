@@ -44,13 +44,13 @@ I've successfully created a stunning, animated terminal installer using blessed 
 ## 🚀 New Files Created
 
 ### Core Enhanced Installer
-- **`install-enhanced.js`** - Main enhanced installer with all features
-- **`ascii-art-library.js`** - Reusable ASCII art and animation library
+- **`installer/install-enhanced.js`** - Main enhanced installer with all features
+- **`installer/ascii-art-library.js`** - Reusable ASCII art and animation library
 - **`test-enhanced-installer.js`** - Test runner for enhanced features
 
 ### Validation & Demo
 - **`validate-installer.js`** - Cross-platform compatibility validator
-- **`demo-enhanced-features.js`** - Interactive feature showcase
+- **`installer/demo-enhanced-features.js`** - Interactive feature showcase
 - **`ENHANCED-INSTALLER-README.md`** - Comprehensive documentation
 
 ### Configuration Updates

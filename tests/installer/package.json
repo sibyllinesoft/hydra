@@ -1,0 +1,25 @@
+{
+  "name": "hydra-installer-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive test suite for Hydra installer",
+  "type": "module",
+  "scripts": {
+    "test": "node run-tests.js",
+    "test:verbose": "node --test --test-reporter=spec installer.test.js permissions.test.js integration.test.js",
+    "test:installer": "node --test installer.test.js",
+    "test:permissions": "node --test permissions.test.js", 
+    "test:integration": "node --test integration.test.js",
+    "test:watch": "node --test --watch installer.test.js permissions.test.js integration.test.js",
+    "test:unit": "node --test installer.test.js permissions.test.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1"
+  },
+  "devDependencies": {},
+  "keywords": ["hydra", "installer", "test", "claude", "mcp"],
+  "author": "Hydra Studio",
+  "license": "MIT"
+}

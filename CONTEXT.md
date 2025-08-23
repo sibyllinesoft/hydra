@@ -40,11 +40,11 @@ Use specialized agents instead of direct tools. With 40+ domain experts availabl
     <examples>coding → backend-architect, UI → frontend-developer</examples>
   </elif>
   <elif condition="multi_domain_task">
-    <action>USE_MULTIPLE_AGENTS via studio-coach</action>
+    <action>USE_MULTIPLE_AGENTS via studio-producer</action>
   </elif>
   <else>
     <action>USE_GENERAL_PURPOSE_AGENT</action>
-    <examples>rapid-prototyper, studio-coach</examples>
+    <examples>rapid-prototyper, studio-producer</examples>
   </else>
 </decision_tree>
 
@@ -84,12 +84,12 @@ Use specialized agents instead of direct tools. With 40+ domain experts availabl
 ### Proactive Agent Triggers
 - **whimsy-injector**: Auto-activates after UI/UX changes
 - **test-writer-fixer**: Triggered after code modifications
-- **studio-coach**: Orchestrates complex multi-agent workflows  
+- **cofounder**: Activated for ambiguous goal analysis and strategic requirement clarification
 - **experiment-tracker**: Activates when feature flags/experiments are mentioned
 
 ### Agent Coordination Philosophy  
 - **Single Domain**: Use specialized agent directly
-- **Multi-Domain**: studio-coach coordinates multiple agents
+- **Multi-Domain**: studio-producer coordinates multiple agents
 - **Complex Projects**: Agent teams work in parallel with clear handoffs
 - **Simple Queries**: Still prefer agent if available for context isolation
 

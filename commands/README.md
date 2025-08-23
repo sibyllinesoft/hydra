@@ -195,7 +195,7 @@ Specialized testing automation and coordination.
 /analytics            # → analytics-reporter
 
 # Project Management
-/studio-coach         # → studio-coach (orchestrator)
+/cofounder         # → cofounder (orchestrator)
 /parallel-work        # → parallel-worker
 /experiment           # → experiment-tracker
 ```
@@ -301,7 +301,7 @@ This command requires project context and coordinates multiple agents.
 7. `/go-backend` → go-backend-developer
 8. `/performance` → performance-benchmarker
 9. `/ux-research` → ux-researcher
-10. `/studio-coach` → studio-coach (orchestrator)
+10. `/cofounder` → cofounder (orchestrator)
 
 **Lower Priority (Marketing/Operations):**
 11. `/growth` → growth-hacker
@@ -329,7 +329,7 @@ Commands enforce the Agent-First mandate from RULES.md:
 1. Commands always spawn agents (never direct tools)
 2. Agents receive fresh context (context firewall)
 3. Specialized agents handle domain-specific tasks
-4. Complex tasks route through studio-coach
+4. Complex tasks route through cofounder
 
 ### Context Preservation
 Commands support context preservation through:
@@ -343,7 +343,7 @@ Commands can trigger automatic agent coordination:
 - Code changes → test-writer-fixer
 - UI changes → whimsy-injector  
 - Feature flags → experiment-tracker
-- Complex workflows → studio-coach
+- Complex workflows → cofounder
 
 ---
 

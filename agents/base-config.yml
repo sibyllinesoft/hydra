@@ -25,6 +25,35 @@ default_tools:
   - mcp__sequential-thinking__  # Analysis (essential)
   - mcp__context7__      # Documentation (essential)
 
+# GOAT (Greatest Of All Time) Standards - Excellence References
+# All agents should embody these world-class practices
+goat_standards:
+  development_excellence:
+    - "Follow SOLID principles religiously - single responsibility, open/closed, dependency inversion"
+    - "Write code like Linus Torvalds - clear, maintainable, and robust"
+    - "Test with the rigor of NASA mission-critical systems"
+    - "Document with the clarity of Stripe's API documentation"
+    - "Optimize with the precision of Google's performance engineering"
+  
+  design_excellence:
+    - "Design with Apple's attention to detail and user experience focus"
+    - "Create interfaces as intuitive as iPhone's original design"
+    - "Maintain visual consistency like Airbnb's design system"
+    - "Prioritize accessibility like Microsoft's inclusive design principles"
+  
+  engineering_practices:
+    - "Deploy with Netflix's reliability and monitoring standards"
+    - "Scale with Amazon's architectural thinking"
+    - "Secure with the thoroughness of financial industry standards"
+    - "Iterate with the speed and quality of Vercel's development cycle"
+    - "Collaborate with the effectiveness of GitLab's remote-first practices"
+  
+  professional_standards:
+    - "Communicate with the clarity of technical leaders like Paul Graham"
+    - "Problem-solve with first principles thinking like Elon Musk"
+    - "Execute with the precision of military special operations"
+    - "Innovate with the boldness of Steve Jobs while maintaining engineering rigor"
+
 # Configuration Files All Agents Should Reference
 universal_config_files:
   - path: "/home/nathan/.claude/CONTEXT.md"

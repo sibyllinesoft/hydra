@@ -450,6 +450,9 @@ class EnhancedHydraInstaller {
       this.log(`Platform: ${os.platform()} ${os.arch()}`, "info");
       this.log(`Home directory: ${this.homeDir}`, "info");
 
+      // Check xmlstarlet dependency
+      await this.checkXmlstarlet();
+
       // Check if Claude config directory exists
       const claudeDir = path.dirname(this.claudeConfigPath);
       if (!(await fs.pathExists(claudeDir))) {
@@ -469,6 +472,88 @@ class EnhancedHydraInstaller {
   isNodeVersionSupported(version) {
     const major = parseInt(version.slice(1).split(".")[0]);
     return major >= 16;
+  }
+
+  async checkXmlstarlet() {
+    this.log("Checking xmlstarlet dependency...", "info");
+
+    try {
+      // Check if xmlstarlet is installed
+      await execAsync('which xmlstarlet', { encoding: 'utf8' });
+      this.log("✓ xmlstarlet is installed and available", "success");
+    } catch (error) {
+      this.log("xmlstarlet not found - required for Living Blueprint system", "warning");
+      
+      const platform = os.platform();
+      const instructions = this.getXmlstarletInstallInstructions(platform);
+      
+      this.log("", "info");
+      this.log("📦 xmlstarlet Installation Instructions:", "info");
+      this.log("", "info");
+      instructions.forEach(instruction => {
+        this.log(`  ${instruction}`, "info");
+      });
+      this.log("", "info");
+      this.log("⚠️  Please install xmlstarlet and run the installer again", "warning");
+      this.log("", "info");
+      
+      throw new Error("xmlstarlet dependency missing - installation required");
+    }
+  }
+
+  getXmlstarletInstallInstructions(platform) {
+    switch (platform) {
+      case 'darwin': // macOS
+        return [
+          "🍺 macOS (Homebrew):",
+          "   brew install xmlstarlet",
+          "",
+          "🔄 Alternative (MacPorts):",
+          "   sudo port install xmlstarlet"
+        ];
+      
+      case 'linux':
+        const distroInstructions = [
+          "🐧 Ubuntu/Debian:",
+          "   sudo apt-get update",
+          "   sudo apt-get install xmlstarlet",
+          "",
+          "🎩 RHEL/CentOS/Fedora:",
+          "   sudo yum install xmlstarlet",
+          "   # or on newer systems:",
+          "   sudo dnf install xmlstarlet",
+          "",
+          "📦 Arch Linux:",
+          "   sudo pacman -S xmlstarlet",
+          "",
+          "🗂️ Alpine Linux:",
+          "   sudo apk add xmlstarlet"
+        ];
+        return distroInstructions;
+      
+      case 'win32': // Windows
+        return [
+          "🪟 Windows:",
+          "   # Via Chocolatey:",
+          "   choco install xmlstarlet",
+          "",
+          "   # Via Scoop:",
+          "   scoop install xmlstarlet",
+          "",
+          "   # Manual installation:",
+          "   Download from: http://xmlstar.sourceforge.net/download.php",
+          "   Extract and add to PATH"
+        ];
+      
+      default:
+        return [
+          `🔧 ${platform}:`,
+          "   Please install xmlstarlet using your system's package manager",
+          "   or download from: http://xmlstar.sourceforge.net/download.php",
+          "",
+          "   Verify installation with: xmlstarlet --version"
+        ];
+    }
   }
 
   async backupExistingConfig() {

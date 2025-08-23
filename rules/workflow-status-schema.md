@@ -1,6 +1,22 @@
-# Workflow Status XML Schema (v2)
+# DEPRECATED: Workflow Status XML Schema (v2)
 
-This document defines the mandatory XML schema for parallel task status reporting. The `parallel-worker` agent will create a file based on this schema and instruct subagents to update it.
+**⚠️ DEPRECATION NOTICE**
+
+This document has been **deprecated** in favor of the new Living Blueprint system. The XML schema and workflow definitions have been consolidated into a unified genesis structure.
+
+**Migration Path:**
+- All workflow definitions are now part of the `genesis.xml` structure
+- Schema is now defined in `rules/genesis.xsd` 
+- This provides unified project management with enhanced agent coordination
+- Better integration with the Living Blueprint evolutionary development model
+
+**New System Location:** `rules/genesis.xsd`
+
+---
+
+*The content below is maintained for reference only and should not be used for new implementations.*
+
+---
 
 ## File Naming Convention
 `[YYYY-MM-DD-HH-MM]-[epic-name]-[issue-number]-workflow-status.xml`

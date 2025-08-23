@@ -11,9 +11,80 @@ import path from "path";
 import os from "os";
 import { exec } from "child_process";
 import { promisify } from "util";
-import archiver from "archiver";
 
 const execAsync = promisify(exec);
+
+// CLI flag parsing utilities
+function parseCliArgs() {
+  const args = process.argv.slice(2);
+  const flags = {
+    global: false,
+    project: false,
+    help: false,
+    path: null
+  };
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    switch (arg) {
+      case '--global':
+      case '-g':
+        flags.global = true;
+        break;
+      case '--project':
+      case '-p':
+        flags.project = true;
+        break;
+      case '--path':
+        if (i + 1 < args.length) {
+          flags.path = args[i + 1];
+          i++; // Skip next argument as it's the path value
+        } else {
+          throw new Error('--path requires a directory path argument');
+        }
+        break;
+      case '--help':
+      case '-h':
+        flags.help = true;
+        break;
+    }
+  }
+
+  return flags;
+}
+
+function showHelp() {
+  console.log(`
+Hydra Claude Code Studio Installer
+
+Usage: hydra-installer [options]
+
+Options:
+  -g, --global       Force installation to ~/.claude/ (global)
+  -p, --project      Force installation to ./.hydra/ (project-level)
+      --path <dir>   Install to custom directory path
+  -h, --help         Show this help message
+
+Default behavior (no flags):
+  - If inside a Git repository: install to ./.hydra/ (project-level)
+  - If not in a Git repository: install to ~/.claude/ (global)
+
+Examples:
+  hydra-installer --global                    # Install globally
+  hydra-installer --project                   # Install to current project
+  hydra-installer --path /custom/install/dir  # Install to custom path
+`);
+}
+
+// Git repository detection
+async function isInsideGitRepository() {
+  try {
+    await execAsync('git rev-parse --is-inside-work-tree');
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
 class HydraInstaller {
   constructor() {
@@ -23,19 +94,22 @@ class HydraInstaller {
     this.statusBox = null;
     this.logs = [];
     this.progress = 0;
-    this.totalSteps = 9;
+    this.totalSteps = 9; // Reduced by 1 after removing backup step
     this.currentStep = "";
     this.errors = [];
     this.warnings = [];
 
+    // Parse CLI arguments and determine installation mode
+    this.cliFlags = parseCliArgs();
+    this.installationMode = 'unknown'; // 'global', 'project', or 'custom'
+    this.installationPath = '';
+    
     // Installation paths
     this.homeDir = os.homedir();
-    this.claudeDir = path.join(this.homeDir, ".claude");
-    this.claudeConfigPath = path.join(this.homeDir, ".claude.json");
-    this.backupPath = path.join(
-      this.homeDir,
-      `claude-backup-${new Date().toISOString().replace(/[:.]/g, "-")}.zip`
-    );
+
+    // These will be set after determining installation mode
+    this.claudeDir = '';
+    this.claudeConfigPath = '';
 
     this.initializeUI();
   }
@@ -248,6 +322,68 @@ class HydraInstaller {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+  async determineInstallationMode() {
+    this.log("Determining installation mode...", "step");
+    this.updateStatus("Analyzing installation context");
+
+    // Check for conflicting flags
+    const flagCount = [this.cliFlags.global, this.cliFlags.project, !!this.cliFlags.path].filter(Boolean).length;
+    if (flagCount > 1) {
+      throw new Error("Cannot specify multiple installation mode flags (--global, --project, --path)");
+    }
+
+    // Custom path provided
+    if (this.cliFlags.path) {
+      this.installationMode = 'custom';
+      this.installationPath = path.resolve(this.cliFlags.path);
+      this.claudeDir = this.installationPath;
+      // Place config file in same directory as installation for custom paths
+      this.claudeConfigPath = path.join(this.installationPath, '.claude.json');
+      this.log("ℹ️ Custom installation path specified", "info");
+      this.log(`✅ Hydra will be installed to custom path: ${this.installationPath}`, "success");
+    }
+    // Explicit flag provided
+    else if (this.cliFlags.global) {
+      this.installationMode = 'global';
+      this.installationPath = path.join(this.homeDir, '.claude');
+      this.claudeDir = this.installationPath;
+      this.claudeConfigPath = path.join(this.homeDir, '.claude.json');
+      this.log("ℹ️ Global installation forced via --global flag", "info");
+      this.log(`✅ Hydra will be installed globally to ${this.installationPath}`, "success");
+    } else if (this.cliFlags.project) {
+      this.installationMode = 'project';
+      this.installationPath = path.resolve('./.hydra');
+      this.claudeDir = this.installationPath;
+      this.claudeConfigPath = path.resolve('./.claude.json');
+      this.log("ℹ️ Project installation forced via --project flag", "info");
+      this.log(`✅ Hydra will be installed locally to ${this.installationPath}`, "success");
+    } else {
+      // Smart default logic - check if we're in a Git repository
+      const isInGitRepo = await isInsideGitRepository();
+      
+      if (isInGitRepo) {
+        this.installationMode = 'project';
+        this.installationPath = path.resolve('./.hydra');
+        this.claudeDir = this.installationPath;
+        this.claudeConfigPath = path.resolve('./.claude.json');
+        this.log("ℹ️ Git repository detected", "info");
+        this.log(`✅ Hydra will be installed locally to ${this.installationPath}`, "success");
+      } else {
+        this.installationMode = 'global';
+        this.installationPath = path.join(this.homeDir, '.claude');
+        this.claudeDir = this.installationPath;
+        this.claudeConfigPath = path.join(this.homeDir, '.claude.json');
+        this.log("ℹ️ No Git repository detected", "info");
+        this.log(`✅ Hydra will be installed globally to ${this.installationPath}`, "success");
+      }
+    }
+
+    this.log(`Installation mode: ${this.installationMode}`, "info");
+    this.log(`Installation path: ${this.installationPath}`, "info");
+    this.log(`Config path: ${this.claudeConfigPath}`, "info");
+    this.updateProgress();
+  }
+
   async checkPrerequisites() {
     this.log("Checking system prerequisites...", "step");
     this.updateStatus("Checking prerequisites");
@@ -283,55 +419,31 @@ class HydraInstaller {
     return major >= 16;
   }
 
-  async backupExistingConfig() {
-    this.log("Creating zipped backup of existing configuration...", "step");
-    this.updateStatus("Creating backup archive");
+  async checkExistingConfiguration() {
+    this.log("Checking for existing configuration...", "step");
+    this.updateStatus("Checking existing config");
 
     try {
       const hasConfig = await fs.pathExists(this.claudeConfigPath);
       const hasClaudeDir = await fs.pathExists(this.claudeDir);
 
-      if (!hasConfig && !hasClaudeDir) {
-        this.log("No existing configuration found to backup", "info");
-        this.updateProgress();
-        return;
+      if (hasConfig) {
+        this.log(`Found existing configuration: ${this.claudeConfigPath}`, "info");
       }
 
-      // Create zip archive
-      const archive = archiver("zip", { zlib: { level: 9 } });
-      const output = fs.createWriteStream(this.backupPath);
+      if (hasClaudeDir) {
+        this.log(`Found existing installation: ${this.claudeDir}`, "info");
+        this.log("Existing files will be overwritten", "warning");
+      }
 
-      await new Promise((resolve, reject) => {
-        output.on("close", resolve);
-        archive.on("error", reject);
-
-        archive.pipe(output);
-
-        // Add .claude.json if it exists
-        if (hasConfig) {
-          archive.file(this.claudeConfigPath, { name: ".claude.json" });
-        }
-
-        // Add .claude directory if it exists
-        if (hasClaudeDir) {
-          archive.directory(this.claudeDir, ".claude");
-        }
-
-        archive.finalize();
-      });
-
-      const stats = await fs.stat(this.backupPath);
-      const sizeKB = Math.round(stats.size / 1024);
-      this.log(
-        `Backup created: ${path.basename(this.backupPath)} (${sizeKB}KB)`,
-        "success"
-      );
+      if (!hasConfig && !hasClaudeDir) {
+        this.log("No existing configuration found - fresh installation", "info");
+      }
 
       this.updateProgress();
     } catch (error) {
-      this.log(`Backup failed: ${error.message}`, "warning");
-      // Don't throw - backup failure shouldn't stop installation
-      this.updateProgress();
+      this.log(`Configuration check failed: ${error.message}`, "error");
+      throw error;
     }
   }
 
@@ -341,7 +453,6 @@ class HydraInstaller {
 
     try {
       const tempDir = path.join(os.tmpdir(), "hydra-install-" + Date.now());
-      const claudeDir = path.join(this.homeDir, ".claude");
 
       // Clone the repository
       this.log("Cloning Hydra repository from GitHub...", "info");
@@ -349,11 +460,11 @@ class HydraInstaller {
         `git clone --depth 1 https://github.com/sibyllinesoft/hydra.git "${tempDir}"`
       );
 
-      // Ensure .claude directory exists
-      await fs.ensureDir(claudeDir);
+      // Ensure installation directory exists
+      await fs.ensureDir(this.claudeDir);
 
       // Copy all files except .git, node_modules, and package files
-      this.log("Installing Hydra files to ~/.claude/...", "info");
+      this.log(`Installing Hydra files to ${this.installationPath}...`, "info");
 
       const filesToSkip = [
         ".git",
@@ -391,14 +502,14 @@ class HydraInstaller {
 
             await fs.copy(srcPath, destPath, { overwrite: true });
             this.log(
-              `Installed ${path.relative(claudeDir, destPath)}`,
+              `Installed ${path.relative(this.claudeDir, destPath)}`,
               "success"
             );
           }
         }
       };
 
-      await copyFileRecursively(sourceDir, claudeDir);
+      await copyFileRecursively(sourceDir, this.claudeDir);
 
       // Clean up temp directory
       await fs.remove(tempDir);
@@ -585,7 +696,7 @@ class HydraInstaller {
     this.updateStatus("Installing extras");
 
     try {
-      const extrasDir = path.join(this.homeDir, ".claude", "extras");
+      const extrasDir = path.join(this.claudeDir, "extras");
       await fs.ensureDir(extrasDir);
 
       const extras = [
@@ -686,6 +797,7 @@ class HydraInstaller {
     this.log("╚═══════════════════════════════════════════════╝", "success");
     this.log("", "info");
     this.log(`✅ Installation completed in ${duration} seconds`, "success");
+    this.log(`✅ Hydra installed to: ${this.installationPath}`, "success");
     this.log(`✅ Configuration saved to: ${this.claudeConfigPath}`, "success");
 
     if (this.errors.length === 0) {
@@ -726,10 +838,13 @@ class HydraInstaller {
       this.log("Starting Hydra Claude Code Studio installation...", "info");
       this.log("", "info");
 
+      await this.determineInstallationMode();
+      await this.sleep(500);
+
       await this.checkPrerequisites();
       await this.sleep(500);
 
-      await this.backupExistingConfig();
+      await this.checkExistingConfiguration();
       await this.sleep(500);
 
       await this.downloadAndInstallHydraFiles();
@@ -776,6 +891,14 @@ class HydraInstaller {
 
 export async function main() {
   console.log("[HYDRA-INSTALLER] Running main function...");
+  
+  // Check for help flag before creating UI
+  const flags = parseCliArgs();
+  if (flags.help) {
+    showHelp();
+    process.exit(0);
+  }
+  
   const installer = new HydraInstaller();
   await installer.run().catch((error) => {
     // Ensure UI is cleaned up on error

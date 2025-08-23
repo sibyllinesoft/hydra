@@ -95,7 +95,8 @@ Adjust animation durations:
 hydra/
 ├── installer.html          # Main web interface
 ├── installer-server.js     # Backend server
-├── install.js             # Original terminal installer
+├── installer/
+│   ├── install.js         # Original terminal installer
 ├── start-web-installer.sh # Launch script
 └── package.json           # Dependencies
 ```

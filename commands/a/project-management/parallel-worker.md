@@ -43,4 +43,4 @@ Use parallel-worker to build a full-stack e-commerce platform with user auth, pa
 - **Real-time monitoring** - Tracks progress via XML status file polling with DAG state
 - **Quality enforcement** - Validates completion criteria before marking tasks done
 
-*Primary entry point for complex tasks - can accept direct goals or pre-generated plan files from studio-coach.*
+*Primary entry point for complex tasks - can accept direct goals or pre-generated plan files from cofounder.*

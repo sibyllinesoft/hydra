@@ -15,7 +15,25 @@ Agents First, Tools Second - Expert Context Over General Purpose
 ---
 
 ## ⚡ Rapid Agent Selection
-*Mandatory utility agents must replace direct tools. Specialized agents are matched to user intents. Studio-coach handles orchestration when workflows grow complex. This ensures expertise is applied before general-purpose tools.*
+*In the Hydra Studio philosophy, the CLI initiates master workflow prompts that hand off to Claude Code with structured planning. The **cofounder** acts as Strategic Head, **studio-producer** as Tactical Orchestrator, and **project-shipper** as Delivery Manager. Mandatory utility agents replace direct tools, ensuring expertise is applied through the Studio hierarchy.*
+
+### Studio Hierarchy Overview
+```
+User → `hydra` CLI → Master Workflow Prompts → Claude Code Planning → Studio Orchestration
+
+Strategic Level:    cofounder (strategic analysis, Socratic questioning, requirement clarification)
+Tactical Level:     studio-producer (execution management, resource allocation)  
+Delivery Level:     project-shipper (validation, closure, documentation)
+Execution Level:    parallel-worker (worktree management, agent coordination)
+Specialist Level:   Domain experts (typescript-node-developer, ui-designer, etc.)
+```
+
+### Master Workflow Prompt Integration
+The CLI commands trigger specific workflow templates that hand off to Claude Code:
+- **`hydra new`** → Planning workflow with Socratic methodology → **cofounder**
+- **`hydra run`** → Execution workflow with orchestration → **studio-producer** 
+- **`hydra doctor`** → Diagnostic workflow with health checks → System validation
+- **`hydra recap`** → Documentation workflow with delivery closure → **project-shipper**
 
 ```xml
 <agents category="mandatory">
@@ -68,13 +86,20 @@ Agents First, Tools Second - Expert Context Over General Purpose
 ---
 
 ## 🎼 Orchestration Workflows
-*Complexity determines orchestration style. Simple tasks map to one agent, medium tasks chain 2–3 agents. For complex tasks, the **studio-coach** is the primary entry point. It is the master orchestrator for complex multi-agent workflows that decomposes high-level goals into executable plans for other agents. It invokes executors like the **parallel-worker**, a technical execution engine that runs a pre-defined parallel work plan. The parallel-worker is typically invoked by studio-coach, not directly by the user.*
+*Under the Hydra Studio philosophy, workflows follow a structured hierarchy. The **cofounder** serves as Strategic Head for Socratic analysis and requirement clarification. The **studio-producer** acts as Tactical Orchestrator managing execution and resources. The **project-shipper** handles delivery management and closure. The **parallel-worker** serves as the technical execution engine coordinating specialized agents.*
+
+### Studio Workflow Patterns
+```
+hydra new "feature" → cofounder (strategic analysis) → plan-generator (tactical planning)
+hydra run "epic" → studio-producer (orchestration) → parallel-worker (execution) → specialists
+hydra recap "epic" → project-shipper (delivery closure) → comprehensive documentation
+```
 
 ```xml
 <complexityRouting>
   <simple>directAgent</simple>
   <medium>sequentialWorkflow</medium>
-  <complex>studioCoachOrchestration</complex>
+  <complex>studioOrchestration</complex>
 </complexityRouting>
 ```
 
@@ -105,7 +130,7 @@ Agents First, Tools Second - Expert Context Over General Purpose
 ---
 
 ## 📋 Coordination Protocols
-*Sequential and parallel handoffs define how context and resources flow between agents. Studio-coach manages escalations for failures, conflicts, or timeline pressure. Feedback loops ensure performance and quality improve over time.*
+*Under the Studio philosophy, coordination flows through the management hierarchy. The **cofounder** handles strategic requirement clarification, **studio-producer** manages tactical failures and resource conflicts, **project-shipper** ensures delivery quality, and **parallel-worker** coordinates specialist execution.*
 
 ```xml
 <coordination>
@@ -113,20 +138,20 @@ Agents First, Tools Second - Expert Context Over General Purpose
     <rule>ContextTransfer</rule>
     <rule>DependencyCheck</rule>
     <rule>QualityGate</rule>
-    <rule><FailureEscalation target="studio-coach"/></rule>
+    <rule><FailureEscalation target="studio-producer"/></rule>
   </handoff>
   <handoff type="parallel">
     <rule>ResourceAllocation</rule>
-    <rule><ProgressSync target="studio-coach"/></rule>
+    <rule><ProgressSync target="studio-producer"/></rule>
     <rule>DependencyManagement</rule>
     <rule>IntegrationPoint</rule>
   </handoff>
   <escalations>
-    <trigger condition="agentFailureCascade" target="studio-coach"/>
-    <trigger condition="resourceConflict" target="studio-coach"/>
-    <trigger condition="dependencyDeadlock" target="studio-coach"/>
-    <trigger condition="qualityGateFail" target="studio-coach"/>
-    <trigger condition="timelinePressure" target="studio-coach"/>
+    <trigger condition="agentFailureCascade" target="studio-producer"/>
+    <trigger condition="resourceConflict" target="studio-producer"/>
+    <trigger condition="dependencyDeadlock" target="studio-producer"/>
+    <trigger condition="qualityGateFail" target="project-shipper"/>
+    <trigger condition="strategicDecision" target="cofounder"/>
   </escalations>
   <feedbackLoops>
     <performanceOptimization>Track coordination, identify patterns, reduce overhead</performanceOptimization>
@@ -145,9 +170,34 @@ Agents First, Tools Second - Expert Context Over General Purpose
   <trigger event="code-change" agent="test-writer-fixer" purpose="immediate test coverage"/>
   <trigger event="ui-change" agent="whimsy-injector" purpose="add delightful interactions"/>
   <trigger event="feature-flags" agent="experiment-tracker" purpose="A/B testing setup"/>
-  <trigger event="complex-workflow" agent="studio-coach" purpose="orchestration management"/>
+  <trigger event="complex-workflow" agent="studio-producer" purpose="tactical orchestration management"/>
 </autoTriggers>
 ```
+
+---
+
+## 🧠 Orchestration Decision Logic
+
+This is the mandatory logic for handling complex tasks and routing to appropriate management agents.
+
+```xml
+<orchestrationLogic>
+  <decision>
+    <condition>User provides a vague, high-level, or ambiguous goal.</condition>
+    <action>Invoke **`cofounder`** to perform strategic analysis and create a detailed plan.</action>
+    <example>"Build a social media app."</example>
+  </decision>
+  <decision>
+    <condition>User provides a detailed plan, a `TODO.md`, or a well-defined epic.</condition>
+    <action>Invoke **`parallel-worker`** to execute the existing plan.</action>
+    <example>"Implement the features outlined in `epics/feature-x/epic.md`."</example>
+  </decision>
+  <decision>
+    <condition>Project is complete and needs comprehensive documentation and closure.</condition>
+    <action>Invoke **`project-shipper`** to generate post-flight recap using genesis.xml data.</action>
+    <example>"Create a comprehensive recap of the Living Blueprint implementation."</example>
+  </decision>
+</orchestrationLogic>
 
 ---
 
@@ -179,9 +229,12 @@ Agents First, Tools Second - Expert Context Over General Purpose
   <agent id="visual-storyteller"/>
 </department>
 
-<department name="Project Management">
-  <agent id="studio-coach" role="Strategic Planner - Decomposes very complex, ambiguous goals into a structured plan file. Acts as an optional first step before execution."/>
-  <agent id="parallel-worker" role="Core Execution Engine - Takes a high-level goal or a plan file, creates and manages the worktree, and orchestrates subagents to perform the work in parallel. The primary driver for complex tasks."/>
+<department name="Studio Management">
+  <agent id="cofounder" role="Strategic Head - Socratic questioning, requirement clarification, strategic brief creation. For ambiguous goals, outputs strategic-brief.md for 'hydra plan' processing."/>
+  <agent id="plan-generator" role="Living Blueprint Architect - Transforms strategic briefs into detailed genesis.xml files with execution DAGs. Core component of 'hydra plan' workflow."/>
+  <agent id="studio-producer" role="Tactical Orchestrator - Execution management, resource allocation, timeline coordination. Primary orchestrator for 'hydra run' operations."/>
+  <agent id="project-shipper" role="Delivery Manager - Living Blueprint recap specialist. Reads completed genesis.xml files to generate comprehensive project documentation via 'hydra recap'."/>
+  <agent id="parallel-worker" role="Technical Execution Engine - Genesis.xml-driven execution coordinator. Reads DAGs from genesis.xml and orchestrates specialist agents for parallel task completion."/>
 </department>
 
 <department name="Marketing">
@@ -225,7 +278,7 @@ Agents First, Tools Second - Expert Context Over General Purpose
 
 ---
 
-**Agent orchestration is as important as agent selection.** Studio-coach orchestrates complex coordination, auto-triggers ensure workflow continuity, and agent teams provide comprehensive, quality-driven solutions.
+**Agent orchestration follows the Studio hierarchy.** The **cofounder** provides strategic requirement clarification, **studio-producer** orchestrates tactical execution, **project-shipper** ensures delivery quality, auto-triggers maintain workflow continuity, and specialized agent teams deliver comprehensive, expert solutions.
 
 ---
 
@@ -502,3 +555,91 @@ code_quality_benefits:
 5. **Quality Assurance**: Automated compliance and consistency validation across the entire system
 
 This architecture enables unlimited conversation length through agent delegation while maintaining expert-level quality through universal template compliance. The system scales both technically and organizationally, supporting projects of any complexity while preserving context and ensuring excellence.
+
+---
+
+## 📜 The Living Blueprint System
+
+**Revolutionary Project Management Philosophy**
+
+The Living Blueprint represents a paradigm shift in AI-assisted project management, replacing temporary status files with persistent, comprehensive `genesis.xml` documents that serve as the single source of truth for every epic.
+
+### Core Philosophy
+
+```xml
+<livingBlueprintPhilosophy>
+  <principle name="ExecutableDocumentation">
+    <description>Every project becomes a living document that both describes and executes the work.</description>
+    <benefit>Single source of truth eliminates context fragmentation</benefit>
+  </principle>
+  
+  <principle name="ContinuousKnowledgeCapture">
+    <description>All insights, decisions, and learnings are automatically captured in structured XML.</description>
+    <benefit>Organizational memory that compounds over time</benefit>
+  </principle>
+  
+  <principle name="AutonomousExecution">
+    <description>Agents read directly from genesis.xml to understand context and update their progress.</description>
+    <benefit>Self-coordinating teams with minimal human oversight</benefit>
+  </principle>
+</livingBlueprintPhilosophy>
+```
+
+### The Complete Workflow
+
+```xml
+<workflowSequence>
+  <step command="hydra new 'vague goal'">
+    <agent>cofounder</agent>
+    <output>strategic-brief.md</output>
+    <purpose>Transform ambiguous requirements into clear strategic direction</purpose>
+  </step>
+  
+  <step command="hydra plan epic-name">
+    <agent>plan-generator</agent>
+    <input>strategic-brief.md</input>
+    <output>genesis.xml</output>
+    <purpose>Create detailed execution DAG with agent assignments and dependencies</purpose>
+  </step>
+  
+  <step command="hydra run epic-name">
+    <agent>parallel-worker</agent>
+    <input>genesis.xml</input>
+    <output>completed genesis.xml with results</output>
+    <purpose>Execute all tasks in parallel using genesis.xml coordination</purpose>
+  </step>
+  
+  <step command="hydra pm view epic-name">
+    <tool>xmlstarlet + bash</tool>
+    <input>genesis.xml</input>
+    <output>human-readable project status</output>
+    <purpose>Real-time project visibility and progress tracking</purpose>
+  </step>
+  
+  <step command="hydra recap epic-name">
+    <agent>project-shipper</agent>
+    <input>completed genesis.xml</input>
+    <output>comprehensive project documentation</output>
+    <purpose>Generate permanent record with insights and metrics</purpose>
+  </step>
+</workflowSequence>
+```
+
+### Living Blueprint Benefits
+
+**For Projects:**
+- **Persistent Context**: No more lost information between sessions
+- **Real-time Visibility**: Always know exactly what's happening
+- **Automatic Documentation**: Self-documenting projects with searchable history
+
+**For Teams:**
+- **Autonomous Coordination**: Agents self-coordinate through shared XML state
+- **Knowledge Compound**: Every project builds organizational intelligence
+- **Quality Consistency**: Universal standards across all implementations
+
+**For Organizations:**
+- **Scalable Management**: Handle unlimited concurrent projects
+- **Learning Organization**: Insights from every project inform future work  
+- **Predictable Outcomes**: Proven patterns reduce project risk
+
+The Living Blueprint transforms project management from manual coordination into autonomous, intelligent execution that gets better with every epic completed.

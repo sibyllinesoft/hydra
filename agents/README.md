@@ -36,7 +36,7 @@ agent_spawn:
   fresh_context: "~13k tokens per spawn, no conversation history"
   specialized_expertise: "500+ word domain-specific system prompts" 
   isolation: "Failures don't affect main conversation"
-  coordination: "Multi-agent workflows via studio-coach"
+  coordination: "Multi-agent workflows via cofounder"
 ```
 
 ## 🏗️ Agent System Architecture
@@ -129,7 +129,7 @@ agent_spawn:
 - **technical-writer**: Technical documentation, API docs, user guides
 
 #### 🎭 Special Coordination (2 agents)
-- **studio-coach**: Master orchestrator for complex multi-agent workflows **(Auto-triggers for 4+ agent tasks)**
+- **cofounder**: Master orchestrator for complex multi-agent workflows **(Auto-triggers for 4+ agent tasks)**
 - **parallel-worker**: Technical executor for pre-defined parallel work plans
 
 ## 📋 Complete Agent Directory by Department
@@ -199,8 +199,8 @@ agent_spawn:
 
 | Agent | Function | Coordination | Auto-Triggers |
 |-------|----------|-------------|---------------|
-| **studio-coach** | Master orchestration | Multi-agent workflows | ✅ Complex tasks (4+ agents) |
-| **parallel-worker** | Technical execution | Pre-defined plans | Via studio-coach |
+| **cofounder** | Master orchestration | Multi-agent workflows | ✅ Complex tasks (4+ agents) |
+| **parallel-worker** | Technical execution | Pre-defined plans | Via cofounder |
 | **experiment-tracker** | A/B testing | Feature flags, data | ✅ Feature flag mentions |
 | **project-shipper** | Launch management | Release coordination | - |
 
@@ -246,7 +246,7 @@ agent_spawn:
 
 ## 🎼 Agent Orchestration & Coordination
 
-### Master Orchestrator: studio-coach
+### Master Orchestrator: cofounder
 
 **Primary Function**: Coordinates complex workflows requiring 4+ agents or cross-domain expertise.
 
@@ -265,7 +265,7 @@ feature_development_pipeline:
   
 production_incident_response:
   parallel: [backend-architect, devops-automator, support-responder]
-  coordination: studio-coach manages resource conflicts
+  coordination: cofounder manages resource conflicts
   escalation: experiment-tracker if A/B testing affected
   
 product_launch_workflow:
@@ -274,7 +274,7 @@ product_launch_workflow:
     development: [rapid-prototyper, ui-designer, test-writer-fixer]
     marketing: [growth-hacker, content-creator, app-store-optimizer]
     operations: [devops-automator, analytics-reporter, support-responder]
-  orchestration: studio-coach coordinates handoffs and dependencies
+  orchestration: cofounder coordinates handoffs and dependencies
 ```
 
 ### Agent Coordination Protocols
@@ -290,7 +290,7 @@ product_launch_workflow:
 **Resource Management**:
 - Prevent tool conflicts between simultaneous agents
 - Coordinate shared resource access (files, databases, APIs)
-- Sync progress updates to studio-coach
+- Sync progress updates to cofounder
 - Merge outputs at integration points
 
 #### Auto-Triggering Agents
@@ -298,7 +298,7 @@ product_launch_workflow:
 - **test-writer-fixer**: Activates after code modifications (maintains test coverage)
 - **whimsy-injector**: Triggers after UI/UX changes (adds interaction delight)
 - **experiment-tracker**: Activates when feature flags mentioned (sets up A/B testing)
-- **studio-coach**: Coordinates when complex workflows detected
+- **cofounder**: Coordinates when complex workflows detected
 
 ## 🔧 Using Agents: Practical Guide
 
@@ -321,7 +321,7 @@ Add comprehensive tests for the authentication system above
 </agent>
 
 <!-- Complex Orchestration -->
-<agent name="studio-coach">
+<agent name="cofounder">
 Launch a complete e-commerce platform with user management, product catalog, and payment processing
 </agent>
 ```
@@ -374,7 +374,7 @@ Validate the query optimizations above with before/after benchmarks
 
 #### Pattern 3: Complex Orchestration (4+ Agents)
 ```xml
-<agent name="studio-coach">
+<agent name="cofounder">
 Build and launch a complete blog platform with:
 - User authentication and profiles
 - Rich text editor for posts  
@@ -391,7 +391,7 @@ Build and launch a complete blog platform with:
 |------------|---------|---------|-------------|
 | **Simple** | Direct specialized agent | "Fix this CSS bug" → `ui-designer` | None |
 | **Medium** | 2-3 agent sequence | "Add login feature" → `rapid-prototyper` → `test-writer-fixer` | Auto-handoffs |
-| **Complex** | `studio-coach` orchestration | "Build e-commerce platform" → Multi-department | Full orchestration |
+| **Complex** | `cofounder` orchestration | "Build e-commerce platform" → Multi-department | Full orchestration |
 
 ### Auto-Triggering Examples
 
@@ -422,7 +422,7 @@ Build a FastAPI service for user management
    
 3. Is this cross-domain or complex?
    → Simple cross-domain: Sequential workflow (2-3 agents)
-   → Complex project: studio-coach orchestration
+   → Complex project: cofounder orchestration
    
 4. Is this a persistent/complex problem?
    → YES: Use super-hard-problem-developer
@@ -630,7 +630,7 @@ This shows the agent combines performance analysis, optimization implementation,
 version: "2.0"
 context_limit: 13000
 handoff_protocol: "structured_summary"
-failure_escalation: "studio-coach"
+failure_escalation: "cofounder"
 logging: true
 ```
 
@@ -762,12 +762,12 @@ operations_team:
 2. **Learn the XML Syntax**: Use `<agent name="agent-name">task description</agent>` 
 3. **Start Simple**: Try single-agent tasks before complex orchestration
 4. **Leverage Auto-triggers**: UI changes trigger whimsy-injector, code changes trigger test-writer-fixer
-5. **Use studio-coach**: For complex projects requiring 4+ agents
+5. **Use cofounder**: For complex projects requiring 4+ agents
 
 ### Essential Files
 
 - **[Base Configuration](base-config.yml)**: Global agent settings
-- **[Studio Coach](bonus/studio-coach.md)**: Master orchestrator for complex workflows
+- **[Studio Coach](bonus/cofounder.md)**: Master orchestrator for complex workflows
 - **[File Creator](utilities/file-creator.md)**: Template for utility agents
 - **[TypeScript Developer](engineering/typescript-node-developer.md)**: Example of language-specific agent
 - **[Master Template](includes/master-software-developer.md)**: Foundation for engineering agents
@@ -791,7 +791,7 @@ Debug the database connection timeout issues in production
 </agent>
 
 <!-- Complex project -->
-<agent name="studio-coach">
+<agent name="cofounder">
 Build a complete task management application with real-time collaboration
 </agent>
 ```
@@ -825,7 +825,7 @@ The Claude Code Studio agent system represents a **fundamental breakthrough in A
 ✅ **50+ Specialized Agents**: Covering engineering, design, marketing, product, operations, testing, and writing
 ✅ **Mandatory Utility Agents**: Context preservation through file, git, research, and date delegation  
 ✅ **Auto-triggering System**: Proactive agent coordination (test-writer-fixer, whimsy-injector, etc.)
-✅ **Master Orchestration**: studio-coach coordinates complex multi-agent workflows
+✅ **Master Orchestration**: cofounder coordinates complex multi-agent workflows
 ✅ **Language Specialization**: Cutting-edge 2024-2025 ecosystem expertise in TypeScript, Python, Rust, Go
 ✅ **Quality Enforcement**: Universal security, testing, and performance standards
 ✅ **Scalable Architecture**: Easy addition of new specialists without quality compromise
@@ -840,6 +840,6 @@ The Claude Code Studio agent system represents a **fundamental breakthrough in A
 
 ---
 
-**Ready to experience unlimited AI-assisted development?** Start with a mandatory utility agent or dive into complex orchestration with studio-coach. The agent system scales from simple tasks to enterprise-level projects while maintaining expert-level quality throughout.
+**Ready to experience unlimited AI-assisted development?** Start with a mandatory utility agent or dive into complex orchestration with cofounder. The agent system scales from simple tasks to enterprise-level projects while maintaining expert-level quality throughout.
 
 *The future of AI development is agent-first, context-preserved, and infinitely scalable.*

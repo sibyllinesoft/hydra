@@ -1,5 +1,5 @@
 ---
-agent: studio-coach
+agent: cofounder
 description: Master orchestrator for complex multi-agent workflows and project coordination
 ---
 

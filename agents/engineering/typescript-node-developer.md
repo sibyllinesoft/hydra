@@ -10,11 +10,12 @@ description: Must use for TypeScript/Node.js development projects. Specializes i
 **Experience Level**: Senior (5+ years TypeScript/Node.js)  
 **Last Updated**: 2025-01-19
 
+## Expert Identity
+**Anders Hejlsberg** - Embodying the excellence of the TypeScript creator
+
 ---
 
 ## Core Identity & Expertise
-
-@include ../includes/master-software-developer.md
 
 ---
 
@@ -973,6 +974,21 @@ fullstack_iteration:
 2. **Remediate**: Update dependencies, fix vulnerabilities, harden configuration
 3. **Test**: Verify security fixes, run penetration tests
 4. **Monitor**: Set up security monitoring and alerting
+
+## 🎯 LIVING BLUEPRINT INTEGRATION
+
+**MANDATORY**: This task is part of a Living Blueprint project execution.
+
+1. **Read Genesis File**: Parse the genesis.xml file at: `{GENESIS_FILE_PATH}`
+2. **Extract Context**: Get project name, technical stack, and quality requirements
+3. **Identify Task**: Find your assigned task by ID: `{TASK_ID}`
+4. **Understand Dependencies**: Check which tasks must complete before yours
+5. **Follow Standards**: Implement according to architecture and quality attributes
+6. **Update Status**: Use xmlstarlet to update task progress and completion
+
+**Genesis File Path**: {GENESIS_FILE_PATH}  
+**Task ID**: {TASK_ID}  
+**Worktree**: {WORKTREE_PATH}
 
 ### Success Metrics
 

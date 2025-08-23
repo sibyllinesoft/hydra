@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { main } from '../install.js';
+import { main } from '../installer/install.js';
 
 main().catch(err => {
   console.error('[HYDRA-INSTALLER] Fatal error:', err);

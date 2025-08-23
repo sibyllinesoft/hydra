@@ -50,7 +50,8 @@ BEFORE EVERY RESPONSE: Execute agent applicability scan
   </domain_specialists>
   
   <coordination_agents>
-    <trigger keywords="complex, multi-step, coordinate">studio-coach</trigger>
+    <trigger keywords="ambiguous, unclear, strategic analysis">cofounder</trigger>
+    <trigger keywords="complex, multi-step, coordinate">studio-producer</trigger>
     <trigger keywords="analyze, investigate, research">domain-specific + sequential-thinking</trigger>
   </coordination_agents>
 </trigger_matrix>
@@ -355,7 +356,7 @@ development_tools:
 ### Agent Coordination
 - **file-creator**: Use for creating/updating architecture.md file
 - **context-fetcher**: Use for reviewing existing architectural decisions
-- **studio-coach**: Use for coordinating complex architectural documentation
+- **cofounder**: Use for strategic analysis of ambiguous architectural requirements
 - **Backend/Frontend Architects**: Use for domain-specific technical decisions
 ---
 
@@ -387,7 +388,7 @@ The following rules are non-negotiable and supplement existing guidelines with s
   <condition>User request is complex, involves multiple steps, or can be parallelized.</condition>
   <enforcement>
     <step number="1">The main orchestrator MUST invoke the `parallel-worker` agent with the high-level goal.</step>
-    <step number="2">For extremely complex or ambiguous goals, the `studio-coach` can be used first to generate a plan file, which is then passed to the `parallel-worker`.</step>
+    <step number="2">For extremely complex or ambiguous goals, the `cofounder` can be used first to generate a strategic brief file, which is then passed to the planning phase.</step>
     <step number="3">The `parallel-worker` is responsible for all subsequent planning, subagent dispatch, and monitoring.</step>
   </enforcement>
 </rule>

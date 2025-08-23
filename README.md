@@ -32,22 +32,41 @@ Hydra transforms Claude Code into a mythical beast with 50+ specialized agent he
 ## 🚀 Quick Start
 
 ```bash
-# One command installs everything
-npx github:sibyllinesoft/hydra
+# Smart installer detects your environment
+hydra-installer
 ```
 
 **What happens:**
-- Creates backup of existing `.claude/` config
+- Creates backup of existing `.claude/` config  
 - Installs 50+ specialized agents with fresh context
 - Adds 15+ MCP server integrations
-- Includes extras: statusline, docs tools, project indexing
+- Smart Git detection for existing repositories
+- Sets up master workflow prompt templates
 
-### Test Drive
-```
-Use typescript-node-developer to create a REST API with authentication and tests
+### Living Blueprint Workflow Experience
+```bash
+# 1. Strategic analysis for ambiguous goals
+hydra new "user authentication system"
+# → cofounder agent creates strategic-brief.md
+
+# 2. Transform strategy into detailed execution plan
+hydra plan auth-epic  
+# → plan-generator creates genesis.xml with task DAG
+
+# 3. Autonomous parallel execution
+hydra run auth-epic
+# → parallel-worker coordinates specialists via genesis.xml
+
+# 4. Real-time project visibility  
+hydra pm view auth-epic
+# → Human-readable status from genesis.xml
+
+# 5. Comprehensive project recap
+hydra recap auth-epic
+# → project-shipper generates documentation from genesis.xml
 ```
 
-**Result:** Complete implementation delivered using 0% of your conversation context.
+**Result:** Seamless handoff to Claude Code with structured planning, then autonomous execution using 0% of your conversation context.
 
 ## 🎮 How It Works
 
@@ -59,16 +78,66 @@ Claude: "I've lost context, can you remind me what we were building?"
 You: 😤 [Start over]
 ```
 
-**Hydra Workflow:**
+**Hydra Living Blueprint Workflow:**
 ```
-You: "Use security-ninja to build user authentication"
-security-ninja: [Fresh context] → Builds complete auth system → Returns implementation
-You: "Now use database-wizard to optimize queries"  
-database-wizard: [Fresh context] → Optimizes & delivers → Returns results
-You: [Still at message 3, unlimited capacity remaining]
+You: hydra new "authentication system"
+Hydra: cofounder agent → strategic-brief.md [Socratic analysis + clear requirements]
+
+You: hydra plan auth-epic
+Hydra: plan-generator → genesis.xml [Detailed DAG + agent assignments]
+
+You: hydra run auth-epic  
+Hydra: parallel-worker → reads genesis.xml → coordinates specialists in parallel
+
+You: hydra pm view auth-epic
+Hydra: xmlstarlet + bash → real-time status from genesis.xml
+
+You: hydra recap auth-epic
+Hydra: project-shipper → comprehensive documentation from completed genesis.xml
 ```
 
-**The Breakthrough:** Context Firewall Technology™ isolates verbose work in specialized agent heads while keeping your main conversation immortal.
+**The Breakthrough:** Master Workflow Prompts™ provide Claude Code with structured planning frameworks, then Context Firewall Technology™ enables unlimited autonomous execution while preserving your conversation forever.
+
+## 📋 CLI Command Reference
+
+### `hydra new <feature-name>`
+**Purpose:** Start planning any feature, project, or task  
+**What happens:** Hands off to Claude Code with Socratic questioning workflow to break down requirements, create epic plans, and prepare for execution
+
+```bash
+hydra new "user authentication"
+hydra new "payment integration" 
+hydra new "refactor legacy API"
+```
+
+### `hydra run <epic-name>`  
+**Purpose:** Execute autonomous development based on planning  
+**What happens:** Triggers studio-producer orchestration → parallel-worker coordination → specialized agent execution with real-time monitoring
+
+```bash
+hydra run "auth-epic"
+hydra run "payment-epic"
+hydra run "refactor-epic"
+```
+
+### `hydra doctor`
+**Purpose:** System health check and diagnostics  
+**What happens:** Validates agent configurations, MCP server connectivity, Git status, and project dependencies
+
+```bash
+hydra doctor                    # Full system check
+hydra doctor --agents          # Agent health only
+hydra doctor --mcp             # MCP server status
+```
+
+### `hydra recap <epic-name>`
+**Purpose:** Generate comprehensive project documentation  
+**What happens:** Creates detailed recap with implementation summary, architectural decisions, test results, and deployment notes
+
+```bash
+hydra recap "auth-epic"        # Generate full recap
+hydra recap "payment-epic" --format markdown
+```
 
 ## 🧠 Your Expert Agents
 
@@ -134,6 +203,11 @@ You: [Still at message 3, unlimited capacity remaining]
 - Agents spawn with fresh context → work in isolation → return only results  
 - Multiple agents execute in parallel without interference
 
+**Master Workflow Prompts™** - XML state machines that provide Claude Code with structured planning frameworks:
+- **Planning Workflows**: Socratic questioning for requirement analysis
+- **Execution Workflows**: Orchestrated specialist coordination
+- **Quality Workflows**: Validation and delivery management
+
 **E-H-A-E-D-R Methodology** - Every agent follows this cycle:
 Examine → Hypothesize → Act → Evaluate → Decide → Repeat
 
@@ -154,23 +228,30 @@ Examine → Hypothesize → Act → Evaluate → Decide → Repeat
 
 ### Production Examples
 
-**Full-Stack Development** (0% context used)
+**Full-Stack Development** (AI Development Studio in action)
+```bash
+hydra new "real-time chat application"
+# → Claude Code planning with Socratic methodology
+# → Epic breakdown: auth, websockets, UI, deployment
+hydra run "chat-epic"  
+# → Autonomous execution: typescript-node-developer → frontend-developer → test-writer-fixer
 ```
-Build a real-time chat app with TypeScript backend and React frontend
-```
-**→** Multiple agents coordinate → Complete app delivered
 
-**Crisis Resolution** (Parallel investigation)
+**Crisis Resolution** (Emergency response workflow)
+```bash
+hydra new "critical payment processing failure"
+# → Immediate triage and parallel investigation plan
+hydra run "payment-hotfix"
+# → Multiple agents investigate in parallel → Hot fix deployed
 ```
-Critical: Payment processing failing, need immediate fix
-```
-**→** Agents investigate in parallel → Hot fix deployed
 
-**Legacy Modernization**
+**Legacy Modernization** (Systematic transformation)
+```bash
+hydra new "PHP monolith to TypeScript microservices migration"
+# → Comprehensive migration strategy with risk assessment  
+hydra run "modernization-epic"
+# → refactoring-specialist → typescript-node-developer → systematic execution
 ```
-Modernize PHP monolith to TypeScript microservices
-```  
-**→** Systematic analysis and migration
 
 ### Project Structure
 
@@ -278,7 +359,7 @@ hydra/
 <summary><strong>🎯 Coordination & Utility Specialists (10+ agents)</strong></summary>
 
 **Coordination Specialists**
-- `studio-coach` - Master orchestrator for complex multi-agent workflows
+- `cofounder` - Strategic Head for ambiguous goal analysis and Socratic requirement clarification
 - `parallel-worker` - Technical execution engine with dependency-aware workflows  
 - `project-shipper` - End-to-end delivery management, timeline coordination
 - `experiment-tracker` - A/B testing, feature flags, validation workflows

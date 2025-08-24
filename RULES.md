@@ -18,7 +18,7 @@ BEFORE EVERY RESPONSE: Execute agent applicability scan
   <step number="2" name="Agent Selection">
     <if condition="utility_domain_detected">USE_MANDATORY_UTILITY_AGENT</if>
     <elif condition="single_domain_task">USE_SPECIALIZED_AGENT</elif>
-    <elif condition="cross_domain_task">USE_STUDIO_COACH_ORCHESTRATION</elif>
+    <elif condition="cross_domain_task">USE_COFOUNDER_ORCHESTRATION</elif>
     <else>PROCEED_WITH_DIRECT_TOOLS</else>
   </step>
   

@@ -777,7 +777,7 @@ operations_team:
 ### Essential Files
 
 - **[Base Configuration](base-config.yml)**: Global agent settings
-- **[Studio Coach](bonus/cofounder.md)**: Master orchestrator for complex workflows
+- **[Cofounder](bonus/cofounder.md)**: Master orchestrator for complex workflows
 - **[File Creator](utilities/file-creator.md)**: Template for utility agents
 - **[TypeScript Developer](engineering/typescript-node-developer.md)**: Example of language-specific agent
 - **[Master Template](includes/master-software-developer.md)**: Foundation for engineering agents

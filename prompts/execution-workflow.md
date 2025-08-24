@@ -66,7 +66,7 @@ You are now executing a **HYDRA EXECUTION PROTOCOL** - a stateful, autonomous ex
       </validation_criteria>
     </phase>
     
-    <phase id="AUTONOMOUS_EXECUTION_MONITORING" name="Autonomous Implementation Monitoring" status="pending" agent_persona="studio-coach">
+    <phase id="AUTONOMOUS_EXECUTION_MONITORING" name="Autonomous Implementation Monitoring" status="pending" agent_persona="cofounder">
       <deliverable>Completed feature implementation with continuous quality validation</deliverable>
       <instruction>
         Monitor and coordinate autonomous execution:
@@ -228,7 +228,7 @@ This workflow operates in **autonomous mode** with strategic checkpoints:
 This workflow coordinates multiple specialized agents:
 
 - **parallel-worker**: Core execution engine managing task queue
-- **studio-coach**: Strategic oversight and coordination
+- **cofounder**: Strategic oversight and coordination
 - **project-shipper**: Final delivery and cleanup
 - **Specialized agents**: Invoked as needed for specific issues
 

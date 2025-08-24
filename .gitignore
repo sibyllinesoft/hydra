@@ -11,6 +11,7 @@ plugins/
 settings.local.json
 PERSONAL-ENV.md
 .serena/
+.claude/
 .claude-cache/
 .claude-cache-v2/
 

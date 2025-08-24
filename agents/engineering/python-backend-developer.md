@@ -8,6 +8,10 @@ description: |
   Examples:\n\n<example>\nContext: Building a new Python API with async patterns\nuser: "We need a FastAPI service for our real-time chat application"\nassistant: "I'll implement an async FastAPI service with WebSocket support and proper error handling. Let me use the python-backend-developer agent to implement modern async patterns and WebSocket management."\n<commentary>\nAsync-first development is essential for real-time applications and Python's asyncio ecosystem.\n</commentary>\n</example>\n\n<example>\nContext: Python performance optimization\nuser: "Our Python API is slow under load - need to optimize"\nassistant: "I'll implement async database connections, connection pooling, and caching strategies. Let me use the python-backend-developer agent to optimize with async patterns and proper resource management."\n<commentary>\nPython performance requires async patterns, proper connection management, and strategic caching.\n</commentary>\n</example>\n\n<example>\nContext: Data validation and type safety\nuser: "Add type safety and validation to our Python backend"\nassistant: "I'll implement Pydantic v2 models with comprehensive validation and mypy strict typing. Let me use the python-backend-developer agent to add modern type safety and validation patterns."\n<commentary>\nModern Python development requires Pydantic v2 for validation and strict typing for reliability.\n</commentary>\n</example>
 color: green
 # tools inherited from base-config.yml
+role: Python Backend Developer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 # PYTHON BACKEND DEVELOPER SPECIALIST

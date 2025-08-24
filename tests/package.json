@@ -1,0 +1,108 @@
+{
+  "name": "hydra-cli-tests",
+  "version": "1.0.0",
+  "description": "Comprehensive test suite for Hydra CLI",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "test:unit": "jest tests/unit --coverage",
+    "test:integration": "jest tests/integration --coverage",
+    "test:e2e": "jest tests/e2e --coverage",
+    "test:stress": "jest tests/stress --testTimeout=60000",
+    "test:security": "jest tests/security --coverage",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e && npm run test:stress && npm run test:security",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --coverageReporters=text-lcov --coverageReporters=html",
+    "test:verbose": "jest --verbose",
+    "test:doctor": "jest tests/unit/commands/doctor.test.js --verbose",
+    "test:orchestrate": "jest tests/unit/commands/orchestrate.test.js --verbose",
+    "test:enhance": "jest tests/unit/commands/enhance.test.js --verbose",
+    "test:parallel": "jest --maxWorkers=4",
+    "benchmark": "node tests/performance/benchmark.js",
+    "test:ci": "jest --coverage --ci --reporters=default --reporters=jest-junit --maxWorkers=2",
+    "test:ci-verbose": "npm run test:ci -- --verbose",
+    "test:memory": "node --expose-gc tests/performance/memory-test.js",
+    "validate": "npm run test:all && npm run benchmark"
+  },
+  "dependencies": {
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "@jest/globals": "^29.7.0",
+    "node-mocks-http": "^1.13.0",
+    "mock-fs": "^5.2.0",
+    "sinon": "^17.0.1",
+    "supertest": "^6.3.3",
+    "tmp-promise": "^3.0.3",
+    "xml2js": "^0.6.2",
+    "commander": "^11.1.0",
+    "jest-extended": "^4.0.2",
+    "jest-html-reporters": "^3.1.5",
+    "npm-check-updates": "^16.14.12",
+    "cross-spawn": "^7.0.3",
+    "rimraf": "^5.0.5",
+    "fast-xml-parser": "^4.3.4",
+    "uuid": "^9.0.1",
+    "chalk": "^5.3.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "preset": "@babel/preset-env",
+    "transform": {},
+    "extensionsToTreatAsEsm": [".js"],
+    "globals": {
+      "__DEV__": true
+    },
+    "moduleNameMapping": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    },
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/coverage/",
+      "/dist/"
+    ],
+    "collectCoverageFrom": [
+      "../bin/**/*.mjs",
+      "!../bin/hydra-installer.mjs",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/tests/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "text-summary",
+      "html",
+      "lcov",
+      "json"
+    ],
+    "setupFilesAfterEnv": ["<rootDir>/setup/jest.setup.js"],
+    "testTimeout": 30000,
+    "maxWorkers": "50%",
+    "collectCoverageFrom": [
+      "../bin/hydra.mjs",
+      "../bin/orchestrator-daemon.mjs"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-html-reporters",
+        {
+          "publicPath": "./coverage/html-report",
+          "filename": "report.html",
+          "openReport": false,
+          "expand": true
+        }
+      ]
+    ]
+  }
+}

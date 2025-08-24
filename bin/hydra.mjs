@@ -6,11 +6,12 @@
  */
 
 import { Command } from 'commander';
-import { readFileSync, existsSync, mkdirSync } from 'fs';
+import { readFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join, dirname, resolve } from 'path';
 import { execSync, spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { homedir, tmpdir } from 'os';
+import { HydraOrchestrator } from './orchestrator-daemon.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -181,12 +182,14 @@ class HealthChecker {
     this.pathResolver = pathResolver;
   }
 
-  async runAllChecks() {
+  async runAllChecks(options = {}) {
     console.log('🏥 Running Hydra Health Diagnostics...\n');
 
     const results = {
       authentication: await this.checkAuthentication(),
       xmlstarlet: await this.checkXmlstarlet(),
+      livingBlueprints: await this.checkLivingBlueprints(options.autoFix),
+      agentIntegrity: await this.checkAgentIntegrity(options.autoFix),
       localIntegrity: await this.checkLocalIntegrity(),
       fileIntegrity: await this.checkFileIntegrity()
     };
@@ -379,6 +382,323 @@ class HealthChecker {
     };
   }
 
+  async checkLivingBlueprints(autoFix = false) {
+    console.log('📋 Checking Living Blueprint Schema Integrity...');
+    
+    try {
+      const epicsDirs = [
+        join(process.cwd(), '.claude', 'epics'),
+        join(process.cwd(), 'epics')
+      ];
+      
+      let blueprintCount = 0;
+      let validCount = 0;
+      let invalidCount = 0;
+      let fixedCount = 0;
+      const issues = [];
+
+      for (const epicsDir of epicsDirs) {
+        if (!existsSync(epicsDir)) continue;
+
+        const epics = execSync(`find ${epicsDir} -name "genesis.xml" -type f`, { 
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore']
+        }).trim().split('\n').filter(f => f);
+
+        for (const genesisFile of epics) {
+          blueprintCount++;
+          const epicName = genesisFile.split('/').slice(-2, -1)[0];
+          
+          // Validate XML structure using xmlstarlet
+          try {
+            execSync(`xmlstarlet val "${genesisFile}"`, { stdio: 'ignore' });
+            
+            // Validate required elements exist
+            const requiredElements = [
+              '/projectGenesis/metadata/projectName',
+              '/projectGenesis/metadata/status',
+              '/projectGenesis/vision/problemStatement',
+              '/projectGenesis/executionPlan/executionDag',
+              '/projectGenesis/metrics/progress'
+            ];
+
+            let missingElements = [];
+            for (const element of requiredElements) {
+              try {
+                const value = execSync(`xmlstarlet sel -t -v '${element}' "${genesisFile}"`, { 
+                  encoding: 'utf8', 
+                  stdio: ['ignore', 'pipe', 'ignore'] 
+                }).trim();
+                if (!value) missingElements.push(element);
+              } catch {
+                missingElements.push(element);
+              }
+            }
+
+            if (missingElements.length > 0) {
+              invalidCount++;
+              issues.push(`[${epicName}] Missing elements: ${missingElements.join(', ')}`);
+              
+              if (autoFix) {
+                // Attempt to fix missing elements with defaults
+                let fixed = await this.fixMissingBlueprintElements(genesisFile, missingElements);
+                if (fixed) fixedCount++;
+              }
+            } else {
+              validCount++;
+            }
+
+          } catch (error) {
+            invalidCount++;
+            issues.push(`[${epicName}] XML validation failed: ${error.message.split('\n')[0]}`);
+            
+            if (autoFix) {
+              // Attempt to fix malformed XML
+              let fixed = await this.fixMalformedXml(genesisFile);
+              if (fixed) fixedCount++;
+            }
+          }
+        }
+      }
+
+      const status = invalidCount > 0 ? 'WARNING' : blueprintCount > 0 ? 'OK' : 'INFO';
+      const message = blueprintCount === 0 
+        ? 'No Living Blueprints found' 
+        : `${validCount} valid, ${invalidCount} invalid${autoFix ? `, ${fixedCount} auto-fixed` : ''} (${blueprintCount} total)`;
+
+      console.log(`  ${status === 'OK' ? '✅' : status === 'WARNING' ? '⚠️' : 'ℹ️'} Living Blueprints: ${message}\n`);
+
+      return { status, message, valid: validCount, invalid: invalidCount, fixed: fixedCount, issues };
+
+    } catch (error) {
+      console.log(`  ❌ Living Blueprint check failed: ${error.message}\n`);
+      return { status: 'ERROR', message: `Check failed: ${error.message}`, issues: [] };
+    }
+  }
+
+  async checkAgentIntegrity(autoFix = false) {
+    console.log('🤖 Checking Agent YAML Frontmatter Integrity...');
+    
+    try {
+      const agentDirs = [
+        join(this.pathResolver.getBasePath(), 'agents'),
+        join(process.cwd(), 'agents')
+      ];
+      
+      let agentCount = 0;
+      let validCount = 0;
+      let invalidCount = 0;
+      let fixedCount = 0;
+      const issues = [];
+
+      for (const agentsDir of agentDirs) {
+        if (!existsSync(agentsDir)) continue;
+
+        const agentFiles = execSync(`find ${agentsDir} -name "*.md" -type f`, { 
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore']
+        }).trim().split('\n').filter(f => f);
+
+        for (const agentFile of agentFiles) {
+          agentCount++;
+          const agentName = agentFile.split('/').pop().replace('.md', '');
+          
+          try {
+            const content = readFileSync(agentFile, 'utf8');
+            
+            // Check for YAML frontmatter
+            const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+            
+            if (!frontmatterMatch) {
+              invalidCount++;
+              issues.push(`[${agentName}] Missing YAML frontmatter`);
+              
+              if (autoFix) {
+                let fixed = await this.fixMissingFrontmatter(agentFile, agentName);
+                if (fixed) fixedCount++;
+              }
+              continue;
+            }
+
+            // Parse and validate YAML
+            const yamlContent = frontmatterMatch[1];
+            
+            // Basic validation - check for required fields
+            const requiredFields = ['name', 'role', 'capabilities'];
+            let missingFields = [];
+            
+            for (const field of requiredFields) {
+              if (!yamlContent.includes(`${field}:`)) {
+                missingFields.push(field);
+              }
+            }
+
+            if (missingFields.length > 0) {
+              invalidCount++;
+              issues.push(`[${agentName}] Missing YAML fields: ${missingFields.join(', ')}`);
+              
+              if (autoFix) {
+                let fixed = await this.fixMissingYamlFields(agentFile, missingFields, agentName);
+                if (fixed) fixedCount++;
+              }
+            } else {
+              validCount++;
+            }
+
+          } catch (error) {
+            invalidCount++;
+            issues.push(`[${agentName}] Read/parse failed: ${error.message}`);
+          }
+        }
+      }
+
+      const status = invalidCount > 0 ? 'WARNING' : agentCount > 0 ? 'OK' : 'INFO';
+      const message = agentCount === 0 
+        ? 'No agent files found' 
+        : `${validCount} valid, ${invalidCount} invalid${autoFix ? `, ${fixedCount} auto-fixed` : ''} (${agentCount} total)`;
+
+      console.log(`  ${status === 'OK' ? '✅' : status === 'WARNING' ? '⚠️' : 'ℹ️'} Agent Integrity: ${message}\n`);
+
+      return { status, message, valid: validCount, invalid: invalidCount, fixed: fixedCount, issues };
+
+    } catch (error) {
+      console.log(`  ❌ Agent integrity check failed: ${error.message}\n`);
+      return { status: 'ERROR', message: `Check failed: ${error.message}`, issues: [] };
+    }
+  }
+
+  async fixMissingBlueprintElements(genesisFile, missingElements) {
+    try {
+      console.log(`    🔧 Auto-fixing ${genesisFile}...`);
+      
+      // Add missing elements with default values
+      for (const element of missingElements) {
+        const parts = element.split('/').filter(p => p);
+        if (parts.length < 2) continue;
+        
+        const elementName = parts[parts.length - 1];
+        const parentPath = '/' + parts.slice(0, -1).join('/');
+        
+        let defaultValue = '';
+        switch (elementName) {
+          case 'projectName': defaultValue = 'Unknown Project'; break;
+          case 'status': defaultValue = 'planning'; break;
+          case 'problemStatement': defaultValue = 'Problem statement needs definition'; break;
+          case 'totalTasks': defaultValue = '0'; break;
+          case 'completedTasks': defaultValue = '0'; break;
+          case 'inProgressTasks': defaultValue = '0'; break;
+          case 'percentageComplete': defaultValue = '0'; break;
+          default: defaultValue = 'AUTO-GENERATED'; break;
+        }
+        
+        // Use xmlstarlet to add the missing element
+        execSync(`xmlstarlet ed -L -s "${parentPath}" -t elem -n "${elementName}" -v "${defaultValue}" "${genesisFile}"`, { stdio: 'ignore' });
+      }
+      
+      return true;
+    } catch (error) {
+      console.log(`    ❌ Auto-fix failed: ${error.message}`);
+      return false;
+    }
+  }
+
+  async fixMalformedXml(genesisFile) {
+    try {
+      console.log(`    🔧 Attempting XML repair for ${genesisFile}...`);
+      // Basic XML repair attempt - backup and try to fix common issues
+      const backup = `${genesisFile}.backup.${Date.now()}`;
+      execSync(`cp "${genesisFile}" "${backup}"`);
+      
+      const content = readFileSync(genesisFile, 'utf8');
+      
+      // Fix common XML issues
+      let fixed = content
+        .replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, '&amp;') // Fix unescaped ampersands
+        .replace(/<([^>]+)>\s*<\/\1>/g, '<$1/>') // Convert empty elements to self-closing
+        .trim();
+      
+      // Ensure proper XML declaration
+      if (!fixed.startsWith('<?xml')) {
+        fixed = '<?xml version="1.0" encoding="UTF-8"?>\n' + fixed;
+      }
+      
+      writeFileSync(genesisFile, fixed);
+      
+      // Test if it's now valid
+      execSync(`xmlstarlet val "${genesisFile}"`, { stdio: 'ignore' });
+      return true;
+    } catch (error) {
+      // Restore backup if repair failed
+      try {
+        const backup = `${genesisFile}.backup.${Date.now()}`;
+        if (existsSync(backup)) {
+          execSync(`mv "${backup}" "${genesisFile}"`);
+        }
+      } catch {}
+      return false;
+    }
+  }
+
+  async fixMissingFrontmatter(agentFile, agentName) {
+    try {
+      console.log(`    🔧 Adding YAML frontmatter to ${agentName}...`);
+      
+      const content = readFileSync(agentFile, 'utf8');
+      const frontmatter = `---
+name: ${agentName}
+role: ${agentName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+capabilities:
+  - Task execution
+  - Context analysis
+version: 1.0
+created: ${new Date().toISOString()}
+---
+
+`;
+      
+      writeFileSync(agentFile, frontmatter + content);
+      return true;
+    } catch (error) {
+      console.log(`    ❌ Frontmatter fix failed: ${error.message}`);
+      return false;
+    }
+  }
+
+  async fixMissingYamlFields(agentFile, missingFields, agentName) {
+    try {
+      console.log(`    🔧 Adding missing YAML fields to ${agentName}...`);
+      
+      const content = readFileSync(agentFile, 'utf8');
+      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      
+      if (!frontmatterMatch) return false;
+      
+      let yamlContent = frontmatterMatch[1];
+      
+      // Add missing fields
+      for (const field of missingFields) {
+        switch (field) {
+          case 'name':
+            yamlContent += `\nname: ${agentName}`;
+            break;
+          case 'role':
+            yamlContent += `\nrole: ${agentName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
+            break;
+          case 'capabilities':
+            yamlContent += `\ncapabilities:\n  - Task execution\n  - Context analysis`;
+            break;
+        }
+      }
+      
+      const newContent = content.replace(/^---\n[\s\S]*?\n---/, `---\n${yamlContent}\n---`);
+      writeFileSync(agentFile, newContent);
+      return true;
+    } catch (error) {
+      console.log(`    ❌ YAML field fix failed: ${error.message}`);
+      return false;
+    }
+  }
+
   reportResults(results) {
     console.log('📊 Health Check Summary:');
     console.log('========================');
@@ -416,17 +736,17 @@ async function executeNew(featureName, options) {
     
     // Load and process the strategic analysis template for cofounder
     const template = templateProcessor.loadTemplate('strategic-analysis.md');
-    const strategicBriefPath = join(epicDir, 'strategic-brief.md');
+    const prpPath = join(epicDir, 'prp.md');
     const prompt = templateProcessor.processTemplate(template, {
       feature_name: featureName,
       epic_name: featureName,
-      strategic_brief_path: strategicBriefPath,
+      strategic_brief_path: prpPath,
       timestamp: new Date().toISOString()
     });
     
-    console.log(`📋 Strategic Brief will be saved to: ${strategicBriefPath}`);
+    console.log(`📋 Product Requirement Prompt (PRP) will be saved to: ${prpPath}`);
     console.log(`🧠 Invoking cofounder agent for strategic analysis...`);
-    console.log(`🎯 Goal: Produce structured markdown Strategic Brief through Socratic questioning`);
+    console.log(`🎯 Goal: Produce structured markdown Product Requirement Prompt (PRP) through Socratic questioning`);
     console.log(`📂 Epic Directory: ${epicDir}\n`);
     
     // Hand off to Claude with cofounder agent - always invoke cofounder for strategic analysis
@@ -466,7 +786,18 @@ async function executeDoctor(options) {
     const pathResolver = new PathResolver();
     const healthChecker = new HealthChecker(pathResolver);
     
-    const results = await healthChecker.runAllChecks();
+    const results = await healthChecker.runAllChecks({ autoFix: options.autoFix });
+    
+    // Show auto-fix summary if used
+    if (options.autoFix) {
+      const fixedCount = Object.values(results)
+        .filter(r => r.fixed !== undefined)
+        .reduce((sum, r) => sum + r.fixed, 0);
+      
+      if (fixedCount > 0) {
+        console.log(`🔧 Auto-fix Summary: ${fixedCount} issues automatically resolved\n`);
+      }
+    }
     
     // Determine overall health
     const hasErrors = Object.values(results).some(r => r.status === 'ERROR');
@@ -474,9 +805,15 @@ async function executeDoctor(options) {
     
     if (hasErrors) {
       console.log('🚨 Critical issues detected. Please resolve before proceeding.');
+      if (!options.autoFix) {
+        console.log('💡 Tip: Run with --auto-fix to attempt automatic resolution');
+      }
       process.exit(1);
     } else if (hasWarnings) {
       console.log('⚠️  Some issues detected. System functional but may need attention.');
+      if (!options.autoFix) {
+        console.log('💡 Tip: Run with --auto-fix to attempt automatic resolution');
+      }
       process.exit(0);
     } else {
       console.log('🎉 All systems healthy! Ready for development.');
@@ -496,23 +833,23 @@ async function executePlan(epicName, options) {
     const pathResolver = new PathResolver();
     const templateProcessor = new TemplateProcessor(pathResolver);
     
-    // Check for strategic brief
+    // Check for PRP file
     const epicDir = join(process.cwd(), '.claude', 'epics', epicName);
-    const strategicBriefPath = join(epicDir, 'strategic-brief.md');
+    const prpPath = join(epicDir, 'prp.md');
     const genesisPath = join(epicDir, 'genesis.xml');
     
-    if (!existsSync(strategicBriefPath)) {
-      console.error(`❌ Strategic brief not found: ${strategicBriefPath}`);
-      console.log(`💡 Tip: Run 'hydra new ${epicName}' first to create the strategic brief`);
+    if (!existsSync(prpPath)) {
+      console.error(`❌ Product Requirement Prompt (PRP) not found: ${prpPath}`);
+      console.log(`💡 Tip: Run 'hydra new ${epicName}' first to create the PRP`);
       process.exit(1);
     }
     
     if (existsSync(genesisPath)) {
       console.log(`⚠️  Genesis.xml already exists at: ${genesisPath}`);
-      console.log(`   This will be regenerated from the strategic brief.`);
+      console.log(`   This will be regenerated from the PRP.`);
     }
     
-    console.log(`📖 Strategic Brief: ${strategicBriefPath}`);
+    console.log(`📖 Product Requirement Prompt (PRP): ${prpPath}`);
     console.log(`🎯 Genesis Output: ${genesisPath}`);
     console.log(`🧠 Invoking plan-generator agent for detailed DAG creation...`);
     console.log(`📂 Epic Directory: ${epicDir}\n`);
@@ -521,7 +858,7 @@ async function executePlan(epicName, options) {
     const template = templateProcessor.loadTemplate('plan-generation.md');
     const prompt = templateProcessor.processTemplate(template, {
       epic_name: epicName,
-      strategic_brief_path: strategicBriefPath,
+      strategic_brief_path: prpPath,
       genesis_output_path: genesisPath,
       timestamp: new Date().toISOString()
     });
@@ -631,6 +968,98 @@ async function executePmView(epicName, options) {
   }
 }
 
+async function executeEnhance(featureDescription, options) {
+  try {
+    const pathResolver = new PathResolver();
+    const templateProcessor = new TemplateProcessor(pathResolver);
+    
+    console.log(`🔍 Analyzing codebase for enhancement: ${featureDescription}\n`);
+    
+    // Create epic directory structure
+    const epicName = featureDescription.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const epicDir = join(process.cwd(), '.claude', 'epics', epicName);
+    const prpPath = join(epicDir, 'prp.md');
+    
+    if (!existsSync(epicDir)) {
+      mkdirSync(epicDir, { recursive: true });
+      console.log(`📁 Created epic directory: ${epicDir}`);
+    }
+    
+    console.log('📊 Invoking code-analyzer to understand existing codebase...');
+    
+    // Construct prompt for code-analyzer agent
+    const prompt = `You are the code-analyzer agent. Task: Perform comprehensive static analysis of the existing codebase to enable intelligent enhancement planning.
+
+**Target Directory**: ${process.cwd()}
+**Enhancement Goal**: ${featureDescription}
+**Output Location**: Must create synthetic PRP at ${prpPath}
+
+## Your Mission:
+
+1. **Codebase Analysis**: Perform deep static analysis of the current directory:
+   - Detect programming languages, frameworks, and tech stack
+   - Analyze architectural patterns and project structure
+   - Assess code quality, technical debt, and integration points
+   - Identify enhancement opportunities and constraints
+
+2. **Synthetic PRP Generation**: Create a comprehensive Product Requirement Prompt (PRP) that combines:
+   - Your codebase analysis findings
+   - The user's feature description: "${featureDescription}"
+   - Integration strategy based on existing patterns
+   - Context-aware enhancement recommendations
+
+3. **Save PRP**: Write the synthetic PRP to: ${prpPath}
+
+The PRP should be structured for handoff to plan-generator agent and follow this format:
+
+\`\`\`markdown
+# Product Requirement Prompt (PRP): ${featureDescription}
+
+**Created**: [DATE]
+**Status**: Synthetic PRP for Brownfield Enhancement
+**Source**: Hydra enhance command analysis
+
+## Executive Summary
+[Brief overview of enhancement in context of existing codebase]
+
+## Codebase Context  
+[Your comprehensive analysis findings]
+
+## Enhancement Requirements
+### Feature Description
+${featureDescription}
+
+### Integration Strategy
+[How to integrate with existing architecture]
+
+### Success Criteria
+[Specific criteria based on codebase patterns]
+
+## Next Steps & Handoff
+**Recommended Next Action**: \`hydra plan ${epicName}\`
+\`\`\`
+
+**Success Criteria**:
+- Complete codebase analysis report
+- Synthetic PRP saved to ${prpPath}
+- Ready for \`hydra plan ${epicName}\` handoff
+
+Focus on understanding the existing codebase well enough to plan intelligent, context-aware enhancements.`;
+
+    console.log(`📋 Synthetic PRP will be saved to: ${prpPath}`);
+    console.log(`🧠 Invoking code-analyzer agent for brownfield analysis...`);
+    console.log(`🎯 Goal: Analyze existing codebase and generate synthetic PRP`);
+    console.log(`📂 Epic Directory: ${epicDir}\n`);
+    
+    // Hand off to Claude with code-analyzer agent
+    ClaudeIntegrator.executeWithPrompt(prompt);
+    
+  } catch (error) {
+    console.error(`❌ Error in enhance command: ${error.message}`);
+    process.exit(1);
+  }
+}
+
 async function executeRecap(epicName, options) {
   try {
     const pathResolver = new PathResolver();
@@ -650,6 +1079,103 @@ async function executeRecap(epicName, options) {
     
   } catch (error) {
     console.error(`❌ Error in recap command: ${error.message}`);
+    process.exit(1);
+  }
+}
+
+async function executeOrchestrate(epicName, options) {
+  try {
+    const pathResolver = new PathResolver();
+    
+    // Check if genesis.xml exists for this epic
+    const genesisPath = join(process.cwd(), '.claude', 'epics', epicName, 'genesis.xml');
+    
+    if (!existsSync(genesisPath)) {
+      console.error(`❌ Genesis file not found: ${genesisPath}`);
+      console.log('💡 Run `hydra plan ${epicName}` first to create the execution plan');
+      process.exit(1);
+    }
+
+    if (options.status) {
+      // Show orchestrator status
+      console.log('📊 Orchestrator Status');
+      console.log('==================');
+      
+      const logPath = join(process.cwd(), '.claude', 'orchestrator.log');
+      if (existsSync(logPath)) {
+        console.log('📝 Recent log entries:');
+        const logs = readFileSync(logPath, 'utf8').split('\n').filter(Boolean).slice(-10);
+        logs.forEach(log => console.log(log));
+      } else {
+        console.log('📋 No orchestrator log found - daemon may not be running');
+      }
+      return;
+    }
+
+    if (options.stop) {
+      console.log('🛑 Stopping orchestrator daemon...');
+      console.log('ℹ️  Use Ctrl+C on the running daemon process or kill the process manually');
+      console.log('💡 Future enhancement: PID tracking for clean daemon management');
+      return;
+    }
+
+    // Start the orchestrator
+    const intervalMinutes = parseInt(options.interval) || 5;
+    const intervalMs = intervalMinutes * 60 * 1000;
+    
+    console.log(`🤖 Starting Hydra Orchestrator for: ${epicName}`);
+    console.log(`📋 Monitoring interval: ${intervalMinutes} minutes`);
+    console.log(`📂 Genesis file: ${genesisPath}`);
+    console.log('');
+    
+    if (options.daemon) {
+      // Run as background daemon using orchestrator-daemon.mjs
+      console.log('🔄 Starting as background daemon...');
+      
+      const daemonPath = join(__dirname, 'orchestrator-daemon.mjs');
+      const daemonProcess = spawn('node', [daemonPath, 'start', epicName], {
+        detached: true,
+        stdio: ['ignore', 'ignore', 'ignore']
+      });
+      
+      daemonProcess.unref();
+      
+      console.log(`✅ Orchestrator daemon started with PID: ${daemonProcess.pid}`);
+      console.log(`📊 Monitor status with: hydra orchestrate ${epicName} --status`);
+      console.log(`🛑 Stop daemon with: hydra orchestrate ${epicName} --stop`);
+      
+    } else {
+      // Run in foreground
+      console.log('🔄 Starting orchestrator in foreground mode...');
+      console.log('💡 Use Ctrl+C to stop, or use --daemon flag for background mode');
+      console.log('');
+      
+      const orchestrator = new HydraOrchestrator({ 
+        epicName, 
+        interval: intervalMs 
+      });
+      
+      // Handle graceful shutdown
+      process.on('SIGINT', async () => {
+        console.log('\n🛑 Received SIGINT, shutting down gracefully...');
+        await orchestrator.stop();
+        process.exit(0);
+      });
+
+      process.on('SIGTERM', async () => {
+        console.log('\n🛑 Received SIGTERM, shutting down gracefully...');
+        await orchestrator.stop();
+        process.exit(0);
+      });
+
+      await orchestrator.start();
+      
+      // Keep process alive
+      process.stdin.resume();
+    }
+    
+  } catch (error) {
+    console.error(`❌ Error in orchestrate command: ${error.message}`);
     process.exit(1);
   }
 }
@@ -723,7 +1249,7 @@ program
 
 program
   .command('plan')
-  .description('Generate detailed execution plan from strategic brief using plan-generator agent')
+  .description('Generate detailed execution plan from Product Requirement Prompt (PRP) using plan-generator agent')
   .argument('<epic-name>', 'Name of the epic to generate plan for')
   .action(executePlan);
 
@@ -740,8 +1266,15 @@ program
   .action(executePmView);
 
 program
+  .command('enhance')
+  .description('Analyze existing codebase and generate enhancement plan for brownfield development')
+  .argument('<feature-description>', 'Description of the feature to add to existing codebase')
+  .action(executeEnhance);
+
+program
   .command('doctor')
   .description('Run comprehensive health and integrity diagnostics')
+  .option('--auto-fix', 'Automatically fix detected issues where possible')
   .action(executeDoctor);
 
 program
@@ -749,6 +1282,16 @@ program
   .description('Generate post-flight summary for completed work')
   .argument('<epic-name>', 'Name of the epic to summarize')
   .action(executeRecap);
+
+program
+  .command('orchestrate')
+  .description('Start autonomous project management daemon for continuous execution')
+  .argument('<epic-name>', 'Name of the epic to monitor and execute')
+  .option('--interval <minutes>', 'Scanning interval in minutes', '5')
+  .option('--daemon', 'Run as background daemon')
+  .option('--stop', 'Stop running orchestrator')
+  .option('--status', 'Show orchestrator status')
+  .action(executeOrchestrate);
 
 program
   .command('install')

@@ -27,6 +27,10 @@ description: |
     assistant: "I'll dig into the feedback to identify specific pain points. Let me use the feedback-analyst agent to analyze user sentiment and extract core issues."
     commentary: Vague frustrations often hide specific, fixable problems that feedback analysis can reveal.
 color: orange
+role: Feedback Analyst
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

@@ -23,6 +23,10 @@ description: |
 
 @marketing-base-config.yml
 color: yellow
+role: Seo Analyst
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

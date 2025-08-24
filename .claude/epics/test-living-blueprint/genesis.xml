@@ -8,8 +8,11 @@
     <lastUpdatedAt>2024-08-23T12:00:00Z</lastUpdatedAt>
     <version>1.0</version>
     <owner>plan-generator</owner>
+    <projectName>Unknown Project</projectName>
+    <status>planning</status>
+    <projectName>Unknown Project</projectName>
+    <status>planning</status>
   </metadata>
-  
   <vision>
     <problemStatement>Validate the new Living Blueprint Project Management System by implementing remaining phases from TODO.md</problemStatement>
     <objectives>
@@ -22,8 +25,9 @@
       <criterion>DAG shows proper parallel execution levels</criterion>
       <criterion>All tasks have appropriate agent assignments</criterion>
     </successCriteria>
+    <problemStatement>Problem statement needs definition</problemStatement>
+    <problemStatement>Problem statement needs definition</problemStatement>
   </vision>
-  
   <architecture>
     <technicalStack>
       <language>JavaScript</language>
@@ -32,7 +36,6 @@
       <framework>xmlstarlet</framework>
     </technicalStack>
   </architecture>
-  
   <executionPlan>
     <executionDag>
       <parallelSets>
@@ -56,7 +59,6 @@
         </dependency>
       </dependencies>
     </executionDag>
-    
     <tasks>
       <task id="create-instruction-protocol">
         <name>Create Specialist Agent Protocol</name>
@@ -72,7 +74,6 @@
           </event>
         </statusHistory>
       </task>
-      
       <task id="refactor-parallel-worker">
         <name>Refactor Parallel Worker Agent</name>
         <description>Update parallel-worker to read DAG from genesis.xml instead of creating plans</description>
@@ -87,7 +88,6 @@
           </event>
         </statusHistory>
       </task>
-      
       <task id="update-specialist-agents">
         <name>Update Specialist Agents</name>
         <description>Add SPECIALIST-AGENT-PROTOCOL.md reference to all engineering and design agents</description>
@@ -103,7 +103,6 @@
           </event>
         </statusHistory>
       </task>
-      
       <task id="refactor-project-shipper">
         <name>Refactor Project Shipper Agent</name>
         <description>Update project-shipper to read from genesis.xml for recap generation</description>
@@ -120,7 +119,6 @@
         </statusHistory>
       </task>
     </tasks>
-    
     <statusTracker>
       <pending>
         <taskRef id="create-instruction-protocol"/>
@@ -135,8 +133,9 @@
       <failed>
       </failed>
     </statusTracker>
+    <executionDag>AUTO-GENERATED</executionDag>
+    <executionDag>AUTO-GENERATED</executionDag>
   </executionPlan>
-  
   <metrics>
     <progress>
       <totalTasks>4</totalTasks>
@@ -145,8 +144,9 @@
       <failedTasks>0</failedTasks>
       <percentageComplete>0</percentageComplete>
     </progress>
+    <progress>AUTO-GENERATED</progress>
+    <progress>AUTO-GENERATED</progress>
   </metrics>
-  
   <auditLog>
     <events>
       <event>

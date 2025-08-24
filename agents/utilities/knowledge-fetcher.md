@@ -30,6 +30,10 @@ Uses web search for current information beyond personal knowledge base
 </example>
 @utility-base-config.yml
 color: purple
+role: Knowledge Fetcher
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ## Expert Identity

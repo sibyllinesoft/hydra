@@ -3,6 +3,10 @@ name: editor
 description: |
   Transforms rough drafts into polished, engaging content through iterative refinement. Optimizes for clarity, style, readability, and voice consistency.
 color: purple
+role: Editor
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

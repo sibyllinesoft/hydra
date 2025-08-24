@@ -41,6 +41,10 @@ description: |
   
   @base-config.yml
 color: purple
+role: Market Trend Analyst
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

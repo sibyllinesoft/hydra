@@ -23,6 +23,10 @@ description: |
 
 @testing-base-config.yml
 color: dark-blue
+role: Accessibility Auditor
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

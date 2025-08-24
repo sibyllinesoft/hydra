@@ -39,9 +39,11 @@ Hydra transforms Claude Code into a mythical beast with 50+ specialized agent he
 
 Before installing Hydra, ensure you have these dependencies:
 
-- **Node.js** >= 16
-- **Git** (for version control)
-- **xmlstarlet** (for Living Blueprint system)
+- **Node.js** >= 16.0.0
+- **npm** (comes with Node.js)
+- **Git** (for version control operations)
+- **Claude Code CLI** (install from [claude.ai/code](https://claude.ai/code))
+- **xmlstarlet** (required for Living Blueprint system)
   ```bash
   # Ubuntu/Debian
   sudo apt install xmlstarlet
@@ -49,47 +51,73 @@ Before installing Hydra, ensure you have these dependencies:
   # macOS
   brew install xmlstarlet
   
+  # Windows
+  choco install xmlstarlet
+  # or: scoop install xmlstarlet
+  
   # Other systems: see xmlstarlet.sourceforge.net
+  ```
+- **GitHub CLI** (optional, for enhanced git operations)
+  ```bash
+  # Install GitHub CLI for enhanced features
+  # See: https://cli.github.com/
   ```
 
 ## 🛠️ Installation
 
 ### 1. Install Hydra
 ```bash
-# Smart installer detects your environment and sets up everything
-hydra-installer
+# Method 1: NPM Global Installation (Recommended)
+npm install -g @sibyllinesoft/hydra
+
+# Method 2: Run installer directly 
+npx @sibyllinesoft/hydra
+
+# Method 3: Clone and install from source
+git clone https://github.com/sibyllinesoft/hydra.git
+cd hydra
+npm install
 ```
 
-### 2. Install Context Status Line (Optional)
-To get real-time context usage in your status line:
+### 2. Install Prerequisites
 ```bash
-pip install git+https://github.com/ersinkoc/claude-statusline
+# Install xmlstarlet (required for Living Blueprint system)
+# Ubuntu/Debian
+sudo apt install xmlstarlet
+
+# macOS
+brew install xmlstarlet
+
+# Windows
+choco install xmlstarlet
 ```
 
 ### 3. Verify Installation
 ```bash
 # Check all dependencies and configuration
 hydra doctor
+
+# Auto-fix issues where possible
+hydra doctor --auto-fix
 ```
 
 ## 🚀 Quick Start
 
+After installation, you can start using Hydra immediately:
+
 ```bash
-# Smart installer detects your environment
-hydra-installer
+# Install hydra globally
+npm install -g @sibyllinesoft/hydra
+
+# Verify installation
+hydra doctor
 ```
-**What happens:**
-- Creates backup of existing `.claude/` config  
-- Installs 50+ specialized agents with fresh context
-- Adds 15+ MCP server integrations
-- Smart Git detection for existing repositories
-- Sets up master workflow prompt templates
 
 ### Living Blueprint Workflow Experience
 ```bash
 # 1. Strategic analysis for ambiguous goals
 hydra new "user authentication system"
-# → cofounder agent creates strategic-brief.md
+# → cofounder agent creates Product Requirement Prompt (PRP)
 
 # 2. Transform strategy into detailed execution plan
 hydra plan auth-epic  
@@ -100,12 +128,24 @@ hydra run auth-epic
 # → parallel-worker coordinates specialists via genesis.xml
 
 # 4. Real-time project visibility  
-hydra pm view auth-epic
+hydra pm-view auth-epic
 # → Human-readable status from genesis.xml
 
 # 5. Comprehensive project recap
 hydra recap auth-epic
 # → project-shipper generates documentation from genesis.xml
+```
+
+**Additional Commands:**
+```bash
+# Enhance existing codebases (brownfield development)
+hydra enhance "add payment processing to existing e-commerce app"
+
+# Start autonomous project management daemon
+hydra orchestrate auth-epic --daemon
+
+# Run comprehensive installer
+hydra install
 ```
 
 **Result:** Seamless handoff to Claude Code with structured planning, then autonomous execution using 0% of your conversation context.
@@ -143,8 +183,8 @@ Hydra: project-shipper → comprehensive documentation from completed genesis.xm
 ## 📋 CLI Command Reference
 
 ### `hydra new <feature-name>`
-**Purpose:** Start planning any feature, project, or task  
-**What happens:** Hands off to Claude Code with Socratic questioning workflow to break down requirements, create epic plans, and prepare for execution
+**Purpose:** Start strategic analysis for any feature, project, or task  
+**What happens:** Invokes cofounder agent through Claude Code for Socratic questioning and creates Product Requirement Prompt (PRP)
 
 ```bash
 hydra new "user authentication"
@@ -152,9 +192,19 @@ hydra new "payment integration"
 hydra new "refactor legacy API"
 ```
 
+### `hydra plan <epic-name>`
+**Purpose:** Generate detailed execution plan from PRP  
+**What happens:** Invokes plan-generator agent to transform PRP into genesis.xml with task DAG
+
+```bash
+hydra plan "auth-epic"
+hydra plan "payment-epic"
+hydra plan "refactor-epic"
+```
+
 ### `hydra run <epic-name>`  
-**Purpose:** Execute autonomous development based on planning  
-**What happens:** Triggers studio-producer orchestration → parallel-worker coordination → specialized agent execution with real-time monitoring
+**Purpose:** Execute autonomous development based on genesis.xml plan  
+**What happens:** Triggers execution workflow with parallel-worker coordination and specialized agent execution
 
 ```bash
 hydra run "auth-epic"
@@ -162,23 +212,60 @@ hydra run "payment-epic"
 hydra run "refactor-epic"
 ```
 
+### `hydra pm-view <epic-name>`
+**Purpose:** View comprehensive project status from genesis.xml  
+**What happens:** Parses genesis.xml to display real-time project status, progress metrics, and task breakdown
+
+```bash
+hydra pm-view "auth-epic"
+```
+
+### `hydra enhance <feature-description>`
+**Purpose:** Analyze existing codebase and generate enhancement plan for brownfield development  
+**What happens:** Invokes code-analyzer agent to understand current codebase and generate synthetic PRP
+
+```bash
+hydra enhance "add payment processing to existing e-commerce app"
+hydra enhance "migrate from REST to GraphQL"
+```
+
 ### `hydra doctor`
 **Purpose:** System health check and diagnostics  
-**What happens:** Validates agent configurations, MCP server connectivity, Git status, and project dependencies
+**What happens:** Validates xmlstarlet, Living Blueprints integrity, agent YAML frontmatter, and file integrity
 
 ```bash
 hydra doctor                    # Full system check
-hydra doctor --agents          # Agent health only
-hydra doctor --mcp             # MCP server status
+hydra doctor --auto-fix         # Automatically fix detected issues
+```
+
+### `hydra orchestrate <epic-name>`
+**Purpose:** Start autonomous project management daemon for continuous execution  
+**What happens:** Monitors genesis.xml and automatically coordinates agent execution
+
+```bash
+hydra orchestrate "auth-epic"                    # Run in foreground
+hydra orchestrate "auth-epic" --daemon           # Run as background daemon
+hydra orchestrate "auth-epic" --status           # Check daemon status
+hydra orchestrate "auth-epic" --stop             # Stop daemon
+hydra orchestrate "auth-epic" --interval 10      # Set scanning interval (minutes)
+```
+
+### `hydra install`
+**Purpose:** Run the comprehensive Hydra installer  
+**What happens:** Executes the smart installer with environment detection and setup
+
+```bash
+hydra install                   # Run installer with smart defaults
+hydra install --global          # Force global installation
+hydra install --project         # Force project-specific installation
 ```
 
 ### `hydra recap <epic-name>`
 **Purpose:** Generate comprehensive project documentation  
-**What happens:** Creates detailed recap with implementation summary, architectural decisions, test results, and deployment notes
+**What happens:** Invokes project-shipper agent to create detailed post-flight summary from genesis.xml
 
 ```bash
-hydra recap "auth-epic"        # Generate full recap
-hydra recap "payment-epic" --format markdown
+hydra recap "auth-epic"
 ```
 
 ## 🧠 Your Expert Agents
@@ -303,14 +390,27 @@ hydra/
 │   ├── CONTEXT.md     # Your environment (customize!)
 │   ├── AGENTS.md      # 50+ agent definitions  
 │   ├── MCP.md         # Tool integrations
-│   └── RULES.md       # Safety protocols
+│   ├── RULES.md       # Safety protocols
+│   └── PRINCIPLES.md  # Development philosophy
 ├── agents/            # 50+ specialized agents
-│   ├── utilities/     # file-creator, git-workflow, test-runner
+│   ├── utilities/     # file-creator, git-workflow, context-fetcher
 │   ├── engineering/   # Language & architecture specialists  
 │   ├── design/        # UI/UX specialists
-│   └── marketing/     # Growth specialists
-├── commands/          # Workflow automation
-└── scripts/           # Automation hooks
+│   ├── marketing/     # Growth & content specialists
+│   ├── project-management/ # studio-producer, cofounder, parallel-worker
+│   └── testing/       # Quality assurance specialists
+├── bin/               # CLI executables
+│   ├── hydra.mjs      # Main CLI
+│   └── hydra-installer.mjs # Installer
+├── installer/         # Installation system
+│   ├── install.js     # Terminal installer
+│   └── install-enhanced.js # Web installer
+├── prompts/           # Master workflow templates
+│   ├── strategic-analysis.md
+│   ├── plan-generation.md
+│   └── execution-workflow.md
+├── scripts/           # Automation scripts
+└── standards/         # Engineering standards
 ```
 
 ---

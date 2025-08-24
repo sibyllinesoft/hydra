@@ -3,6 +3,10 @@ name: tool-evaluator
 description: |
   Evaluates new development tools, frameworks, or services. Provides rapid assessment, comparative analysis, and recommendations aligned with studio goals.
 color: purple
+role: Tool Evaluator
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

@@ -32,6 +32,10 @@ Proper test analysis prevents false positives and ensures meaningful improvement
 </commentary>
 </example>
 color: blue
+role: Analytics Reporter
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

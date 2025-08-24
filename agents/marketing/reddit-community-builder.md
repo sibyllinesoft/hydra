@@ -5,6 +5,10 @@ description: |
   
   @base-config.yml
 color: orange
+role: Reddit Community Builder
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

@@ -54,6 +54,10 @@ description: |
   
   @testing-base-config.yml
 color: cyan
+role: Test Writer Fixer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

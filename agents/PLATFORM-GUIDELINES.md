@@ -1,3 +1,13 @@
+---
+name: PLATFORM-GUIDELINES
+role: PLATFORM GUIDELINES
+capabilities:
+  - Task execution
+  - Context analysis
+version: 1.0
+created: 2025-08-24T05:44:55.214Z
+---
+
 # Platform-Specific Content Guidelines & Compliance (2025)
 
 **Version**: 2025.8  

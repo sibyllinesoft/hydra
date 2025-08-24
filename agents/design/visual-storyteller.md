@@ -3,6 +3,10 @@ name: visual-storyteller
 description: |
   Use this agent when creating visual narratives, designing infographics, building presentations, or communicating complex ideas through imagery. This agent specializes in transforming data and concepts into compelling visual stories that engage users and stakeholders. Use PROACTIVELY when visual content, marketing materials, or brand storytelling needed.
 color: cyan
+role: Visual Storyteller
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

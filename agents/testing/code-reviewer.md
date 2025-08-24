@@ -23,6 +23,10 @@ description: |
 
 @testing-base-config.yml
 color: silver
+role: Code Reviewer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

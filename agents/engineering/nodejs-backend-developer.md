@@ -8,6 +8,10 @@ description: |
   Examples:\n\n<example>\nContext: Building a high-performance Node.js API with pure JavaScript\nuser: "Create a Node.js REST API with pure JavaScript for our microservice"\nassistant: "I'll implement a high-performance Node.js API using Fastify and modern JavaScript patterns. Let me use the nodejs-backend-developer agent to implement ES2024 features, proper async patterns, and runtime optimization."\n<commentary>\nPure JavaScript development requires mastery of modern language features and runtime optimization.\n</commentary>\n</example>\n\n<example>\nContext: Node.js performance optimization\nuser: "Our Node.js service is slow - need to optimize without TypeScript"\nassistant: "I'll optimize using clustering, worker threads, and event loop management. Let me use the nodejs-backend-developer agent to implement performance patterns specific to Node.js runtime."\n<commentary>\nNode.js performance requires understanding event loop, memory management, and runtime optimization.\n</commentary>\n</example>\n\n<example>\nContext: Stream processing and real-time features\nuser: "Need to process large files and handle real-time data streams"\nassistant: "I'll implement streaming patterns with backpressure handling and WebSocket management. Let me use the nodejs-backend-developer agent to implement efficient stream processing."\n<commentary>\nNode.js excels at streaming and real-time processing with proper patterns.\n</commentary>\n</example>
 color: green
 # tools inherited from base-config.yml
+role: Nodejs Backend Developer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 

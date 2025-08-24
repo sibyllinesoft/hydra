@@ -5,6 +5,10 @@ description: |
   
   @base-config.yml
 color: green
+role: Growth Hacker
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

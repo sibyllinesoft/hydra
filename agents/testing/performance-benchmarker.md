@@ -32,6 +32,10 @@ Mobile performance issues eliminate huge segments of potential users.
 </commentary>
 </example>
 color: red
+role: Performance Benchmarker
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

@@ -3,6 +3,10 @@ name: frontend-developer
 description: |
   Specializes in 2024-2025 frontend patterns including React Server Components, concurrent features, and modern bundling. MUST BE USED automatically for any React development, TypeScript components, or client-side optimization work.
 color: blue
+role: Frontend Developer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

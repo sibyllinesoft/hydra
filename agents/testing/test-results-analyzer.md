@@ -32,6 +32,10 @@ Coverage gaps are where bugs love to hide.
 </commentary>
 </example>
 color: yellow
+role: Test Results Analyzer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

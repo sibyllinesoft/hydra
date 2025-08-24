@@ -1,3 +1,13 @@
+---
+name: README
+role: README
+capabilities:
+  - Task execution
+  - Context analysis
+version: 1.0
+created: 2025-08-24T05:44:55.234Z
+---
+
 # Claude Code Studio AI Agents
 
 A revolutionary agent system with **50+ specialized agents** featuring **master template architecture** and language-specific specialization. Designed to enable unlimited conversations and expert-level development through context preservation and cutting-edge 2024-2025 ecosystem expertise. Each agent spawns with fresh context (~13k tokens) and specialized knowledge, eliminating conversation degradation and enabling complex, long-running projects.

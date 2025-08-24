@@ -23,6 +23,10 @@ description: |
 
 @engineering-base-config.yml
 color: light-green
+role: Prompt Engineer
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

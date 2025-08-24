@@ -4,7 +4,7 @@
 You are executing the **HYDRA NEW** command workflow. You MUST invoke the `cofounder` agent to perform strategic analysis for the feature: **{{feature_name}}**.
 
 **CRITICAL INSTRUCTIONS:**
-1. The `cofounder` agent is a **STRATEGIC HEAD** that transforms ambiguous goals into clear strategic briefs
+1. The `cofounder` agent is a **STRATEGIC HEAD** that transforms ambiguous goals into clear Product Requirement Prompts (PRPs)
 2. Your output MUST be saved to: `{{strategic_brief_path}}`
 3. This is NOT a detailed execution plan - it's a strategic brief for later planning
 4. Use Socratic questioning to clarify requirements and business context
@@ -15,20 +15,20 @@ You are executing the **HYDRA NEW** command workflow. You MUST invoke the `cofou
 
 Please invoke the `cofounder` agent with the following task:
 
-**TASK**: Perform strategic analysis for feature "{{epic_name}}" and produce a comprehensive Strategic Brief.
+**TASK**: Perform strategic analysis for feature "{{epic_name}}" and produce a comprehensive Product Requirement Prompt (PRP).
 
 **COFOUNDER AGENT REQUIREMENTS:**
 - Use systematic Socratic questioning to understand true business goals
 - Define the core problem, user needs, and success metrics
-- Create a strategic brief (NOT a detailed plan)
+- Create a Product Requirement Prompt (PRP) (NOT a detailed plan)
 - Focus on WHAT needs to be built and WHY, not HOW
-- Output must be saved to the strategic brief file path
+- Output must be saved to the PRP file path
 
-**STRATEGIC BRIEF OUTPUT REQUIREMENTS:**
+**PRP OUTPUT REQUIREMENTS:**
 The `cofounder` agent must generate a markdown file with this structure:
 
 ```markdown
-# Strategic Brief: {{feature_name}}
+# Product Requirement Prompt (PRP): {{feature_name}}
 
 **Created**: {{timestamp}}  
 **Status**: Strategic Analysis Complete  
@@ -64,9 +64,9 @@ The `cofounder` agent must generate a markdown file with this structure:
 ## Next Steps & Handoff
 **Recommended Next Action**: `hydra plan {{epic_name}}`
 
-This strategic brief should be handed off to a planning agent (plan-generator) to create a detailed execution plan with task DAG and technical specifications.
+This Product Requirement Prompt (PRP) should be handed off to a planning agent (plan-generator) to create a detailed execution plan with task DAG and technical specifications.
 
-## Success Criteria for This Strategic Brief
+## Success Criteria for This PRP
 - [ ] Core business problem clearly defined
 - [ ] Success metrics are specific and measurable  
 - [ ] Strategic approach addresses the identified problem
@@ -75,7 +75,7 @@ This strategic brief should be handed off to a planning agent (plan-generator) t
 ```
 
 **MANDATORY OUTPUT LOCATION**: 
-The cofounder agent MUST save this strategic brief to: `{{strategic_brief_path}}`
+The cofounder agent MUST save this PRP to: `{{strategic_brief_path}}`
 
 ---
 
@@ -83,11 +83,11 @@ The cofounder agent MUST save this strategic brief to: `{{strategic_brief_path}}
 
 **Current Phase**: Strategic Analysis (Phase 1 of Living Blueprint system)
 **Input**: User request for feature "{{feature_name}}"
-**Output**: Strategic Brief saved to epic directory
-**Next Phase**: Planning (`hydra plan {{epic_name}}` will read this strategic brief)
+**Output**: Product Requirement Prompt (PRP) saved to epic directory
+**Next Phase**: Planning (`hydra plan {{epic_name}}` will read this PRP)
 
 This strategic analysis is the foundation for the new Living Blueprint system where:
-1. **`hydra new`** → `cofounder` produces Strategic Brief
+1. **`hydra new`** → `cofounder` produces Product Requirement Prompt (PRP)
 2. **`hydra plan`** → `plan-generator` creates detailed execution plan (genesis.xml)  
 3. **`hydra run`** → `parallel-worker` executes the plan
 4. **`hydra recap`** → `project-shipper` documents completion
@@ -96,7 +96,7 @@ This strategic analysis is the foundation for the new Living Blueprint system wh
 
 ## VALIDATION REQUIREMENTS
 
-The `cofounder` agent must ensure the strategic brief:
+The `cofounder` agent must ensure the PRP:
 - ✅ Addresses all ambiguity through Socratic questioning
 - ✅ Defines clear problem statement and business context
 - ✅ Establishes measurable success criteria

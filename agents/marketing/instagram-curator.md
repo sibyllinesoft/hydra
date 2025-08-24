@@ -5,6 +5,10 @@ description: |
   
   @base-config.yml
 color: pink
+role: Instagram Curator
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 <agent_identity>

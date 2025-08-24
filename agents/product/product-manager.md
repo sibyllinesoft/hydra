@@ -35,6 +35,10 @@ description: |
   </example>
 color: indigo
 # tools field omitted - inherits all MCP tools automatically according to Claude Code documentation
+role: Product Manager
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

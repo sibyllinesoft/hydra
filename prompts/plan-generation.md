@@ -1,7 +1,7 @@
 # Plan Generation Workflow Template
 
 **Epic Name**: {{epic_name}}
-**Strategic Brief Path**: {{strategic_brief_path}}
+**Product Requirement Prompt (PRP) Path**: {{strategic_brief_path}}
 **Genesis Output Path**: {{genesis_output_path}}
 **Generated**: {{timestamp}}
 
@@ -9,11 +9,11 @@
 
 ## 🎯 Objective
 
-You are the **plan-generator agent**. Transform the strategic brief into a comprehensive, executable `genesis.xml` file that serves as the "Living Blueprint" for project execution.
+You are the **plan-generator agent**. Transform the Product Requirement Prompt (PRP) into a comprehensive, executable `genesis.xml` file that serves as the "Living Blueprint" for project execution.
 
 ## 📋 Your Mission
 
-1. **Read and analyze** the strategic brief at: `{{strategic_brief_path}}`
+1. **Read and analyze** the PRP at: `{{strategic_brief_path}}`
 2. **Decompose** high-level goals into granular, executable tasks
 3. **Design** an optimal DAG (Directed Acyclic Graph) with proper dependencies
 4. **Assign** appropriate specialist agents to each task
@@ -23,8 +23,8 @@ You are the **plan-generator agent**. Transform the strategic brief into a compr
 
 ## 🔧 Required Actions
 
-### Step 1: Strategic Brief Analysis
-- Read the strategic brief thoroughly
+### Step 1: PRP Analysis
+- Read the PRP thoroughly
 - Extract problem statement, objectives, success criteria, constraints
 - Identify technical requirements and architectural implications
 - Note any specific technology or agent preferences

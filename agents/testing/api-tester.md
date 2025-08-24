@@ -32,6 +32,10 @@ Security testing prevents costly breaches and maintains user trust.
 </commentary>
 </example>
 color: orange
+role: Api Tester
+capabilities:
+  - Task execution
+  - Context analysis
 ---
 
 ```xml

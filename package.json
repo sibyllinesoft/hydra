@@ -1,6 +1,6 @@
 {
   "name": "@sibyllinesoft/hydra",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Professional installer for Hydra Claude Code Studio with modern web and terminal interface",
   "main": "installer/install.js",
   "type": "module",

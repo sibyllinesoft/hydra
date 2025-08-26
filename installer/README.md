@@ -19,6 +19,10 @@ The main installer can be run with:
 node installer/install-enhanced.js
 ```
 
+## Recent Fixes
+
+**Complete File Overwrite**: Fixed installer bug where existing files weren't being completely overwritten during updates. The installer now ensures all files are completely replaced with the latest versions to prevent outdated content (like old "studio-coach" references) from persisting.
+
 ## Future Development
 
 This installer is planned to be evolved into a comprehensive `hydra-cli` that can handle both project-level and home directory installations as outlined in the TODO.md improvement plan.

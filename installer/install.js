@@ -433,7 +433,7 @@ class HydraInstaller {
 
       if (hasClaudeDir) {
         this.log(`Found existing installation: ${this.claudeDir}`, "info");
-        this.log("Existing files will be overwritten", "warning");
+        this.log("All existing files will be completely overwritten to ensure clean update", "warning");
       }
 
       if (!hasConfig && !hasClaudeDir) {
@@ -491,15 +491,7 @@ class HydraInstaller {
             await fs.ensureDir(destPath);
             await copyFileRecursively(srcPath, destPath);
           } else {
-            // Don't overwrite existing CONTEXT.md or other user customizations
-            if (
-              entry.name === "CONTEXT.md" &&
-              (await fs.pathExists(destPath))
-            ) {
-              this.log(`Preserving existing ${entry.name}`, "info");
-              continue;
-            }
-
+            // Always overwrite existing files to ensure complete updates
             await fs.copy(srcPath, destPath, { overwrite: true });
             this.log(
               `Installed ${path.relative(this.claudeDir, destPath)}`,

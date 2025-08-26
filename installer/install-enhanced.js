@@ -689,16 +689,7 @@ class EnhancedHydraInstaller {
             await fs.ensureDir(destPath);
             await copyFileRecursively(srcPath, destPath);
           } else {
-            // Don't overwrite existing CONTEXT.md or other user customizations
-            if (
-              entry.name === "CONTEXT.md" &&
-              (await fs.pathExists(destPath))
-            ) {
-              this.log(`Preserving existing ${entry.name}`, "info");
-              processedFiles++;
-              continue;
-            }
-
+            // Always overwrite existing files to ensure complete updates
             await this.copyFileWithProgress(srcPath, destPath, entry.name);
             processedFiles++;
             

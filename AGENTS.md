@@ -180,21 +180,29 @@ hydra recap "epic" → project-shipper (delivery closure) → comprehensive docu
 
 This is the mandatory logic for handling complex tasks and routing to appropriate management agents.
 
+### Task Tool Usage Protocol
+**Main Orchestrator**: MUST use the Task tool to invoke studio management agents (cofounder, parallel-worker, project-shipper).  
+**Parallel-Worker**: MUST dispatch to specialist agents sequentially using standard agent invocation (NOT the Task tool).
+
 ```xml
 <orchestrationLogic>
-  <decision>
-    <condition>User provides a vague, high-level, or ambiguous goal.</condition>
-    <action>Invoke **`cofounder`** to perform strategic analysis and create a detailed plan.</action>
+  <decision priority="1">
+    <condition>User provides a vague, high-level, or ambiguous goal WITHOUT detailed specifications.</condition>
+    <action>Use the **Task tool** to invoke **`cofounder`** for strategic analysis and detailed plan creation.</action>
     <example>"Build a social media app."</example>
+    <example>"Improve user retention."</example>
+    <excludes>Requests that include detailed plans, TODO files, or step-by-step instructions</excludes>
   </decision>
-  <decision>
-    <condition>User provides a detailed plan, a `TODO.md`, or a well-defined epic.</condition>
-    <action>Invoke **`parallel-worker`** to execute the existing plan.</action>
-    <example>"Implement the features outlined in `epics/feature-x/epic.md`."</example>
+  <decision priority="2">
+    <condition>User provides a detailed plan, TODO.md, epic.md, or well-defined multi-step task list.</condition>
+    <action>Use the **Task tool** to invoke **`parallel-worker`** for sequential execution of the existing plan.</action>
+    <example>"Implement the changes described in the TODO.md file."</example>
+    <example>"Execute the features outlined in `epics/feature-x/epic.md`."</example>
+    <excludes>Vague or ambiguous requests requiring strategic analysis</excludes>
   </decision>
-  <decision>
+  <decision priority="3">
     <condition>Project is complete and needs comprehensive documentation and closure.</condition>
-    <action>Invoke **`project-shipper`** to generate post-flight recap using genesis.xml data.</action>
+    <action>Use the **Task tool** to invoke **`project-shipper`** for comprehensive recap generation.</action>
     <example>"Create a comprehensive recap of the Living Blueprint implementation."</example>
   </decision>
 </orchestrationLogic>
@@ -206,35 +214,96 @@ This is the mandatory logic for handling complex tasks and routing to appropriat
 
 ```xml
 <department name="Engineering">
-  <agent id="rapid-prototyper" role="MVP builder" coords="ui-designer,test-writer-fixer"/>
-  <agent id="backend-architect" role="API/system design" coords="devops-automator,api-tester"/>
-  <agent id="frontend-developer" role="UI implementation" coords="ui-designer,whimsy-injector"/>
-  <agent id="mobile-app-builder" role="native apps" coords="app-store-optimizer"/>
-  <agent id="ai-engineer" role="AI/ML integration" coords="performance-benchmarker,python-backend-developer"/>
+  <agent id="rapid-prototyper" role="MVP Builder">
+    <action>BUILD functional prototypes</action>
+    <output>working MVP implementations</output>
+    <exclusions>production-ready code, architectural design</exclusions>
+  </agent>
+  <agent id="backend-architect" role="System Architect">
+    <action>DESIGN APIs and system architecture</action>
+    <output>architectural specifications and implementation plans</output>
+    <exclusions>frontend work, prototype development</exclusions>
+  </agent>
+  <agent id="frontend-developer" role="UI Developer">
+    <action>IMPLEMENT user interfaces</action>
+    <output>React components and interactive UIs</output>
+    <exclusions>backend APIs, system architecture</exclusions>
+  </agent>
+  <agent id="mobile-app-builder" role="Native App Developer">
+    <action>BUILD mobile applications</action>
+    <output>iOS/Android native apps</output>
+    <exclusions>web development, desktop apps</exclusions>
+  </agent>
+  <agent id="ai-engineer" role="AI/ML Specialist">
+    <action>INTEGRATE AI/ML capabilities</action>
+    <output>AI-powered features and models</output>
+    <exclusions>general backend work, frontend development</exclusions>
+  </agent>
 </department>
 
 <department name="Testing">
-  <agent id="api-tester"/>
-  <agent id="performance-benchmarker"/>
-  <agent id="test-results-analyzer"/>
-  <agent id="tool-evaluator"/>
-  <agent id="workflow-optimizer"/>
+  <agent id="test-writer-fixer" role="Test Engineer">
+    <action>WRITE and FIX comprehensive test suites</action>
+    <output>unit, integration, and e2e tests</output>
+    <exclusions>production code, architectural decisions</exclusions>
+  </agent>
+  <agent id="api-tester" role="API Validator">
+    <action>TEST API endpoints and contracts</action>
+    <output>API test suites and validation reports</output>
+    <exclusions>UI testing, performance testing</exclusions>
+  </agent>
+  <agent id="performance-benchmarker" role="Performance Analyst">
+    <action>BENCHMARK system performance</action>
+    <output>performance metrics and optimization reports</output>
+    <exclusions>functional testing, security testing</exclusions>
+  </agent>
 </department>
 
 <department name="Design">
-  <agent id="ui-designer"/>
-  <agent id="ux-researcher"/>
-  <agent id="whimsy-injector"/>
-  <agent id="brand-guardian"/>
-  <agent id="visual-storyteller"/>
+  <agent id="ui-designer" role="Interface Designer">
+    <action>DESIGN user interfaces and interactions</action>
+    <output>UI mockups, design systems, component specs</output>
+    <exclusions>implementation code, backend architecture</exclusions>
+  </agent>
+  <agent id="ux-researcher" role="User Experience Researcher">
+    <action>RESEARCH user needs and behaviors</action>
+    <output>user research reports and UX recommendations</output>
+    <exclusions>visual design, technical implementation</exclusions>
+  </agent>
+  <agent id="whimsy-injector" role="Delight Specialist">
+    <action>ADD delightful micro-interactions</action>
+    <output>enhanced user experience with charm</output>
+    <exclusions>core functionality, business logic</exclusions>
+  </agent>
 </department>
 
 <department name="Studio Management">
-  <agent id="cofounder" role="Strategic Head - Socratic questioning, requirement clarification, strategic brief creation. For ambiguous goals, outputs strategic-brief.md for 'hydra plan' processing."/>
-  <agent id="plan-generator" role="Living Blueprint Architect - Transforms strategic briefs into detailed genesis.xml files with execution DAGs. Core component of 'hydra plan' workflow."/>
-  <agent id="studio-producer" role="Tactical Orchestrator - Execution management, resource allocation, timeline coordination. Primary orchestrator for 'hydra run' operations."/>
-  <agent id="project-shipper" role="Delivery Manager - Living Blueprint recap specialist. Reads completed genesis.xml files to generate comprehensive project documentation via 'hydra recap'."/>
-  <agent id="parallel-worker" role="Technical Execution Engine - Genesis.xml-driven execution coordinator. Reads DAGs from genesis.xml and orchestrates specialist agents for parallel task completion."/>
+  <agent id="cofounder" role="Strategic Head">
+    <action>ANALYZE ambiguous goals</action>
+    <output>strategic-brief.md</output>
+    <exclusions>detailed plans, TODO files, well-defined tasks</exclusions>
+  </agent>
+  <agent id="plan-generator" role="Living Blueprint Architect">
+    <action>TRANSFORM strategic briefs</action>
+    <output>genesis.xml with execution DAGs</output>
+    <exclusions>strategic analysis, execution</exclusions>
+  </agent>
+  <agent id="studio-producer" role="Tactical Orchestrator">
+    <action>COORDINATE multi-team workflows</action>
+    <output>resource allocation and timeline management</output>
+    <exclusions>single-agent tasks, technical execution</exclusions>
+  </agent>
+  <agent id="project-shipper" role="Delivery Manager">
+    <action>GENERATE post-flight recaps</action>
+    <output>comprehensive project documentation</output>
+    <exclusions>active development, planning</exclusions>
+  </agent>
+  <agent id="parallel-worker" role="Technical Execution Engine">
+    <action>EXECUTE detailed plans by sequentially dispatching tasks to specialist agents</action>
+    <output>coordinated task completion with status tracking</output>
+    <method>Reads plan structure, identifies required specialist agents, dispatches tasks sequentially using standard agent invocation</method>
+    <exclusions>strategic analysis, vague goals, single-step tasks, using Task tool for parallel dispatch</exclusions>
+  </agent>
 </department>
 
 <department name="Marketing">

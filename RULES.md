@@ -50,9 +50,10 @@ BEFORE EVERY RESPONSE: Execute agent applicability scan
   </domain_specialists>
   
   <coordination_agents>
-    <trigger keywords="ambiguous, unclear, strategic analysis">cofounder</trigger>
-    <trigger keywords="complex, multi-step, coordinate">studio-producer</trigger>
-    <trigger keywords="analyze, investigate, research">domain-specific + sequential-thinking</trigger>
+    <trigger keywords="ambiguous, unclear, vague goal, strategic analysis, high-level vision">cofounder</trigger>
+    <trigger keywords="detailed plan, TODO, epic, multi-step execution, coordinate tasks">parallel-worker</trigger>
+    <trigger keywords="multi-team, resource allocation, timeline coordination">studio-producer</trigger>
+    <trigger keywords="post-flight, project recap, comprehensive documentation">project-shipper</trigger>
   </coordination_agents>
 </trigger_matrix>
 

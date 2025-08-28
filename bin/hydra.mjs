@@ -494,7 +494,8 @@ class HealthChecker {
       for (const agentsDir of agentDirs) {
         if (!existsSync(agentsDir)) continue;
 
-        const agentFiles = execSync(`find ${agentsDir} -name "*.md" -type f`, { 
+        // Only find markdown files in subdirectories (actual agents, not root docs)
+        const agentFiles = execSync(`find ${agentsDir} -mindepth 2 -name "*.md" -type f`, { 
           encoding: 'utf8',
           stdio: ['ignore', 'pipe', 'ignore']
         }).trim().split('\n').filter(f => f);
@@ -523,22 +524,13 @@ class HealthChecker {
             // Parse and validate YAML
             const yamlContent = frontmatterMatch[1];
             
-            // Basic validation - check for required fields
-            const requiredFields = ['name', 'role', 'capabilities'];
-            let missingFields = [];
-            
-            for (const field of requiredFields) {
-              if (!yamlContent.includes(`${field}:`)) {
-                missingFields.push(field);
-              }
-            }
-
-            if (missingFields.length > 0) {
+            // Check for required agent field - description is what makes it a true agent
+            if (!yamlContent.includes('description:')) {
               invalidCount++;
-              issues.push(`[${agentName}] Missing YAML fields: ${missingFields.join(', ')}`);
+              issues.push(`[${agentName}] Missing required 'description' field for agent classification`);
               
               if (autoFix) {
-                let fixed = await this.fixMissingYamlFields(agentFile, missingFields, agentName);
+                let fixed = await this.fixMissingDescription(agentFile, agentName);
                 if (fixed) fixedCount++;
               }
             } else {
@@ -554,7 +546,7 @@ class HealthChecker {
 
       const status = invalidCount > 0 ? 'WARNING' : agentCount > 0 ? 'OK' : 'INFO';
       const message = agentCount === 0 
-        ? 'No agent files found' 
+        ? 'No agent files found in subdirectories' 
         : `${validCount} valid, ${invalidCount} invalid${autoFix ? `, ${fixedCount} auto-fixed` : ''} (${agentCount} total)`;
 
       console.log(`  ${status === 'OK' ? '✅' : status === 'WARNING' ? '⚠️' : 'ℹ️'} Agent Integrity: ${message}\n`);
@@ -660,6 +652,30 @@ created: ${new Date().toISOString()}
       return true;
     } catch (error) {
       console.log(`    ❌ Frontmatter fix failed: ${error.message}`);
+      return false;
+    }
+  }
+
+  async fixMissingDescription(agentFile, agentName) {
+    try {
+      console.log(`    🔧 Adding description field to ${agentName}...`);
+      
+      const content = readFileSync(agentFile, 'utf8');
+      const frontmatterMatch = content.match(/^---\n([\s\S]*?)\n---/);
+      
+      if (!frontmatterMatch) return false;
+      
+      let yamlContent = frontmatterMatch[1];
+      
+      // Add description field for agent classification
+      const agentDisplayName = agentName.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      yamlContent += `\ndescription: ${agentDisplayName} agent for specialized task execution`;
+      
+      const newContent = content.replace(/^---\n[\s\S]*?\n---/, `---\n${yamlContent}\n---`);
+      writeFileSync(agentFile, newContent);
+      return true;
+    } catch (error) {
+      console.log(`    ❌ Description field fix failed: ${error.message}`);
       return false;
     }
   }

@@ -6,6 +6,7 @@ capabilities:
   - Context analysis
 version: 1.0
 created: 2025-08-24T05:44:55.245Z
+description: Test Runner agent for specialized task execution
 ---
 
 ## 🎯 LIVING BLUEPRINT INTEGRATION

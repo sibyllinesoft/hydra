@@ -1,0 +1,78 @@
+# API Testing Base Configuration for Backend Testing Agents
+# Provides API testing tools without browser automation overhead
+# Used by: api-tester, test-results-analyzer, tool-evaluator
+
+# API Testing Tools (No Browser)
+api_testing_tools:
+  # Essential File Operations
+  - Read
+  - Write
+  - Edit
+  - MultiEdit
+  - LS
+  
+  # Command & Search Operations
+  - Bash
+  - Grep
+  - Glob
+  
+  # Web Operations (for API testing)
+  - WebSearch
+  - WebFetch
+  
+  # API Testing-Focused MCP Operations
+  - mcp__git__                    # Version control (essential)
+  - mcp__serena__                 # Code analysis for API coverage
+  - mcp__sequential-thinking__    # API testing strategy analysis
+  - mcp__context7__              # API documentation and testing frameworks
+  # NO playwright (no browser needed), NO supabase, NO sentry
+
+# Configuration Files All API Testing Agents Should Reference
+universal_config_files:
+  - path: "/home/nathan/.claude/CONTEXT.md"
+    description: "Environment setup, project structure, development workflow"
+    words: 618
+  - path: "/home/nathan/.claude/PRINCIPLES.md" 
+    description: "Development philosophy, SOLID principles, senior mindset"
+    words: 757
+  - path: "/home/nathan/.claude/RULES.md"
+    description: "Operational safety, validation sequences, quality gates"
+    words: 505
+  - path: "/home/nathan/.claude/MCP.md"
+    description: "Tool selection, server coordination, performance optimization"
+    words: 2918
+  - path: "/home/nathan/.claude/AGENTS.md"
+    description: "Agent selection guide, specializations, orchestration patterns"
+    words: 1575
+
+# API TESTING SPECIALIZATION RATIONALE:
+# - serena MCP: Essential for API code analysis and endpoint discovery
+# - git MCP: Critical for test file management and CI/CD integration
+# - sequential-thinking: Required for API testing strategy and pattern analysis
+# - context7: Essential for API documentation and testing framework research
+# - NO browser automation: API testing doesn't require browser overhead
+# - NO database access: API testing focuses on interface contracts, not data
+# - NO monitoring access: Separate monitoring agents handle error tracking
+
+# PERFORMANCE OPTIMIZATION:
+# API testing agents avoid browser automation overhead
+# Focuses on HTTP/REST/GraphQL testing without UI concerns
+# Faster execution and lower resource usage than browser-based testing
+
+# Total Context Cost: 6,373 words (~13,153 tokens)
+# Updated: 2025-08-19 with API testing-specific MCP restrictions
+
+# Usage Instructions:
+# 1. API testing agents reference "@testing-api-base-config.yml"
+# 2. Inherits API testing tools without browser overhead
+# 3. Provides code analysis for API endpoint testing
+# 4. Optimized for backend service validation
+
+# Example API Testing Agent Structure:
+# ---
+# name: api-contract-tester
+# description: |
+#   Validates API contracts and endpoint behavior.
+#   @testing-api-base-config.yml
+# color: orange
+# ---

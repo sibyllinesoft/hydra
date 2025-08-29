@@ -1,0 +1,599 @@
+# GitHub Actions workflow for Hydra CLI comprehensive testing pipeline
+# Production-ready testing with quality gates, security scanning, and cross-platform support
+
+name: 🧪 Hydra CLI Test Suite
+
+on:
+  push:
+    branches: [ main, develop, 'release/**' ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run daily at 6 AM UTC for regression testing
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Test type to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - 'unit'
+          - 'integration' 
+          - 'e2e'
+          - 'stress'
+          - 'security'
+      coverage_threshold:
+        description: 'Coverage threshold percentage'
+        required: false
+        default: '95'
+        type: string
+
+env:
+  NODE_VERSION: '20'
+  COVERAGE_THRESHOLD: ${{ github.event.inputs.coverage_threshold || '95' }}
+  TEST_TYPE: ${{ github.event.inputs.test_type || 'all' }}
+
+jobs:
+  # Pre-flight checks and setup
+  setup:
+    name: 🚀 Setup & Validation
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.key }}
+      test-matrix: ${{ steps.test-matrix.outputs.matrix }}
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history for better analysis
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 🔑 Generate cache key
+        id: cache-key
+        run: echo "key=hydra-deps-${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_OUTPUT
+
+      - name: 📥 Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🔍 Validate package structure
+        run: |
+          echo "Validating package.json and dependencies..."
+          npm ls --depth=0
+          node -e "console.log('Node version:', process.version)"
+          npx jest --version
+
+      - name: 🧪 Generate test matrix
+        id: test-matrix
+        run: |
+          if [ "${{ env.TEST_TYPE }}" = "all" ]; then
+            echo 'matrix={"test-type": ["unit", "integration", "e2e", "security"], "include": [{"test-type": "stress", "timeout": 30}]}' >> $GITHUB_OUTPUT
+          else
+            echo "matrix={\"test-type\": [\"${{ env.TEST_TYPE }}\"]}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 📄 Cache test artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+            tests/fixtures/cache
+          key: ${{ steps.cache-key.outputs.key }}
+          restore-keys: |
+            hydra-deps-
+
+  # Lint and static analysis
+  lint:
+    name: 🔍 Lint & Static Analysis
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Restore dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+
+      - name: 🔍 ESLint
+        run: npx eslint . --ext .js,.mjs --format github --max-warnings 0
+
+      - name: 🎨 Prettier check
+        run: npx prettier --check "**/*.{js,mjs,json,md,yml,yaml}"
+
+      - name: 🔒 Security audit
+        run: npm audit --audit-level moderate
+
+      - name: 📊 Dependency check
+        run: npx depcheck --skip-missing
+
+  # Cross-platform unit tests
+  unit-tests:
+    name: 🧪 Unit Tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    needs: setup
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: ['18', '20', '21']
+        exclude:
+          # Limit matrix to reduce CI cost while maintaining coverage
+          - os: windows-latest
+            node-version: '18'
+          - os: macos-latest
+            node-version: '18'
+    
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🧪 Run unit tests
+        run: |
+          npm run test:unit -- \
+            --coverage \
+            --coverageReporters=json \
+            --coverageDirectory=coverage/unit-${{ matrix.os }}-node${{ matrix.node-version }} \
+            --maxWorkers=2 \
+            --detectOpenHandles
+        env:
+          CI: true
+          NODE_ENV: test
+
+      - name: 📊 Upload coverage
+        uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.node-version == '20'
+        with:
+          name: unit-coverage
+          path: coverage/
+          retention-days: 30
+
+  # Integration tests with service dependencies  
+  integration-tests:
+    name: 🔗 Integration Tests
+    runs-on: ubuntu-latest
+    needs: [setup, lint]
+    services:
+      # Mock external services for integration testing
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Setup test environment
+        run: |
+          mkdir -p ~/.claude/epics
+          mkdir -p /tmp/hydra-test-workspace
+          echo "TEST_WORKSPACE=/tmp/hydra-test-workspace" >> $GITHUB_ENV
+
+      - name: 🧪 Run integration tests
+        run: |
+          npm run test:integration -- \
+            --coverage \
+            --coverageDirectory=coverage/integration \
+            --detectOpenHandles \
+            --forceExit \
+            --runInBand
+        env:
+          CI: true
+          NODE_ENV: test
+          REDIS_URL: redis://localhost:6379
+          TEST_TIMEOUT: 30000
+
+      - name: 📊 Upload integration coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-coverage
+          path: coverage/integration
+          retention-days: 30
+
+      - name: 📋 Archive test logs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: integration-test-logs
+          path: |
+            /tmp/hydra-test-workspace
+            ~/.claude/epics
+          retention-days: 7
+
+  # End-to-end tests with full workflow simulation
+  e2e-tests:
+    name: 🌐 E2E Tests
+    runs-on: ubuntu-latest
+    needs: [setup, lint]
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Setup E2E environment
+        run: |
+          # Install system dependencies for CLI testing
+          sudo apt-get update
+          sudo apt-get install -y xmlstarlet jq curl
+          
+          # Setup test workspace
+          mkdir -p ~/hydra-e2e-workspace
+          cd ~/hydra-e2e-workspace
+          
+          # Make hydra globally available for E2E tests
+          npm link
+          
+          echo "E2E_WORKSPACE=$HOME/hydra-e2e-workspace" >> $GITHUB_ENV
+
+      - name: 🌐 Run E2E tests
+        run: |
+          npm run test:e2e -- \
+            --coverage \
+            --coverageDirectory=coverage/e2e \
+            --detectOpenHandles \
+            --forceExit \
+            --runInBand \
+            --testTimeout=60000
+        env:
+          CI: true
+          NODE_ENV: test
+          HYDRA_TEST_MODE: true
+
+      - name: 📊 Upload E2E coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-coverage
+          path: coverage/e2e
+          retention-days: 30
+
+      - name: 📸 Archive E2E artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-artifacts
+          path: |
+            ~/hydra-e2e-workspace
+            ~/.claude/epics
+          retention-days: 7
+
+  # Security vulnerability tests
+  security-tests:
+    name: 🔒 Security Tests
+    runs-on: ubuntu-latest
+    needs: [setup, lint]
+    
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔒 Run security tests
+        run: |
+          npm run test:security -- \
+            --coverage \
+            --coverageDirectory=coverage/security \
+            --detectOpenHandles \
+            --runInBand
+        env:
+          CI: true
+          NODE_ENV: test
+          SECURITY_TEST_MODE: true
+
+      - name: 🔍 CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: 🔍 Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: 📊 Upload security coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-coverage  
+          path: coverage/security
+          retention-days: 30
+
+  # Stress and performance tests
+  stress-tests:
+    name: ⚡ Stress Tests
+    runs-on: ubuntu-latest
+    needs: [setup, lint]
+    timeout-minutes: 45
+    if: github.event_name == 'schedule' || github.event.inputs.test_type == 'stress' || github.event.inputs.test_type == 'all'
+    
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 🔧 Setup stress test environment
+        run: |
+          # Increase system limits for stress testing
+          ulimit -n 4096
+          mkdir -p /tmp/hydra-stress-workspace
+          echo "STRESS_WORKSPACE=/tmp/hydra-stress-workspace" >> $GITHUB_ENV
+
+      - name: ⚡ Run stress tests
+        run: |
+          npm run test:stress -- \
+            --coverage \
+            --coverageDirectory=coverage/stress \
+            --detectOpenHandles \
+            --forceExit \
+            --runInBand \
+            --testTimeout=120000
+        env:
+          CI: true
+          NODE_ENV: test
+          STRESS_TEST_MODE: true
+          NODE_OPTIONS: "--max-old-space-size=4096"
+
+      - name: 📊 Upload stress coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: stress-coverage
+          path: coverage/stress  
+          retention-days: 30
+
+  # Coverage analysis and quality gates
+  coverage-analysis:
+    name: 📊 Coverage Analysis
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, e2e-tests, security-tests]
+    if: always()
+    
+    steps:
+      - name: 📋 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📥 Install dependencies
+        run: npm ci
+
+      - name: 📥 Download all coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*-coverage'
+          path: coverage/
+
+      - name: 🔀 Merge coverage reports
+        run: |
+          npx nyc merge coverage/ coverage/merged-coverage.json
+          npx nyc report \
+            --reporter=lcov \
+            --reporter=text \
+            --reporter=html \
+            --reporter=json-summary \
+            --report-dir=coverage/final
+
+      - name: 📊 Generate coverage report
+        run: |
+          npm run coverage:report || true
+          
+          # Extract coverage percentages
+          LINES=$(cat coverage/final/coverage-summary.json | jq -r '.total.lines.pct')
+          FUNCTIONS=$(cat coverage/final/coverage-summary.json | jq -r '.total.functions.pct') 
+          BRANCHES=$(cat coverage/final/coverage-summary.json | jq -r '.total.branches.pct')
+          STATEMENTS=$(cat coverage/final/coverage-summary.json | jq -r '.total.statements.pct')
+          
+          echo "COVERAGE_LINES=$LINES" >> $GITHUB_ENV
+          echo "COVERAGE_FUNCTIONS=$FUNCTIONS" >> $GITHUB_ENV
+          echo "COVERAGE_BRANCHES=$BRANCHES" >> $GITHUB_ENV
+          echo "COVERAGE_STATEMENTS=$STATEMENTS" >> $GITHUB_ENV
+
+      - name: 🚪 Quality Gate Check
+        run: |
+          echo "🚪 Checking Quality Gates..."
+          echo "Coverage Thresholds: Lines ${COVERAGE_THRESHOLD}%, Functions ${COVERAGE_THRESHOLD}%, Branches 90%, Statements ${COVERAGE_THRESHOLD}%"
+          echo "Actual Coverage: Lines ${COVERAGE_LINES}%, Functions ${COVERAGE_FUNCTIONS}%, Branches ${COVERAGE_BRANCHES}%, Statements ${COVERAGE_STATEMENTS}%"
+          
+          # Check if coverage meets thresholds
+          if (( $(echo "${COVERAGE_LINES} >= ${COVERAGE_THRESHOLD}" | bc -l) )) && \
+             (( $(echo "${COVERAGE_FUNCTIONS} >= ${COVERAGE_THRESHOLD}" | bc -l) )) && \
+             (( $(echo "${COVERAGE_BRANCHES} >= 90" | bc -l) )) && \
+             (( $(echo "${COVERAGE_STATEMENTS} >= ${COVERAGE_THRESHOLD}" | bc -l) )); then
+            echo "✅ Quality Gates PASSED"
+            echo "QUALITY_GATES_PASSED=true" >> $GITHUB_ENV
+          else
+            echo "❌ Quality Gates FAILED"
+            echo "QUALITY_GATES_PASSED=false" >> $GITHUB_ENV
+            exit 1
+          fi
+
+      - name: 📊 Upload final coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-coverage-report
+          path: coverage/final
+          retention-days: 90
+
+      - name: 📋 Coverage Comment (PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const coverageData = JSON.parse(fs.readFileSync('coverage/final/coverage-summary.json', 'utf8'));
+            const total = coverageData.total;
+            
+            const comment = `## 📊 Test Coverage Report
+            
+            | Metric | Coverage | Threshold | Status |
+            |--------|----------|-----------|--------|
+            | Lines | ${total.lines.pct}% | ${process.env.COVERAGE_THRESHOLD}% | ${total.lines.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
+            | Functions | ${total.functions.pct}% | ${process.env.COVERAGE_THRESHOLD}% | ${total.functions.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
+            | Branches | ${total.branches.pct}% | 90% | ${total.branches.pct >= 90 ? '✅' : '❌'} |
+            | Statements | ${total.statements.pct}% | ${process.env.COVERAGE_THRESHOLD}% | ${total.statements.pct >= process.env.COVERAGE_THRESHOLD ? '✅' : '❌'} |
+            
+            **Quality Gates:** ${process.env.QUALITY_GATES_PASSED === 'true' ? '✅ PASSED' : '❌ FAILED'}
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  # Final validation and deployment readiness
+  deployment-readiness:
+    name: 🚀 Deployment Readiness
+    runs-on: ubuntu-latest  
+    needs: [unit-tests, integration-tests, e2e-tests, security-tests, coverage-analysis]
+    if: always() && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/'))
+    
+    steps:
+      - name: 📋 Evaluate readiness
+        run: |
+          echo "🚀 Evaluating deployment readiness..."
+          
+          # Check if all required jobs passed
+          UNIT_STATUS="${{ needs.unit-tests.result }}"
+          INTEGRATION_STATUS="${{ needs.integration-tests.result }}"
+          E2E_STATUS="${{ needs.e2e-tests.result }}"
+          SECURITY_STATUS="${{ needs.security-tests.result }}"
+          COVERAGE_STATUS="${{ needs.coverage-analysis.result }}"
+          
+          echo "Job Status Summary:"
+          echo "  Unit Tests: $UNIT_STATUS"
+          echo "  Integration Tests: $INTEGRATION_STATUS" 
+          echo "  E2E Tests: $E2E_STATUS"
+          echo "  Security Tests: $SECURITY_STATUS"
+          echo "  Coverage Analysis: $COVERAGE_STATUS"
+          
+          if [[ "$UNIT_STATUS" == "success" ]] && \
+             [[ "$INTEGRATION_STATUS" == "success" ]] && \
+             [[ "$E2E_STATUS" == "success" ]] && \
+             [[ "$SECURITY_STATUS" == "success" ]] && \
+             [[ "$COVERAGE_STATUS" == "success" ]]; then
+            echo "✅ DEPLOYMENT READY - All quality gates passed"
+            echo "DEPLOYMENT_READY=true" >> $GITHUB_ENV
+          else
+            echo "❌ DEPLOYMENT NOT READY - Quality gates failed"
+            echo "DEPLOYMENT_READY=false" >> $GITHUB_ENV
+            exit 1
+          fi
+
+      - name: 🏷️ Create release tag (main branch)
+        if: github.ref == 'refs/heads/main' && env.DEPLOYMENT_READY == 'true'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
+          TAG_NAME="v${VERSION}-tested-${TIMESTAMP}"
+          
+          echo "Creating release tag: $TAG_NAME"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "$TAG_NAME" -m "Tested release v${VERSION} - All quality gates passed"
+          git push origin "$TAG_NAME"
+
+  # Cleanup and notifications
+  cleanup:
+    name: 🧹 Cleanup & Notify
+    runs-on: ubuntu-latest
+    needs: [deployment-readiness]
+    if: always()
+    
+    steps:
+      - name: 🧹 Cleanup old artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId,
+            });
+            
+            // Keep only final reports and recent test artifacts
+            const toKeep = ['final-coverage-report', 'e2e-artifacts'];
+            const oldArtifacts = artifacts.data.artifacts.filter(
+              artifact => !toKeep.includes(artifact.name) && 
+              Date.now() - new Date(artifact.created_at).getTime() > 7 * 24 * 60 * 60 * 1000
+            );
+            
+            for (const artifact of oldArtifacts) {
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+              });
+            }
+
+      - name: 📬 Notify on failure
+        if: failure() && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Test Suite Failed on Main Branch`,
+              body: `The test suite failed on the main branch in workflow run: ${context.runId}\n\nPlease investigate and fix the failing tests before the next release.`,
+              labels: ['bug', 'testing', 'priority-high']
+            });

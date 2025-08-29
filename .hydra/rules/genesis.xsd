@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <!-- Root element for the Living Blueprint system -->
+  <xs:element name="projectGenesis">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metadata" type="metadataType"/>
+        <xs:element name="vision" type="visionType"/>
+        <xs:element name="architecture" type="architectureType"/>
+        <xs:element name="executionPlan" type="executionPlanType"/>
+        <xs:element name="knowledgeBase" type="knowledgeBaseType" minOccurs="0"/>
+        <xs:element name="auditLog" type="auditLogType" minOccurs="0"/>
+        <xs:element name="metrics" type="metricsType" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Metadata section - project identification and status -->
+  <xs:complexType name="metadataType">
+    <xs:sequence>
+      <xs:element name="projectName" type="xs:string"/>
+      <xs:element name="epicName" type="xs:string"/>
+      <xs:element name="status" type="statusEnum"/>
+      <xs:element name="createdAt" type="xs:dateTime"/>
+      <xs:element name="lastUpdatedAt" type="xs:dateTime"/>
+      <xs:element name="version" type="xs:string"/>
+      <xs:element name="owner" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Vision section - strategic direction and goals -->
+  <xs:complexType name="visionType">
+    <xs:sequence>
+      <xs:element name="problemStatement" type="xs:string"/>
+      <xs:element name="objectives" type="objectivesType"/>
+      <xs:element name="successCriteria" type="successCriteriaType"/>
+      <xs:element name="constraints" type="constraintsType" minOccurs="0"/>
+      <xs:element name="assumptions" type="assumptionsType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Architecture section - technical decisions and structure -->
+  <xs:complexType name="architectureType">
+    <xs:sequence>
+      <xs:element name="technicalStack" type="technicalStackType"/>
+      <xs:element name="systemBoundaries" type="systemBoundariesType" minOccurs="0"/>
+      <xs:element name="integrationPoints" type="integrationPointsType" minOccurs="0"/>
+      <xs:element name="qualityAttributes" type="qualityAttributesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Execution plan - the core DAG structure -->
+  <xs:complexType name="executionPlanType">
+    <xs:sequence>
+      <xs:element name="executionDag" type="executionDagType"/>
+      <xs:element name="tasks" type="tasksType"/>
+      <xs:element name="statusTracker" type="statusTrackerType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Knowledge base for learnings and insights -->
+  <xs:complexType name="knowledgeBaseType">
+    <xs:sequence>
+      <xs:element name="learnings" type="learningsType" minOccurs="0"/>
+      <xs:element name="decisions" type="decisionsType" minOccurs="0"/>
+      <xs:element name="references" type="referencesType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Audit log for tracking all changes -->
+  <xs:complexType name="auditLogType">
+    <xs:sequence>
+      <xs:element name="events" type="eventsType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Metrics for tracking progress and performance -->
+  <xs:complexType name="metricsType">
+    <xs:sequence>
+      <xs:element name="progress" type="progressType"/>
+      <xs:element name="performance" type="performanceType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Supporting complex types -->
+  
+  <xs:complexType name="objectivesType">
+    <xs:sequence>
+      <xs:element name="objective" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="successCriteriaType">
+    <xs:sequence>
+      <xs:element name="criterion" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="constraintsType">
+    <xs:sequence>
+      <xs:element name="constraint" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assumptionsType">
+    <xs:sequence>
+      <xs:element name="assumption" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="technicalStackType">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" maxOccurs="unbounded"/>
+      <xs:element name="framework" type="xs:string" maxOccurs="unbounded"/>
+      <xs:element name="database" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="infrastructure" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="systemBoundariesType">
+    <xs:sequence>
+      <xs:element name="boundary" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="integrationPointsType">
+    <xs:sequence>
+      <xs:element name="integration" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="qualityAttributesType">
+    <xs:sequence>
+      <xs:element name="attribute" type="qualityAttributeType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="qualityAttributeType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="target" type="xs:string"/>
+      <xs:element name="measurement" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Execution DAG structure -->
+  <xs:complexType name="executionDagType">
+    <xs:sequence>
+      <xs:element name="parallelSets" type="parallelSetsType"/>
+      <xs:element name="dependencies" type="dependenciesType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parallelSetsType">
+    <xs:sequence>
+      <xs:element name="parallelGroup" type="parallelGroupType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parallelGroupType">
+    <xs:sequence>
+      <xs:element name="taskRef" type="taskRefType" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="level" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="dependenciesType">
+    <xs:sequence>
+      <xs:element name="dependency" type="dependencyType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="dependencyType">
+    <xs:sequence>
+      <xs:element name="from" type="xs:string"/>
+      <xs:element name="to" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Tasks section -->
+  <xs:complexType name="tasksType">
+    <xs:sequence>
+      <xs:element name="task" type="taskType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="taskType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="assignedAgent" type="xs:string"/>
+      <xs:element name="estimatedDuration" type="xs:string"/>
+      <xs:element name="dependencies" type="xs:string" minOccurs="0"/>
+      <xs:element name="result" type="resultType" minOccurs="0"/>
+      <xs:element name="statusHistory" type="statusHistoryType"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="resultType">
+    <xs:sequence>
+      <xs:element name="summary" type="xs:string"/>
+      <xs:element name="deliverables" type="deliverablesType" minOccurs="0"/>
+      <xs:element name="notes" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="deliverablesType">
+    <xs:sequence>
+      <xs:element name="deliverable" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="statusHistoryType">
+    <xs:sequence>
+      <xs:element name="event" type="eventType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="eventType">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+      <xs:element name="status" type="taskStatusEnum"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="actor" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Status tracking -->
+  <xs:complexType name="statusTrackerType">
+    <xs:sequence>
+      <xs:element name="pending" type="taskRefsType"/>
+      <xs:element name="inProgress" type="taskRefsType"/>
+      <xs:element name="completed" type="taskRefsType"/>
+      <xs:element name="failed" type="taskRefsType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="taskRefsType">
+    <xs:sequence>
+      <xs:element name="taskRef" type="taskRefType" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="taskRefType">
+    <xs:attribute name="id" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <!-- Knowledge base types -->
+  <xs:complexType name="learningsType">
+    <xs:sequence>
+      <xs:element name="learning" type="learningType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="learningType">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="category" type="xs:string"/>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="decisionsType">
+    <xs:sequence>
+      <xs:element name="decision" type="decisionType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="decisionType">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="context" type="xs:string"/>
+      <xs:element name="decision" type="xs:string"/>
+      <xs:element name="rationale" type="xs:string"/>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="referencesType">
+    <xs:sequence>
+      <xs:element name="reference" type="referenceType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="referenceType">
+    <xs:sequence>
+      <xs:element name="title" type="xs:string"/>
+      <xs:element name="url" type="xs:string"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Audit and metrics types -->
+  <xs:complexType name="eventsType">
+    <xs:sequence>
+      <xs:element name="event" type="auditEventType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="auditEventType">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="description" type="xs:string"/>
+      <xs:element name="actor" type="xs:string"/>
+      <xs:element name="changes" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="progressType">
+    <xs:sequence>
+      <xs:element name="totalTasks" type="xs:int"/>
+      <xs:element name="completedTasks" type="xs:int"/>
+      <xs:element name="inProgressTasks" type="xs:int"/>
+      <xs:element name="failedTasks" type="xs:int"/>
+      <xs:element name="percentageComplete" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="performanceType">
+    <xs:sequence>
+      <xs:element name="metric" type="performanceMetricType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="performanceMetricType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="value" type="xs:string"/>
+      <xs:element name="unit" type="xs:string"/>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Enumerations -->
+  <xs:simpleType name="statusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="planning"/>
+      <xs:enumeration value="in-progress"/>
+      <xs:enumeration value="completed"/>
+      <xs:enumeration value="cancelled"/>
+      <xs:enumeration value="failed"/>
+      <xs:enumeration value="on-hold"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="taskStatusEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="pending"/>
+      <xs:enumeration value="in-progress"/>
+      <xs:enumeration value="completed"/>
+      <xs:enumeration value="failed"/>
+      <xs:enumeration value="cancelled"/>
+      <xs:enumeration value="blocked"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

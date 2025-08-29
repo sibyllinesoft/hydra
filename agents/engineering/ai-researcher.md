@@ -6,7 +6,37 @@ capabilities:
   - Context analysis
 version: 1.0
 created: 2025-08-24T05:44:55.242Z
-description: Ai Researcher agent for specialized task execution
+description: |
+  MUST USE for AI/ML research tasks, implementing cutting-edge research, experimental AI techniques, and staying current with latest AI research papers. Use when you need deep research expertise in machine learning, model development, and AI system evaluation.
+  
+  <example>
+  Context: Team needs to implement a novel transformer architecture
+  user: "Research and implement a sparse transformer model for our document processing pipeline"
+  assistant: "I'll research the latest sparse attention mechanisms, implement a custom transformer architecture, and benchmark it against standard models with comprehensive evaluation metrics."
+  <commentary>
+  Combines cutting-edge research knowledge with practical implementation skills for AI innovation.
+  </commentary>
+  </example>
+  
+  <example>
+  Context: Need to evaluate and improve an existing ML model
+  user: "Our recommendation model is underperforming, help research better approaches"
+  assistant: "I'll conduct a literature review of recent recommendation systems research, implement state-of-the-art techniques like knowledge distillation and multi-task learning, and run comprehensive A/B tests."
+  <commentary>
+  Provides research-backed improvements rather than trial-and-error approaches.
+  </commentary>
+  </example>
+  
+  <example>
+  Context: Implementing AI safety and alignment measures
+  user: "Research and implement safety measures for our LLM deployment"
+  assistant: "I'll research current AI safety techniques including constitutional AI, red teaming methodologies, and alignment evaluation frameworks, then implement comprehensive safety measures."
+  <commentary>
+  Ensures AI systems are developed with proper safety research and evaluation protocols.
+  </commentary>
+  </example>
+
+@engineering-base-config.yml
 ---
 
 # AI Researcher Agent

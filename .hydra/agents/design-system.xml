@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<design-system name="Hydra Studio Design System" version="1.0.0" updated="2024-08-22">
+  
+  <!-- Color Palette -->
+  <colors>
+    <primary>
+      <color name="hydra-blue" hex="#2563EB" rgb="37, 99, 235" usage="Primary actions, links, buttons" />
+      <color name="hydra-blue-dark" hex="#1D4ED8" rgb="29, 78, 216" usage="Hover states, active elements" />
+      <color name="hydra-blue-light" hex="#3B82F6" rgb="59, 130, 246" usage="Backgrounds, subtle accents" />
+    </primary>
+    
+    <secondary>
+      <color name="hydra-purple" hex="#7C3AED" rgb="124, 58, 237" usage="Secondary actions, highlights" />
+      <color name="hydra-green" hex="#059669" rgb="5, 150, 105" usage="Success states, confirmations" />
+      <color name="hydra-orange" hex="#EA580C" rgb="234, 88, 12" usage="Warnings, attention" />
+      <color name="hydra-red" hex="#DC2626" rgb="220, 38, 38" usage="Errors, destructive actions" />
+    </secondary>
+    
+    <neutrals>
+      <color name="black" hex="#000000" rgb="0, 0, 0" usage="Primary text, high contrast" />
+      <color name="gray-900" hex="#111827" rgb="17, 24, 39" usage="Headers, important text" />
+      <color name="gray-700" hex="#374151" rgb="55, 65, 81" usage="Body text, descriptions" />
+      <color name="gray-500" hex="#6B7280" rgb="107, 114, 128" usage="Secondary text, placeholders" />
+      <color name="gray-300" hex="#D1D5DB" rgb="209, 213, 219" usage="Borders, dividers" />
+      <color name="gray-100" hex="#F3F4F6" rgb="243, 244, 246" usage="Backgrounds, cards" />
+      <color name="white" hex="#FFFFFF" rgb="255, 255, 255" usage="Text on dark, clean backgrounds" />
+    </neutrals>
+  </colors>
+
+  <!-- Typography -->
+  <typography>
+    <font-families>
+      <primary family="Inter, system-ui, sans-serif" usage="Body text, UI elements" weight-range="400-700" />
+      <secondary family="JetBrains Mono, Monaco, monospace" usage="Code, technical content" weight-range="400-600" />
+      <display family="Cal Sans, Inter, sans-serif" usage="Headings, hero text" weight-range="600-800" />
+    </font-families>
+    
+    <scale>
+      <size name="xs" value="12px" line-height="16px" usage="Captions, metadata" />
+      <size name="sm" value="14px" line-height="20px" usage="Small text, labels" />
+      <size name="base" value="16px" line-height="24px" usage="Body text, paragraphs" />
+      <size name="lg" value="18px" line-height="28px" usage="Large body text" />
+      <size name="xl" value="20px" line-height="28px" usage="Small headings" />
+      <size name="2xl" value="24px" line-height="32px" usage="Section headings" />
+      <size name="3xl" value="30px" line-height="36px" usage="Page headings" />
+      <size name="4xl" value="36px" line-height="40px" usage="Display headings" />
+      <size name="5xl" value="48px" line-height="48px" usage="Hero text" />
+    </scale>
+  </typography>
+
+  <!-- Spacing & Layout -->
+  <spacing>
+    <scale unit="px">
+      <space name="xs" value="4" />
+      <space name="sm" value="8" />
+      <space name="md" value="16" />
+      <space name="lg" value="24" />
+      <space name="xl" value="32" />
+      <space name="2xl" value="48" />
+      <space name="3xl" value="64" />
+      <space name="4xl" value="96" />
+    </scale>
+    
+    <containers>
+      <container name="mobile" max-width="640px" padding="16px" />
+      <container name="tablet" max-width="768px" padding="24px" />
+      <container name="desktop" max-width="1024px" padding="32px" />
+      <container name="wide" max-width="1280px" padding="48px" />
+    </containers>
+  </spacing>
+
+  <!-- Components -->
+  <components>
+    <buttons>
+      <button type="primary" background="hydra-blue" text="white" padding="12px 24px" border-radius="8px" />
+      <button type="secondary" background="transparent" text="hydra-blue" border="1px solid hydra-blue" padding="12px 24px" border-radius="8px" />
+      <button type="ghost" background="transparent" text="gray-700" padding="12px 24px" border-radius="8px" />
+    </buttons>
+    
+    <cards>
+      <card background="white" border="1px solid gray-200" border-radius="12px" padding="24px" shadow="0 1px 3px rgba(0,0,0,0.1)" />
+    </cards>
+    
+    <inputs>
+      <input background="white" border="1px solid gray-300" border-radius="8px" padding="12px 16px" focus-border="hydra-blue" />
+    </inputs>
+  </components>
+
+  <!-- Brand Personality -->
+  <brand-personality>
+    <tone>Professional yet approachable, technical but not intimidating</tone>
+    <voice>Clear, direct, helpful - like a knowledgeable colleague</voice>
+    <style>Modern, clean, systematic - emphasizing capability and reliability</style>
+  </brand-personality>
+
+  <!-- Design Principles -->
+  <principles>
+    <principle name="Clarity First">Always prioritize clear communication over visual flair</principle>
+    <principle name="Systematic Consistency">Use consistent patterns, spacing, and components</principle>
+    <principle name="Progressive Disclosure">Show information progressively to reduce cognitive load</principle>
+    <principle name="Accessible by Default">Ensure designs work for all users regardless of ability</principle>
+    <principle name="Performance Conscious">Design with fast loading and smooth interactions in mind</principle>
+  </principles>
+
+  <!-- Usage Guidelines -->
+  <usage-guidelines>
+    <guideline category="Color Usage">
+      <rule>Use hydra-blue for primary actions and interactive elements</rule>
+      <rule>Reserve red for errors and destructive actions only</rule>
+      <rule>Maintain 4.5:1 contrast ratio for text readability</rule>
+      <rule>Use neutrals for 80% of UI, colors for 20% accents</rule>
+    </guideline>
+    
+    <guideline category="Typography">
+      <rule>Use max 3 font sizes per screen to maintain hierarchy</rule>
+      <rule>Keep line length between 45-75 characters for readability</rule>
+      <rule>Use font weights purposefully: 400 for body, 600+ for emphasis</rule>
+    </guideline>
+    
+    <guideline category="Spacing">
+      <rule>Use consistent spacing scale - avoid arbitrary values</rule>
+      <rule>Group related elements with smaller spacing</rule>
+      <rule>Separate unrelated elements with larger spacing</rule>
+      <rule>Maintain consistent margins and padding ratios</rule>
+    </guideline>
+  </usage-guidelines>
+
+</design-system>

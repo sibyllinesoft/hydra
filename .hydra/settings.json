@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "model": "opusplan",
+  "statusLine": {
+    "type": "command",
+    "command": "node statusline-context-tracker.js"
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754067711350
+  },
+  "hooks": {
+    "Stop|SubagentStop": {
+      "enabled": true,
+      "path": "/home/nathan/.claude/hooks/autonomous-continuation.js",
+      "applyToMainOrchestrator": true,
+      "applyToSubagents": true,
+      "priority": "HIGH",
+      "debugMode": false,
+      "agentSpecificRules": {
+        "test-writer-fixer": {
+          "strictMode": true,
+          "maxIterations": 10
+        },
+        "performance-benchmarker": {
+          "strictMode": true,
+          "targetThreshold": 0.95
+        },
+        "ui-designer": {
+          "strictMode": true,
+          "accessibilityThreshold": 0.95
+        },
+        "backend-architect": {
+          "strictMode": true,
+          "productionReadyChecks": true
+        }
+      },
+      "excludePatterns": [
+        "waiting for external approval",
+        "requires human decision",
+        "security review needed",
+        "user requested stop"
+      ]
+    }
+  }
+}

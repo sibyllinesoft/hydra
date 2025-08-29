@@ -1,0 +1,73 @@
+# Engineering Base Configuration for Code Development Agents
+# Provides code analysis tools and development-focused MCPs
+# Used by: rapid-prototyper, backend-architect, frontend-developer, ai-engineer, devops-automator
+
+# Engineering Tools with Code Analysis
+engineering_tools:
+  # Essential File Operations
+  - Read
+  - Write
+  - Edit
+  - MultiEdit
+  - LS
+  
+  # Command & Search Operations
+  - Bash
+  - Grep
+  - Glob
+  
+  # Web Operations (for technical research)
+  - WebSearch
+  - WebFetch
+  
+  # Engineering-Focused MCP Operations
+  - mcp__git__                    # Version control (essential)
+  - mcp__serena__                 # Code analysis & LSP operations
+  - mcp__sequential-thinking__    # Complex problem analysis
+  - mcp__context7__              # Technical documentation
+  # NO playwright, NO supabase, NO sentry (use specialized agents)
+
+# Configuration Files All Engineering Agents Should Reference
+universal_config_files:
+  - path: "/home/nathan/.claude/CONTEXT.md"
+    description: "Environment setup, project structure, development workflow"
+    words: 618
+  - path: "/home/nathan/.claude/PRINCIPLES.md" 
+    description: "Development philosophy, SOLID principles, senior mindset"
+    words: 757
+  - path: "/home/nathan/.claude/RULES.md"
+    description: "Operational safety, validation sequences, quality gates"
+    words: 505
+  - path: "/home/nathan/.claude/MCP.md"
+    description: "Tool selection, server coordination, performance optimization"
+    words: 2918
+  - path: "/home/nathan/.claude/AGENTS.md"
+    description: "Agent selection guide, specializations, orchestration patterns"
+    words: 1575
+
+# ENGINEERING SPECIALIZATION RATIONALE:
+# - serena MCP: Essential for semantic code analysis, symbol navigation, refactoring
+# - git MCP: Critical for version control workflows and code integration
+# - sequential-thinking: Required for complex architectural decision-making
+# - context7: Necessary for technical documentation and library research
+# - NO database access: Engineering agents focus on code, not data operations
+# - NO monitoring access: Separate monitoring agents handle operational concerns
+# - NO browser automation: Separate testing agents handle UI testing
+
+# Total Context Cost: 6,373 words (~13,153 tokens)
+# Updated: 2025-08-19 with engineering-specific MCP restrictions
+
+# Usage Instructions:
+# 1. Engineering agents reference "@engineering-base-config.yml"
+# 2. Inherits all engineering tools automatically
+# 3. Provides code analysis capabilities via serena MCP
+# 4. Maintains security by restricting data/monitoring operations
+
+# Example Engineering Agent Structure:
+# ---
+# name: backend-architect
+# description: |
+#   Designs and implements backend systems with API expertise.
+#   @engineering-base-config.yml
+# color: green
+# ---

@@ -256,7 +256,7 @@
   ],
   "input_max_file_size": 838860,
   "output_directory_structure": true,
-  "output_file_path": "/home/nathan/Projects/hydra/hydra_scribe_output.xml",
+  "output_file_path": "/home/nathan/Projects/scribe_output/hydra_scribe_output.xml",
   "output_file_summary": true,
   "output_files": true,
   "output_parsable_style": false,

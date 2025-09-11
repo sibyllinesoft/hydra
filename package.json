@@ -32,7 +32,7 @@
     "tui"
   ],
   "author": "Hydra Claude Code Studio",
-  "license": "MIT",
+  "license": "LicenseRef-SPL-1.0",
   "dependencies": {
     "blessed": "^0.1.81",
     "chalk": "^5.3.0",
